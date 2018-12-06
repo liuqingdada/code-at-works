@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.mstarc.app.watchfaceg6">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".wallpaper.BlueNightWatchFace"
+            android:label="@string/watchface_blue_night"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/blue_night"/>
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+
+                <category android:name="com.mstarc.wearable.category.WATCH_FACE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".wallpaper.ModernCityWatchFace"
+            android:label="@string/watchface_modern_city"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/modern_city"/>
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+
+                <category android:name="com.mstarc.wearable.category.WATCH_FACE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".wallpaper.GoldKnightWatchFace"
+            android:label="@string/watchface_gold_knight"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <meta-data
+                android:name="android.service.wallpaper"
+                android:resource="@xml/gold_knight"/>
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService"/>
+
+                <category android:name="com.mstarc.wearable.category.WATCH_FACE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

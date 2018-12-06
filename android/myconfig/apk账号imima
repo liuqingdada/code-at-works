@@ -1,0 +1,61 @@
+签名文件密码:
+1:msAppdorelase
+2:msa123
+3:SHA1: 41:BA:D3:D0:32:55:9E:E8:1A:4A:2A:BF:65:79:C9:C3:8A:4E:6C:F3
+4:MD5 : B7:CA:3C:EA:D9:D9:F0:1E:E9:17:B3:C1:BA:F9:74:75
+
+最新de
+MD5: B7:CA:3C:EA:D9:D9:F0:1E:E9:17:B3:C1:BA:F9:74:75
+SHA1: 41:BA:D3:D0:32:55:9E:E8:1A:4A:2A:BF:65:79:C9:C3:8A:4E:6C:F3
+SHA256: 6B:F7:59:81:CB:7D:D9:BE:1A:22:8B:80:91:F7:E5:07:75:EA:B9:54:18:44:50:
+A6:6E:DE:4D:28:0E:67:7B:19
+         签名算法名称: SHA256withRSA                                                  
+         版本: 3         
+相关项目SVN地址：
+alipay_lib
+https://192.168.0.201:8443/svn/mstarcapp/alipay_lib
+
+MstarcBaseKit
+https://117.132.15.229:4433/svn/mstarc/kit/mstarc/MstarcBaseKit
+
+MstarcKit
+https://117.132.15.229:4433/svn/mstarc/kit/mstarc/MstarcKit
+
+此文件仅描述界面逻辑名与.java文件的对应关系
+----------------------------------------
+1.启动
+com.mstarc.app.anquanzhuo.SplashActivity
+
+2.新手指引
+com.mstarc.app.anquanzhuo.FirstActivity
+
+3.登录
+com.mstarc.app.anquanzhuo.LoginActivity
+
+4.注册
+com.mstarc.app.anquanzhuo.RegisterActivity
+
+5.首界面
+com.mstarc.app.anquanzhuo.MainActivity
+
+6.个人信息
+com.mstarc.app.anquanzhuo.UserInfoActivity
+
+7.修改密码
+com.mstarc.app.anquanzhuo.ModifyPwdActivity
+
+8.绑定会员
+com.mstarc.app.anquanzhuo.VIPbindActivity
+
+9.类别
+com.mstarc.app.anquanzhuo.TypeActivity
+
+10.关于
+com.mstarc.app.anquanzhuo.AboutActivity
+
+11.亲情号设置
+com.mstarc.app.anquanzhuo.SetqinqingActivity
+
+
+高德：yang_hh@126.com     123qwe
+

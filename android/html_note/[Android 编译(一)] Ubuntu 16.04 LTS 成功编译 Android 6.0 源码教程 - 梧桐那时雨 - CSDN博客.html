@@ -1,0 +1,1551 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>  
+        <script type="text/javascript" src="http://static.blog.csdn.net/scripts/tingyun-rum.js?v2"></script>
+            <link rel="canonical" href="http://blog.csdn.net/fuchaosz/article/details/51487585"/> 
+ <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848"> 
+       
+    <title>[Android 编译(一)] Ubuntu 16.04 LTS 成功编译 Android 6.0 源码教程 - 梧桐那时雨
+        - CSDN博客</title><script>window._ty_rum&&window._ty_rum.server||function(t){function e(t){J&&(W.e[t]||(W.e[t]=[])).push(u())}function r(){var t=tt(it);return t||(t=nt(),et(it,t)),t}function n(){var t=a(ot);return t||(t=nt(),i(ot,t)),t}function a(t){if("string"!=typeof t)return null;var e=B.cookie;if(!e)return null;var r=null,n=e.split(";");return X.each(n,function(e){var n=e.split("=");if(X.trim(n[0])===X.trim(t))return r=n[1],!0}),r}function i(t,e,r){var n=t+"="+e;if(r){var a=new Date;a.setTime(a.getTime()+1e3*r),n+=";expires="+a.toGMTString()}B.cookie=n}function o(t){switch(typeof t){case"object":if(!t)return"null";if(t instanceof Array){for(var e="[",r=0;r<t.length;r++)e+=(r>0?",":"")+o(t[r]);return e+"]"}if(t instanceof Date)return t.getTime().toString();var e="{",r=0;for(var n in t)if("function"!=typeof t[n]){var a=o(t[n]);e+=(r>0?",":"")+o(n)+":"+a,r++}return e+"}";case"string":return'"'+t.replace(/([\"\\])/g,"\\$1").replace(/\n/g,"\\n")+'"';case"number":return t.toString();case"boolean":return t?"true":"false";case"function":return o(t.toString());case"undefined":default:return'"undefined"'}}function s(t){return z?z(t):t}function u(){return Date.now?Date.now():(new Date).valueOf()}function c(t,e,r){function n(){var t=X.args.apply(this,arguments);return e(i,t,r)}var a,i=t[t.length-1];if("function"==typeof i){switch(i.length){case 0:a=function(){return n.apply(this,arguments)};break;case 1:a=function(t){return n.apply(this,arguments)};break;case 2:a=function(t,e){return n.apply(this,arguments)};break;case 3:a=function(t,e,r){return n.apply(this,arguments)};break;case 4:a=function(t,e,r,a){return n.apply(this,arguments)};break;case 5:a=function(t,e,r,a,i){return n.apply(this,arguments)};break;default:for(var o=[],s=0,u=i.length;s<u;s++)o.push("_"+s);a=eval("(function(){return function("+o.join(",")+"){var args = [].slice.call(arguments, 0);return e(i, args, r);};})();")}t[t.length-1]=a}return t}function f(t,e){return t&&e&&(t.moduleName=e),t}function l(t,e,r){return function(){try{q=e,r&&d(e),t.apply(this,arguments),r&&p()}catch(n){throw r&&p(),f(n,e)}}}function d(e){X.each(["setTimeout","setInterval"],function(r){X.wrap(!0,t,r,function(t){return function(){var r,n=X.args.apply(this,arguments),a=n[0];return"function"==typeof a&&(r=l(a,e,!0)),r&&(n[0]=r),t.apply?t.apply(this,n):Function.prototype.apply.apply(t,[t,n])}})})}function p(){X.each(["setTimeout","setInterval"],function(e){X.unwrap(t,e)})}function h(t){H&&X.wrap(!1,H.prototype,"addEventListener",function(e){return function(){var r,n=X.args.apply(this,arguments),a=n[1];return"function"==typeof a&&(r=l(a,t,!0)),r&&(n[1]=r),e.apply(this,n)}}),d(t)}function v(){H&&X.unwrap(H.prototype,"addEventListener"),p()}function y(t){return function(t,e){}}function m(){return ft&&ft.indexOf("1")>-1}function g(){var t=0;if(G.firstPaint)t=G.firstPaint;else if(ct){var e=ct.timing;t=e.domLoading,ct.getEntriesByName&&X.each(B.querySelectorAll("head>link, head>script"),function(r){var n;if("LINK"==r.tagName?n=r.href:"SCRIPT"==r.tagName&&(r.defer||(n=r.src)),n){var a=ct.getEntriesByName(n);if(1==a.length){var i=a[0].responseEnd+e.navigationStart;i>t&&(t=i)}}}),t-=e.navigationStart,G.firstPaint=Math.round(t)}return t}function _(){if(G.fs)return G.fs;G.firstPaint||g();var e=G.firstPaint,r=t.innerHeight;if(ct&&ct.getEntriesByName){var n=[];X.each(B.querySelectorAll("img"),function(t){"none"!=t.style.display&&""!=t.src&&t.offsetTop<=r&&n.push(t.src)}),X.each(n,function(t){var r=ct.getEntriesByName(t);if(r.length){var n=r[0].responseEnd;n>e&&(e=n)}})}return G.fs=Math.round(e),e}function S(){var t=ct.timing&&ct.timing.navigationStart||G.st,e=G.end_time-t;return G.dr=e,e}function w(){if(this.errors.length){var t=function(t){var e=[],r={};X.each(t,function(t){var e=N(t[1],t[2],t[3],t[6]);r[e]?r[e][4]+=1:r[e]=[t[1],t[2],t[3],"#"==t[4]?B.URL:t[4],1,t[5],t[6],t[7]]});for(var n in r)e.push(r[n]);return e}(this.errors),e=this;X.POST(X.mkurl(G.server.beacon,"err",{fu:U?U:U++,os:parseInt((u()-(F||G.st))/1e3)}),X.stringify({datas:t}),{},function(t,r){t||(e.errors=[])})}}function T(){e("DOMContentLoaded"),lt.initend()}function b(){"complete"===B.readyState&&(e("readyStateComplete"),lt.initend())}function E(t){function e(){lt.send()}return!!G.load_time||(lt.initend(),G.load_time=u(),J&&(W.load=G.load_time),void(9===t?e():setTimeout(e,0)))}function k(){dt||E(9),X.bind(w,lt)(),dt=1}function x(){lt.touch||(lt.touch=u())}function P(t){if(t[6]){var e=t[4],r=t[5];if(r&&"string"==typeof r&&e){r=r.split(/\n/);var n=$.exec(r[0]);n||(n=$.exec(r[1])),n&&n[1]!=e&&(t[4]=n[1]||e,t[2]=n[2]||t[2],t[3]=n[3]||t[3])}}}function N(t,e,r,n){return String(t)+String(e)+String(r)+String(n)}function L(e){var r=arguments,n="unknown",a=[u()];if(0!=r.length){if("string"==typeof e){var i=r.length<4?r.length:4;a[1]=r[0],i>2&&(a[2]=r[2],a[3]=0,a[4]=r[1]),i>3&&r[3]&&(a[3]=r[3])}else if(e instanceof Event||t.ErrorEvent&&e instanceof ErrorEvent){if(a[1]=e.message||(e.error&&e.error.constructor.name)+(e.error&&e.error.message)||"",a[2]=e.lineno?e.lineno:0,a[3]=e.colno?e.colno:0,a[4]=e.filename||e.error&&e.error.fileName||e.target&&e.target.baseURI||"",!a[4]&&Q)return;a[4]==B.URL&&(a[4]="#"),e.error?(a[5]=e.error.stack,a[6]=e.error.moduleName):(a[5]=null,a[6]=null);var o=N(a[1],a[2],a[3],a[6]);if(a[7]=pt[o]?0:1,pt[o]=!0,a[1]===n&&a[4]===n)return;P(a)}lt.errors.push(a)}}function R(t){return function(){var e=arguments;if(!this._ty_wrap){var r=X.args.apply(this,e);this._ty_rum={method:r[0],url:r[1],start:u()}}try{return t.apply(this,e)}catch(n){return Function.prototype.apply.call(t,this,e)}}}function C(e){return"string"==typeof e?e.length:t.ArrayBuffer&&e instanceof ArrayBuffer?e.byteLength:t.Blob&&e instanceof Blob?e.size:e&&e.length?e.length:0}function I(e){return function(){function r(t){var e,r,n=c._ty_rum;if(n){if(4!==n.readyState&&(n.end=u()),n.s=c.status,""==c.responseType||"text"==c.responseType)n.res=C(c.responseText);else if(c.response)n.res=C(c.response);else try{n.res=C(c.responseText)}catch(i){n.res=0}if(n.readyState=c.readyState,n.cb_time=l,e=[n.method+" "+n.url,n.s>0?n.end-n.start:0,l,n.s,n.s>0?0:t,n.res,n.req],n.r&&(r=a(c),r&&(r=r.xData)&&(e.push(r.id),e.push(r.action),e.push(r.time&&r.time.duration),e.push(r.time&&r.time.qu))),G.aa.push(e),G.server.custom_urls&&G.server.custom_urls.length&&!lt.ct){if(!G.pattern){G.pattern=[];for(var o=0;o<G.server.custom_urls.length;o++)G.pattern.push(new RegExp(G.server.custom_urls[o]))}for(var o=0;o<G.pattern.length;o++)if(n.url.match(G.pattern[o])){lt.ct=n.end+l;break}}lt.sa(),c._ty_rum=null}}function n(){4==c.readyState&&r(0)}function a(e){var r;if(e.getResponseHeader){var n=X.parseJSON(e.getResponseHeader("X-Tingyun-Tx-Data"));n&&n.r&&e._ty_rum&&n.r+""==e._ty_rum.r+""&&(r={name:e._ty_rum.url,xData:n},ct&&t._ty_rum.c_ra.push(r))}return r}function i(t){return function(){var e,r;4==c.readyState&&c._ty_rum&&(c._ty_rum.end=e=u(),c._ty_rum.readyState=4);try{q&&d(q),r=t.apply(this,arguments),q&&p()}catch(a){throw a=f(a,q),q&&p(),q=null,a}return 4==c.readyState&&(l=u()-e),n(),r}}function o(t){return function(){var e=c._ty_rum;return!e||("progress"==t||("abort"==t?r(905):"loadstart"==t?e.start=u():"error"==t?r(990):"timeout"==t&&r(903),!0))}}function s(t,e){e instanceof Array||(e=[e]);for(var r=0;r<e.length;r++){var n=e[r];X.sh(t,n,o(n),!1)}}if(!this._ty_wrap){this._ty_rum.start=u(),this._ty_rum.req=arguments[0]?C(arguments[0]):0;var c=this,l=0,h=X.wrap(!1,this,"onreadystatechange",i);h||X.sh(this,"readystatechange",n,!1),s(this,["error","progress","abort","load","loadstart","loadend","timeout"]),h||setTimeout(function(){X.wrap(!1,c,"onreadystatechange",i)},0)}var v=function(){function t(t){var e={},r=/^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?/.exec(t);return r&&(e.protocol=r[1]?r[1]+":":"http:",e.hostname=r[3],e.port=r[4]||""),e}return function(e){var r=location;if(e=X.trim(e)){if(e=e.toLowerCase(),e.startsWith("//")&&(e=r.protocol+e),!e.startsWith("http"))return!0;var n=t(e),a=n.protocol===r.protocol&&n.hostname===r.hostname;return a&&(a=n.port===r.port||!r.port&&("http:"===r.protocol&&"80"===n.port||"https:"===r.protocol&&"443"===n.port)),a}return!1}}(),y=arguments;try{var m=G.server;m&&m.id&&this._ty_rum&&v(this._ty_rum.url)&&(this._ty_rum.r=(new Date).getTime()%1e8,this.setRequestHeader&&this.setRequestHeader("X-Tingyun-Id",m.id+";r="+this._ty_rum.r))}catch(g){}try{return e.apply(this,y)}catch(_){return Function.prototype.apply.call(e,this,y)}}}function O(){var e="TINGYUN_DATA";if(G.agent)return G.agent;var r=a(e);if(r){try{r=r.replace(/^"/,"").replace(/"$/,""),r=G.agent=X.parseJSON(decodeURIComponent(r))}catch(n){}i(e,"",-1e3)}else r=t._ty_rum&&t._ty_rum.agent;return r}var q,D=t.XMLHttpRequest,B=document,M=Object.defineProperty,A=t.define,H=t.EventTarget,U=0,$=new RegExp("([a-z]+:/{2,3}.*):(\\d+):(\\d+)"),z=t.encodeURIComponent,F=null,X={wrap:function(t,e,r,n,a){try{var i=e[r]}catch(o){if(!t)return!1}if(!i&&!t)return!1;if(i&&i._ty_wrap)return!1;try{e[r]=n(i,a)}catch(o){return!1}return e[r]._ty_wrap=[i],!0},unwrap:function(t,e){try{var r=t[e]._ty_wrap;r&&(t[e]=r[0])}catch(n){}},each:function(t,e){if(t){var r;for(r=0;r<t.length&&(!t[r]||!e(t[r],r,t));r+=1);}},mkurl:function(t,e){var a=arguments,i=/^https/i.test(B.URL)?"https":"http";if(i=i+"://"+t+"/"+e+"?av=1.6.2&v=1.6.0&key="+s(G.server.key)+"&ref="+s(B.URL)+"&rand="+u()+"&pvid="+at+"&did="+s(r())+"&sid="+s(n()),"pf"!==e&&G&&(G.agent=O(),G.agent&&(G.agent.n&&(i+="&n="+s(G.agent.n)),G.agent.user_label&&(i+="&user_label="+s(G.agent.user_label)))),a.length>2){var o=a[2];for(var c in o)i+="&"+c+"="+o[c]}return j.host&&(i+="&cshst="+s(j.host)),j.url&&(i+="&csurl="+s(j.url)),i},GET:function(t,e){function r(){e&&e.apply(this,arguments),n.parentNode&&n.parentNode.removeChild(n)}if(navigator&&navigator.sendBeacon&&rt.test(t))return navigator.sendBeacon(t,null);var n=B.createElement("img");return n.setAttribute("src",t),n.setAttribute("style","display:none"),this.sh(n,"readystatechange",function(){"loaded"!=n.readyState&&4!=n.readyState||r("loaded")},!1),this.sh(n,"load",function(){return r("load"),!0},!1),this.sh(n,"error",function(){return r("error"),!0},!1),B.body.appendChild(n)},fpt:function(t,e,r){function n(t,e,r){var n=B.createElement(t);try{for(var a in e)n[a]=e[a]}catch(i){var o="<"+t;for(var a in e)o+=" "+a+'="'+e[a]+'"';o+=">",r||(o+="</"+t+">"),n=B.createElement(o)}return n}var a=n("div",{style:"display:none"},!1),i=n("iframe",{name:"_ty_rum_frm",width:0,height:0,style:"display:none"},!1),o=n("form",{style:"display:none",action:t,enctype:"application/x-www-form-urlencoded",method:"post",target:"_ty_rum_frm"},!1),s=n("input",{name:"data",type:"hidden"},!0);return s.value=e,o.appendChild(s),a.appendChild(i),a.appendChild(o),B.body.appendChild(a),o.submit(),i.onreadystatechange=function(){"complete"!==i.readyState&&4!==i.readyState||(r(null,i.innerHTML),B.body.removeChild(a))},!0},POST:function(e,r,n,a){if(this.ie)return this.fpt(e,r,a);if(navigator&&navigator.sendBeacon&&rt.test(e)){var i=navigator.sendBeacon(e,r);return a(!i),i}var o;if(t.XDomainRequest)return o=new XDomainRequest,o.open("POST",e),o.onload=function(){a(null,o.responseText)},this.sh(o,"load",function(){a(null,o.responseText)},!1),this.sh(o,"error",function(){a("POST("+e+")error")},!1),this.wrap(!0,o,"onerror",function(t){return function(){return a&&a("post error",o.responseText),!0}}),o.send(r),!0;if(!D)return!1;o=new D,o.overrideMimeType&&o.overrideMimeType("text/html");try{o._ty_wrap=1}catch(s){}var u=0;o.onreadystatechange=function(){4==o.readyState&&200==o.status&&(0==u&&a(null,o.responseText),u++)},o.onerror&&this.wrap(!0,o,"onerror",function(t){return function(){return a("post error",o.responseText),"function"!=typeof t||t.apply(this,arguments)}});try{o.open("POST",e,!0)}catch(s){return this.fpt(e,r,a)}for(var c in n)o.setRequestHeader(c,n[c]);return o.send(r),!0},sh:function(t,e,r,n){return t.addEventListener?t.addEventListener(e,r,n):!!t.attachEvent&&t.attachEvent("on"+e,r)},args:function(){for(var t=[],e=0;e<arguments.length;e++)t.push(arguments[e]);return t},stringify:o,parseJSON:function(e){if(e&&"string"==typeof e){var r=t.JSON?t.JSON.parse:function(t){return new Function("return "+t)()};return r(e)}return null},trim:V?function(t){return null==t?"":V.call(t)}:function(t){return null==t?"":t.toString().replace(/^\s+/,"").replace(/\s+$/,"")},extend:function(t,e){if(t&&e)for(var r in e)e.hasOwnProperty(r)&&(t[r]=e[r]);return t},bind:function(t,e){return function(){return t.apply(e,arguments)}}},j={},G=t._ty_rum=t.TINGYUN=X.extend({st:u(),ra:[],c_ra:[],aa:[],snd_du:function(){return this.server.adu?1e3*this.server.adu:1e4},cc:function(){return this.server.ac?this.server.ac:10},config:function(t,e){var r;if("object"==typeof t)r=t;else{if("string"!=typeof t||void 0===e)throw new Error("illegal arguments");r={},r[t]=e}for(var n in r)j[n]=r[n];return this},setUserLabel:function(t){t&&((this.agent||(this.agent={})).user_label="string"==typeof t?t:X.stringify(t))}},t._ty_rum||{});var ty_rum=G;ty_rum.server = {beacon:"beacon.tingyun.com",beacon_err:"beacon-err.tingyun.com",key:"heTre0seWW0",trace_threshold:7000,ignore_err:false,fp_threshold:2000,fs_threshold:4000,dr_threshold:4000,id:"wl4EtIR_7Is"};if(G.server&&!(G.server.sr&&Math.random()>=G.server.sr)){var J=!("debug"in G.server)||G.server.debug,W={start:G.st,e:{},an:{count:0},visible:[]};!function(){if(J){var t,e;"undefined"!=typeof B.hidden?(t="hidden",e="visibilitychange"):"undefined"!=typeof B.msHidden?(t="msHidden",e="msvisibilitychange"):"undefined"!=typeof B.webkitHidden&&(t="webkitHidden",e="webkitvisibilitychange"),"undefined"==typeof B.addEventListener||"undefined"==typeof B[t]||X.sh(B,e,function(){J&&W.visible.push([B[t],u()])})}}();var Y={fp_threshold:2e3,fs_threshold:4e3,dr_threshold:4e3},Z=X.extend(Y,G.server),K="ignore_err",Q=!(K in G.server)||G.server[K],V=String.prototype.trim;String.prototype.startsWith||(String.prototype.startsWith=function(t,e){return e=e||0,this.indexOf(t,e)===e});var tt,et,rt=/^http/i,nt=function(){function t(t){return t<0?NaN:t<=30?0|Math.random()*(1<<t):t<=53?(0|Math.random()*(1<<30))+(0|Math.random()*(1<<t-30))*(1<<30):NaN}function e(t,e){for(var r=t.toString(16),n=e-r.length,a="0";n>0;n>>>=1,a+=a)1&n&&(r=a+r);return r}return function(){return e(t(32),8)+"-"+e(t(16),4)+"-"+e(16384|t(12),4)+"-"+e(32768|t(14),4)+"-"+e(t(48),12)}}(),at=nt(),it="TY_DISTINCT_ID",ot="TY_SESSION_ID",st=function(){try{return localStorage.setItem(at,at),localStorage.removeItem(at),!0}catch(t){return!1}}();st?(tt=X.bind(localStorage.getItem,localStorage),et=X.bind(localStorage.setItem,localStorage)):(tt=a,et=i);try{M&&M(t,"define",{get:function(){return A},set:function(t){"function"==typeof t&&(t.amd||t.cmd)?(A=function(){var e=X.args.apply(this,arguments);if(3!==e.length)return t.apply(this,e);var r="string"==typeof e[0]?e[0]:"anonymous";return t.apply(this,c(e,function(t,e,r){var n;try{q=r,h(r),n=t.apply(this,e),v()}catch(a){throw v(),f(a,r)}return n},r))},X.extend(A,t)):A=t},configurable:!0})}catch(ut){}var ct=t.performance?t.performance:t.Performance;ct&&(X.sh(ct,"resourcetimingbufferfull",function(){var t=ct.getEntriesByType("resource");t&&(G.ra=G.ra.concat(t),ct.clearResourceTimings())},!1),X.sh(ct,"webkitresourcetimingbufferfull",function(){var t=ct.getEntriesByType("resource");t&&(G.ra=G.ra.concat(t),ct.webkitClearResourceTimings())},!1));for(var ft="",lt=G.metric={ready:function(){return G.load_time},initend:function(){function t(){lt.sa()}G.end_time||(G.end_time=u(),J&&(W.end=G.end_time),this._h=setInterval(t,2e3))},send:function(){function e(){function e(t){return n[t]>0?n[t]-a:0}var r={};if(ct&&ct.timing){var n=ct.timing;if(J){var i=W.t={};for(var o in n){var u=n[o];"function"!=typeof u&&(i[o]=u)}}a=n.navigationStart;var c=e("domainLookupStart"),f=e("domainLookupEnd"),l=e("redirectStart"),d=e("redirectEnd"),p=e("connectStart"),h=e("connectEnd");r={f:e("fetchStart"),qs:e("requestStart"),rs:e("responseStart"),re:e("responseEnd"),os:e("domContentLoadedEventStart"),oe:e("domContentLoadedEventEnd"),oi:e("domInteractive"),oc:e("domComplete"),ls:e("loadEventStart"),le:e("loadEventEnd"),tus:e("unloadEventStart"),tue:e("unloadEventEnd"),ressize:!0},h-p>0&&(r.cs=p,r.ce=h),f-c>0&&(r.ds=c,r.de=f),(d-l>0||d>0)&&(r.es=l,r.ee=d),0==r.le&&(r.ue=G.load_time-a);var v;if(n.msFirstPaint)v=n.msFirstPaint,J&&(W.fp="m_"+v);else if(t.chrome&&chrome.loadTimes){var y=chrome.loadTimes();y&&(y.firstPaintTime&&(v=1e3*y.firstPaintTime),J&&(W.fp="c_"+y.firstPaintTime))}else G.firstPaint&&(v=G.firstPaint,J&&(W.fp=G.firstPaint));v&&(r.fp=Math.round(v-a),G.firstPaint=r.fp),n.secureConnectionStart&&(r.sl=e("secureConnectionStart"))}else r={t:a,os:G.end_time-a,ls:G.load_time-a,ressize:!1};r.je=lt.errors.length,lt.ct&&(r.ct=lt.ct-a),lt.touch&&(r.fi=lt.touch-a);var m=O();return m&&(r.id=s(m.id),r.a=m.a,r.q=m.q,r.tid=s(m.tid),r.n=s(m.n)),r.sh=t.screen&&t.screen.height,r.sw=t.screen&&t.screen.width,r}function r(e){var r=t._ty_rum.c_ra;if(e)for(var n=r.length-1;n>=0;n--)if(e.indexOf(r[n].name)>-1)return r[n].xData;return null}function n(t){function e(t){return d[t]>0?d[t]:0}var n="1",i="0";if(ft+=g()>=Z.fp_threshold?n:i,ft+=_()>=Z.fs_threshold?n:i,ft+=S()>=Z.dr_threshold?n:i,ft+=t>=G.server.trace_threshold?n:i,!m())return null;var o=ct;if(o&&o.getEntriesByType){var u={tr:!0,tt:s(B.title),charset:B.characterSet},c=G.ra,f=o.getEntriesByType("resource");f&&(c=c.concat(f),o.clearResourceTimings?o.clearResourceTimings():o.webkitClearResourceTimings&&o.webkitClearResourceTimings()),u.res=[];for(var l=0;l<c.length;l++){var d=c[l],p={o:e("startTime"),rt:d.initiatorType,n:d.name,f:e("fetchStart"),ds:e("domainLookupStart"),de:e("domainLookupEnd"),cs:e("connectStart"),ce:e("connectEnd"),sl:e("secureConnectionStart"),qs:e("requestStart"),rs:e("responseStart"),re:e("responseEnd"),ts:d.transferSize||0,es:d.encodedBodySize||0},h=r(d.name);h&&(p.aid=h.id,p.atd=h.trId,p.an=h.action,p.aq=h.time&&h.time.qu,p.as=h.time&&h.time.duration),u.res.push(p)}if(lt.errors.length){u.err=[];for(var l=0,v=lt.errors,y=v.length;l<y;l++)u.err.push({o:Math.round(v[l][0]-a),e:v[l][1]&&v[l][1].replace(/([\"\\])/g,"\\$1").replace(/\n/g,"\\n"),l:v[l][2],c:v[l][3],r:v[l][4],ec:y,s:v[l][5],m:v[l][6],ep:v[l][7]})}return u}return null}if(this.sended)return!1;if(!this.ready())return!1;var a=G.st,i={};try{var o=e();i=n(o.ls>0?o.ls:G.load_time-a);var c={trflag:ft||"0000",fp:G.firstPaint,fs:G.fs,dr:G.dr};X.extend(o,c)}catch(f){}i?(J&&(i.debug=W),i=X.stringify(i)):i="",J=!1;var l=X.mkurl(G.server.beacon,"pf",o);F=u(),0!=i.length&&X.POST(l,i,{},y("POST"))||X.GET(l);var d=X.bind(w,this);return d(),setInterval(d,1e4),this.sended=!0,this.sa(1),!0},sa:function(t){(this.ready()||t)&&(t||(t=!this._last_send||u()-this._last_send>G.snd_du()||G.aa.length>=G.cc()),G.aa.length>0&&t&&(this._last_send=u(),X.POST(X.mkurl(G.server.beacon,"xhr"),X.stringify({xhr:G.aa}),{},y("POST")),G.aa=[]))},errors:[]},dt=null,pt={},ht=[["load",E],["beforeunload",k],["pagehide",k],["unload",k],["pageshow",function(){}]],vt=0;vt<ht.length;vt++){var yt=null;J&&(yt=function(t,r){return function(n){return e(t),r.apply(this,arguments)}}(ht[vt][0],ht[vt][1])),X.sh(t,ht[vt][0],yt||ht[vt][1],!1)}t.addEventListener?X.sh(t,"error",L,!1):t.onerror=function(t,e,r,n,a){if(e||!Q){var i=[u(),t,r,n,e==B.URL?"#":e],o=N(t,r,n,a&&a.moduleName);i=i.concat([a&&a.stack,a&&a.moduleName,pt[o]?0:1]),pt[o]=!0,P(i),lt.errors.push(i)}};for(var mt=[["scroll",x],["keypress",x],["click",x],["DOMContentLoaded",T],["readystatechange",b]],vt=0;vt<mt.length;vt++)X.sh(B,mt[vt][0],mt[vt][1],!1);if(X.wrap(!1,t,"requestAnimationFrame",function(e){return function(){var r=u();return J&&(W.an.count++,W.an.t=r),G.firstPaint=r,t.requestAnimationFrame=e,e.apply(this,arguments)}}),D)if(D.prototype)X.wrap(!1,D.prototype,"open",R),X.wrap(!1,D.prototype,"send",I);else{X.ie=7;var gt=D;t.XMLHttpRequest=function(){var t=new gt;return X.wrap(!1,t,"open",R),X.wrap(!1,t,"send",I),t}}else t.ActiveXObject&&(X.ie=6)}ty_rum.agent={id:'boy5mtpvRsQ#d7_6TzwD9s4',n:'WebAction/MVC/Article%2Fdetails',tid:'3f743efba8635170d1d0',q:0,a:125};}(window);</script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="1 前言经过3天奋战，终于在Ubuntu 16.04上把Android 6.0的源码编译出来了，各种配置，各种error，各种爬坑，特写此博客记录爬坑经历。先上图，Ubuntu上编译完后成功运行模拟器，如图：2 编译环境UbuntuKylin 16.04 LTS Android 6.0_r1Open JDK 73 准备工作(1) 下载Android 6.0源码.  Androdi 6.0源" />
+
+    <meta name="keywords" content="android,源码,ubuntu" />
+
+   
+    <script src="http://static.blog.csdn.net/scripts/blog_static_head.min.js" type="text/javascript"></script>
+
+    
+        <!--new top-->
+       
+       
+        <!--new top-->
+    
+      <!-- ad begin -->
+         
+    <!-- ad end-->
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/skin-blue/css/style.css?v=1.1" />
+
+    
+
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/fuchaosz/rss/list" />
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/default.css" />
+ 
+
+
+
+    <link href="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.css" type="text/css" rel="stylesheet" />
+     
+         <link rel="stylesheet" href="http://static.blog.csdn.net/css/csdn_blog_detail.min.css" />
+
+  
+
+
+    <!-- 请置于所有广告位代码之前 --> 
+            <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+</head>
+
+
+<body>
+     
+        <div class="tracking-ad" data-view="true" data-mod="ad_popu_72"  data-mtp="62" data-order="40" data-con="ad_content_2072" >
+                     <script id="popuLayer_js_q" src="http://ads.csdn.net/js/popuLayer.js" defer="defer"  type="text/javascript"></script>
+                <div id="layerd" style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000">
+    	                <div class="J_close layer_close" style="display:;background-color:#efefef;padding:0px;color:#333;font:12px/24px Helvetica,Tahoma,Arial,sans-serif;text-align:right;">关闭</div><!-- 广告占位容器 --><div id="cpro_u2895327"></div></div>
+                <script>  document.getElementById("popuLayer_js_q").onload = function () { var styObjd = styObj = { width: "300px", "height": parseInt(250) + 28 }; window.CSDN.Layer.PopuLayer("#layerd", { storageName: "layerd", styleObj: styObjd, total: 50, expoire: 1000 * 60 }); }</script><!-- 投放代码 --><script type="text/javascript">                    /*服务器频道首页置顶Banner960*90，创建于2014-7-3*/    (window.cproArray = window.cproArray || []).push({ id: "u2895327" });  </script>  <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+     
+        </div>
+
+    <!-- 广告位开始 -->
+        
+    <!-- 广告位结束 -->
+
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/fuchaosz">梧桐那时雨</a></h2>
+            <h3>梧桐山，那个时候，在下着小雨.....</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+     
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/fuchaosz?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/fuchaosz?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/fuchaosz/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>                
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "fuchaosz";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/fuchaosz";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+
+<a href="http://blog.csdn.net/epubit17/article/details/76066685">
+<font color=red><strong>赠书 | AI专栏（AI圣经！《深度学习》中文版）</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://edu.csdn.net/huiyiCourse/series_detail/54?utm_source=blog1">
+<font color=blue><strong>机器学习&数据挖掘 系统实训</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/74550215">
+<font color=red><strong>【获奖公布】征文 | 你会为 AI 转型么？</strong></font></a>
+
+</div>                        </div>
+
+                        
+
+
+
+  
+
+
+
+
+
+
+<script   type="text/javascript" src="http://static.blog.csdn.net/scripts/category.js"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=%5bAndroid+%e7%bc%96%e8%af%91(%e4%b8%80)%5d+Ubuntu+16.04+LTS+%e6%88%90%e5%8a%9f%e7%bc%96%e8%af%91+Android+6.0+%e6%ba%90%e7%a0%81%e6%95%99%e7%a8%8b&u=http://blog.csdn.net/fuchaosz/article/details/51487585"
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+    <h1>
+        <span class="link_title"><a href="/fuchaosz/article/details/51487585">
+        [Android 编译(一)] Ubuntu 16.04 LTS 成功编译 Android 6.0 源码教程        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href='http://www.csdn.net/tag/android' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">android</a><a href='http://www.csdn.net/tag/%e6%ba%90%e7%a0%81' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">源码</a><a href='http://www.csdn.net/tag/ubuntu' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">ubuntu</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2016-05-24 09:33</span>
+            <span class="link_view" title="阅读次数">25205人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(56)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('%5bAndroid+%e7%bc%96%e8%af%91(%e4%b8%80)%5d+Ubuntu+16.04+LTS+%e6%88%90%e5%8a%9f%e7%bc%96%e8%af%91+Android+6.0+%e6%ba%90%e7%a0%81%e6%95%99%e7%a8%8b','51487585');return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(51487585,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script  type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="http://static.blog.csdn.net/images/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label  onclick="GetCategoryArticles('5195511','fuchaosz','top','51487585');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">android<em>（22）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/fuchaosz/article/category/5195511"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_5195511">                            
+                            </ul>
+                        </div>
+                    </label>                    
+                    <label  onclick="GetCategoryArticles('6246798','fuchaosz','top','51487585');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">系统源码<em>（1）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/fuchaosz/article/category/6246798"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_6246798">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+        <div   class="bog_copyright">         
+            <p  class="copyright_p" >版权声明：本文为博主原创文章，未经博主允许不得转载。</p>
+        </div>
+
+  
+
+  
+  
+     
+
+
+<div id="article_content" class="article_content tracking-ad" data-mod=popu_307  data-dsm = "post" >
+        <div class="markdown_views"><h1 id="1-前言">1 前言</h1>
+
+<p>经过3天奋战，终于在Ubuntu 16.04上把Android 6.0的源码编译出来了，各种配置，各种error，各种爬坑，特写此博客记录爬坑经历。先上图，Ubuntu上编译完后成功运行模拟器，如图：</p>
+
+<p><img src="http://img.blog.csdn.net/20160616130422232" alt="这里写图片描述" title=""></p>
+
+
+
+<h1 id="2-编译环境">2 编译环境</h1>
+
+<ul>
+<li>UbuntuKylin 16.04 LTS </li>
+<li>Android 6.0_r1</li>
+<li>Open JDK 7</li>
+</ul>
+
+
+
+<h1 id="3-准备工作">3 准备工作</h1>
+
+<p>(1) 下载Android 6.0源码.</p>
+
+<blockquote>
+  <p>Androdi 6.0源码下载地址: <a href="http://pan.baidu.com/s/1o6N86a2">http://pan.baidu.com/s/1o6N86a2</a></p>
+</blockquote>
+
+<p>感谢下面这位博主上传源码，我也是从他的博客下载的源码：</p>
+
+<blockquote>
+  <p><a href="http://blog.csdn.net/ilittleone/article/details/6823441">http://blog.csdn.net/ilittleone/article/details/6823441</a></p>
+</blockquote>
+
+<p>下载源码请在Windows下面下载，迅雷不解释。 <br>
+<strong>注意：源码的存放路径不能有中文，否则编译到系统内置的apk的时候会报错无法解析class.dex文件</strong></p>
+
+<p>(2) 解压源码,合并文件。 <br>
+下载完毕后，使用下面命令合并：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">cat Android6_r1_*&gt;Android6_r1<span class="hljs-preprocessor">.tgz</span></code></pre>
+
+<p>合并完后，使用下面命令校验hash:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">md5sum Android6_r1<span class="hljs-preprocessor">.tgz</span></code></pre>
+
+<p>此时会生成一个hash串，如图：</p>
+
+<p><img src="http://img.blog.csdn.net/20160524095543757" alt="这里写图片描述" title=""></p>
+
+<p>对比你下载的文件里面的hash.txt，如果一致那么继续，不一致则文件损坏，重新下载。</p>
+
+<p>(3) 解压源码。</p>
+
+<blockquote>
+  <p>tar -zxvf Android6_r1.tgz</p>
+</blockquote>
+
+<p>解压源码是个漫长的过程，解压后会在当前目录下生成一个mydroid的文件夹。<strong>如果你发现源码的路径有中文，需要移动源码，请复制压缩包，然后再使用命令解压，而不要直接复制解压后的文件夹</strong>。</p>
+
+<p>(4) 安装Ubuntu 16.04 <br>
+编译Android源码最好直接安装Linux，不要使用虚拟机，编译源码是个漫长的过程，虚拟机要十几个小时，博主直接在电脑上装Ubuntu，编译只需要3个小时。实体机可避免虚拟机的很多问题，例如：磁盘空间不足，内存不够等等。更重要的是，编译源码是个不断爬坑的过程，实体机可以很快的遇到错误，然后解决问题，继续编译，再次遇到错误，而虚拟机这个周期会很漫长，因而浪费大量时间。实体机解压速度也比虚拟机快得多。Ubuntu与windows兼容做的很好，可以直接把Ubuntu当作一个windows程序安装，也可以单独安装，如果单独安装请务必给/home分区分配至少120G空间，因为编译后的Android系统真的很大。 <br>
+<strong>强烈建议下载Ubuntu镜像，然后使用软碟通刻录到U盘，通过U盘把Ubuntu安装到物理机器上。</strong></p>
+
+<p>(5) Ubuntu安装教程参考下面链接,Ubuntu 16.04安装方法也是一样的 ：</p>
+
+<blockquote>
+  <p><a href="http://jingyan.baidu.com/article/59703552e0a6e18fc007409f.html">http://jingyan.baidu.com/article/59703552e0a6e18fc007409f.html</a></p>
+</blockquote>
+
+<p>(6) 再次声明：转载请注明来自”梧桐那时雨”的博客:<a href="http://blog.csdn.net/fuchaosz/article/details/51487585">http://blog.csdn.net/fuchaosz/article/details/51487585</a></p>
+
+
+
+<h1 id="4-更换软件源为阿里云">4 更换软件源为阿里云</h1>
+
+<p>为了更快的安装软件，我们需要更换软件源为国内的软件源，这里推荐使用Ubuntu官方指定的国内软件源阿里云，博主之前使用的是网易的软件源，结果发现OpenJDK7装不上去，于是换成了阿里的，具体方法是：</p>
+
+<pre class="prettyprint"><code class=" hljs bash"><span class="hljs-built_in">sudo</span> gedit /etc/apt/sources.list </code></pre>
+
+<p>在文件最前面加入下面代码：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs avrasm">deb http://mirrors<span class="hljs-preprocessor">.aliyun</span><span class="hljs-preprocessor">.com</span>/ubuntu/ quantal main restricted universe multiverse
+deb http://mirrors<span class="hljs-preprocessor">.aliyun</span><span class="hljs-preprocessor">.com</span>/ubuntu/ quantal-security main restricted universe multiverse
+deb http://mirrors<span class="hljs-preprocessor">.aliyun</span><span class="hljs-preprocessor">.com</span>/ubuntu/ quantal-updates main restricted universe multiverse
+deb http://mirrors<span class="hljs-preprocessor">.aliyun</span><span class="hljs-preprocessor">.com</span>/ubuntu/ quantal-proposed main restricted universe multiverse
+deb http://mirrors<span class="hljs-preprocessor">.aliyun</span><span class="hljs-preprocessor">.com</span>/ubuntu/ quantal-backports main restricted universe multiverse
+deb-src http://mirrors<span class="hljs-preprocessor">.aliyun</span><span class="hljs-preprocessor">.com</span>/ubuntu/ quantal main restricted universe multiverse
+deb-src http://mirrors<span class="hljs-preprocessor">.aliyun</span><span class="hljs-preprocessor">.com</span>/ubuntu/ quantal-security main restricted universe multiverse
+deb-src http://mirrors<span class="hljs-preprocessor">.aliyun</span><span class="hljs-preprocessor">.com</span>/ubuntu/ quantal-updates main restricted universe multiverse
+deb-src http://mirrors<span class="hljs-preprocessor">.aliyun</span><span class="hljs-preprocessor">.com</span>/ubuntu/ quantal-proposed main restricted universe multiverse
+deb-src http://mirrors<span class="hljs-preprocessor">.aliyun</span><span class="hljs-preprocessor">.com</span>/ubuntu/ quantal-backports main restricted universe multiverse</code></pre>
+
+<h1 id="5-安装依赖">5 安装依赖</h1>
+
+<pre class="prettyprint"><code class=" hljs lasso">sudo apt<span class="hljs-attribute">-get</span> install <span class="hljs-attribute">-y</span> git flex bison gperf build<span class="hljs-attribute">-essential</span> libncurses5<span class="hljs-attribute">-dev</span>:i386 
+sudo apt<span class="hljs-attribute">-get</span> install libx11<span class="hljs-attribute">-dev</span>:i386 libreadline6<span class="hljs-attribute">-dev</span>:i386 libgl1<span class="hljs-attribute">-mesa</span><span class="hljs-attribute">-dev</span> g<span class="hljs-subst">++-</span>multilib 
+sudo apt<span class="hljs-attribute">-get</span> install tofrodos python<span class="hljs-attribute">-markdown</span> libxml2<span class="hljs-attribute">-utils</span> xsltproc zlib1g<span class="hljs-attribute">-dev</span>:i386 
+sudo apt<span class="hljs-attribute">-get</span> install dpkg<span class="hljs-attribute">-dev</span> libsdl1<span class="hljs-number">.2</span><span class="hljs-attribute">-dev</span> libesd0<span class="hljs-attribute">-dev</span>
+sudo apt<span class="hljs-attribute">-get</span> install git<span class="hljs-attribute">-core</span> gnupg flex bison gperf build<span class="hljs-attribute">-essential</span>  
+sudo apt<span class="hljs-attribute">-get</span> install zip curl zlib1g<span class="hljs-attribute">-dev</span> gcc<span class="hljs-attribute">-multilib</span> g<span class="hljs-subst">++-</span>multilib 
+sudo apt<span class="hljs-attribute">-get</span> install libc6<span class="hljs-attribute">-dev</span><span class="hljs-attribute">-i386</span> 
+sudo apt<span class="hljs-attribute">-get</span> install lib32ncurses5<span class="hljs-attribute">-dev</span> x11proto<span class="hljs-attribute">-core</span><span class="hljs-attribute">-dev</span> libx11<span class="hljs-attribute">-dev</span> 
+sudo apt<span class="hljs-attribute">-get</span> install lib32z<span class="hljs-attribute">-dev</span> ccache
+sudo apt<span class="hljs-attribute">-get</span> install libgl1<span class="hljs-attribute">-mesa</span><span class="hljs-attribute">-dev</span> libxml2<span class="hljs-attribute">-utils</span> xsltproc unzip m4</code></pre>
+
+<p><strong>Ubuntu 16.04请务必使用上面的依赖</strong>，Ubuntu 16.04需要的依赖和Ubuntu 14.04所需要的依赖是不同的，博主照着Ubuntu 14.04的依赖结果掉进大坑，详见后面的编译过程记录.</p>
+
+
+
+<h1 id="6-安装open-jdk7">6 安装open JDK7</h1>
+
+<p><strong>从Android 6.0开始Android源码的编译需要安装OpenJDK,不能使用Oracle JDK,而且Android 6.0只能使用OpenJDK7</strong>,如下图：</p>
+
+<p><img src="http://img.blog.csdn.net/20160526101131556" alt="这里写图片描述" title=""></p>
+
+<p>由于Ubuntu 16.04没有OpenJDK7的源，因此在16.04上安装OpenJDK7需要执行下面的命令：</p>
+
+<pre class="prettyprint"><code class=" hljs lasso">sudo add<span class="hljs-attribute">-apt</span><span class="hljs-attribute">-repository</span> ppa:openjdk<span class="hljs-attribute">-r</span>/ppa 
+sudo apt<span class="hljs-attribute">-get</span> update
+sudo apt<span class="hljs-attribute">-get</span> install openjdk<span class="hljs-subst">-</span><span class="hljs-number">7</span><span class="hljs-attribute">-jdk</span> </code></pre>
+
+<p>配置OpenJDK.打开/etc/profile文件:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs bash"><span class="hljs-built_in">sudo</span> gedit /etc/profile</code></pre>
+
+<p>在末尾追加下面代码：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs bash"><span class="hljs-keyword">export</span> JAVA_HOME=/usr/lib/jvm/java-<span class="hljs-number">7</span>-openjdk-amd64
+<span class="hljs-keyword">export</span> JRE_HOME=<span class="hljs-variable">${JAVA_HOME}</span>/jre 
+<span class="hljs-keyword">export</span> CLASSPATH=.:<span class="hljs-variable">${JAVA_HOME}</span>/lib:<span class="hljs-variable">${JRE_HOME}</span>/lib 
+<span class="hljs-keyword">export</span> PATH=<span class="hljs-variable">${JAVA_HOME}</span>/bin:<span class="hljs-variable">$PATH</span></code></pre>
+
+<p>修改了/etc/profile文件需要重启才能生效，但使用下面命令可以在不重启的情况下在当前bash环境生效：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs bash"><span class="hljs-built_in">source</span> /etc/profile</code></pre>
+
+<p>检查OpenJDK配置是否正确:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs livecodeserver">java -<span class="hljs-built_in">version</span></code></pre>
+
+<p>配置正确则如下图:</p>
+
+<p><img src="http://img.blog.csdn.net/20160524105553852" alt="这里写图片描述" title=""></p>
+
+
+
+<h1 id="7-修改源码">7 修改源码</h1>
+
+<p>修改 <code>mydroid/art/build/Android.common_build.mk</code> 文件，定位到75行，将下面的代码：</p>
+
+<pre class="prettyprint"><code class=" hljs perl">ifne<span class="hljs-string">q (<span class="hljs-variable">$(</span>WITHOUT_HOST_CLANG)</span>,true)</code></pre>
+
+<p>改为：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs perl">ife<span class="hljs-string">q (<span class="hljs-variable">$(</span>WITHOUT_HOST_CLANG)</span>,false)</code></pre>
+
+<p>如果不修改这里，会遇到一个比较棘手的编译错误，修改的目的是把CLANG这个编译选项关掉，详见后面的编译记录，百度搜狗都无解，这个错误只会在Ubuntu16.04上遇到，Ubuntu14.04则不存在这个问题，解决这个编译错误花费一天时间，还好咱英语好，在歪果人的论坛上看了几篇帖子，终于搞定了。这里顺便说一下小技巧： <br>
+<strong>遇到编译错误，请把error后面的错误信息全部复制，然后用搜狗搜英文网页，不要用百度那个渣渣</strong></p>
+
+
+
+<h1 id="8-开始编译">8 开始编译</h1>
+
+<p>(1) 在 .bashrc文件末尾添加：export USE_CCACHE = 1</p>
+
+<pre class="prettyprint"><code class=" hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-keyword">export</span> USE_CCACHE=<span class="hljs-number">1</span> &gt;&gt; ~/.bashrc</code></pre>
+
+<p>(2) 为了提高编译效率，设置编译器高速缓存:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs lasso">prebuilts/misc/linux<span class="hljs-attribute">-x86</span>/ccache/ccache <span class="hljs-attribute">-M</span> <span class="hljs-number">50</span>G</code></pre>
+
+<p>(3) 接着导入编译Android源码所需的环境变量和其它参数:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs bash"><span class="hljs-built_in">source</span> build/envsetup.sh</code></pre>
+
+<p><img src="http://img.blog.csdn.net/20160526152459216" alt="这里写图片描述" title=""></p>
+
+<p>(4) 运行lunch命令选择编译目标:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs ">lunch</code></pre>
+
+<p><img src="http://img.blog.csdn.net/20160526152601399" alt="这里写图片描述" title=""></p>
+
+<p>选择1： <br>
+<img src="http://img.blog.csdn.net/20160526152700525" alt="这里写图片描述" title=""></p>
+
+<p>(5) 开始编译，执行make -j8, 8为同时编译的线程数，一般google推荐这个数字为2倍的cpu个数再加上2，比如4核，就是10。博主使用的是8:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs lasso">make <span class="hljs-attribute">-j8</span></code></pre>
+
+<p>关于cpu个数，可以用下面命令查看:</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs haskell"><span class="hljs-title">cat</span>  /<span class="hljs-keyword">proc</span>/cpuinfo</code></pre>
+
+<p>好了，开始编译了，接下来就是不断error，不断修复，继续编译的过程,下面记录我的爬坑经历</p>
+
+
+
+<h1 id="9-编译记录">9 编译记录</h1>
+
+<p>我是参照下面这篇文章开始编译的：</p>
+
+<blockquote>
+  <p><a href="http://www.linuxidc.com/Linux/2016-01/127292p2.htm">http://www.linuxidc.com/Linux/2016-01/127292p2.htm</a></p>
+</blockquote>
+
+<p>如果一帆风顺，我也就用不着写这篇博客了，然而他用的是Ubuntu14.04，我用的最新的Ubuntu16.04，按照上面这篇博文，遇到很多坑，这里记录以下爬坑经历： <br>
+(1) 依赖不同。Ubuntu 14和16的依赖选项是不同的： <br>
+<img src="http://img.blog.csdn.net/20160526111704521" alt="这里写图片描述" title=""></p>
+
+<p>于是将<code>libsdl1.2-dev</code>改为<code>libsdl-dev</code>,将<code>mingw32</code>去掉</p>
+
+<p>(2) JDK配置错误。  <br>
+先用Oracle JDK8报下面错： <br>
+<img src="http://img.blog.csdn.net/20160526111948012" alt="这里写图片描述" title=""></p>
+
+<p>改为Oracle JDK7报下面错： <br>
+<img src="http://img.blog.csdn.net/20160526111912418" alt="这里写图片描述" title=""> <br>
+后改为OpenJDK7解决问题。</p>
+
+<p>(3) 大坑。接着遇到下面错误: <br>
+<img src="http://img.blog.csdn.net/20160526114423940" alt="这里写图片描述" title=""></p>
+
+<p>仔细看错误：</p>
+
+<pre class="prettyprint"><code class=" hljs vbnet">clang: <span class="hljs-keyword">error</span>: linker command failed <span class="hljs-keyword">with</span> <span class="hljs-keyword">exit</span> code</code></pre>
+
+<p>其实这个是系统使用clang编辑器报的错，百度了一下，解决方法一般是将<code>art/build/Android.common_build.mk</code>文件<code>ifneq ($(WITHOUT_HOST_CLANG),true)</code>改为<code>ifeq ($(WITHOUT_HOST_CLANG),false)</code> <br>
+然而纸上得来终觉浅，绝知此事要躬行，因为，这并没有什么卵用，至少现在没有卵用。不信，请看下面的帖子：</p>
+
+<blockquote>
+  <p><a href="http://ask.csdn.net/questions/253318">http://ask.csdn.net/questions/253318</a></p>
+</blockquote>
+
+<p>我试了一下，也没用，还是没解决问题，好像这个是新系统的兼容问题，百度搜狗一天，没有进展，后来发现了下面这篇帖子,也是14.04编译Android6.0的：</p>
+
+<blockquote>
+  <p><a href="http://blog.csdn.net/lewif/article/details/49762993">http://blog.csdn.net/lewif/article/details/49762993</a></p>
+</blockquote>
+
+<p>抱着反正无聊试一试的想法，把上面这篇帖子中的依赖一通复制(所以最终用的依赖是两篇帖子加起来的依赖)：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs lasso">sudo apt<span class="hljs-attribute">-get</span> install git<span class="hljs-attribute">-core</span> gnupg flex bison gperf build<span class="hljs-attribute">-essential</span> <span class="hljs-subst">\</span> 
+zip curl zlib1g<span class="hljs-attribute">-dev</span> gcc<span class="hljs-attribute">-multilib</span> g<span class="hljs-subst">++-</span>multilib libc6<span class="hljs-attribute">-dev</span><span class="hljs-attribute">-i386</span> <span class="hljs-subst">\</span> 
+lib32ncurses5<span class="hljs-attribute">-dev</span> x11proto<span class="hljs-attribute">-core</span><span class="hljs-attribute">-dev</span> libx11<span class="hljs-attribute">-dev</span> lib32z<span class="hljs-attribute">-dev</span> ccache <span class="hljs-subst">\</span> 
+libgl1<span class="hljs-attribute">-mesa</span><span class="hljs-attribute">-dev</span> libxml2<span class="hljs-attribute">-utils</span> xsltproc unzip m4</code></pre>
+
+<p>然后<code>make clean</code>，重新再来，接着就睡觉去了。 <br>
+一觉醒来，然后……..你以为我就编粗来了？呵呵，这个错误是终于编过去了，可是又遇到下面的错误： <br>
+<img src="http://img.blog.csdn.net/20160526150709897" alt="这里写图片描述" title=""></p>
+
+<p>解决这个错误，又花费一番力气，在歪果人的论坛上看到下面这篇帖子：</p>
+
+<blockquote>
+  <p><a href="http://forum.xda-developers.com/chef-central/android/guide-how-to-setup-ubuntu-16-04-lts-t3363669/page2">http://forum.xda-developers.com/chef-central/android/guide-how-to-setup-ubuntu-16-04-lts-t3363669/page2</a></p>
+</blockquote>
+
+<p>注意看这个帖子的15楼，哈哈，这个时候找到解决方法了,再修改<code>art / build/Android.common_build.mk</code>文件</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs perl"> ifne<span class="hljs-string">q (<span class="hljs-variable">$(</span>WITHOUT_HOST_CLANG)</span>,true)</code></pre>
+
+<p>改为：</p>
+
+
+
+<pre class="prettyprint"><code class=" hljs perl">ife<span class="hljs-string">q (<span class="hljs-variable">$(</span>WITHOUT_HOST_CLANG)</span>,false)</code></pre>
+
+<p>重新编译，解决问题。</p>
+
+<p>(4) 中文路径，坑。 <br>
+<img src="http://img.blog.csdn.net/20160526120713686" alt="这里写图片描述" title=""></p>
+
+<p>遇到这个问题也是很难百度到，哎，最后把源码换到了全英文的路径下面，解决这个问题。注意移动源码的时候不要直接复制mydroid文件夹，一个小时都复制不完，所以正确的方法是复制压缩包，然后再解压一遍。 <br>
+接下来就编译成功了。</p>
+
+
+
+<h1 id="10-编译成功">10 编译成功</h1>
+
+<p>编译成功后如下图： <br>
+<img src="http://img.blog.csdn.net/20160616130459926" alt="这里写图片描述" title=""></p>
+
+<p>进入mydroid/out/target/product/generic目录，可以看到编译好的文件： <br>
+<img src="http://img.blog.csdn.net/20160526151942642" alt="这里写图片描述" title=""></p>
+
+<p>启动模拟器：</p>
+
+<pre class="prettyprint"><code class=" hljs ">emulator</code></pre>
+
+<p>稍等一会，就可以出现开头的模拟器画面了，哈哈，打完收工。</p>
+
+<h1 id="11-附录ubuntu-1604编译rom英文教程">11 附录：Ubuntu 16.04编译ROM英文教程</h1>
+
+<p>最后，附上在看帖子的时候发现的，在Ubuntu16.04上编译AOSP、CyanogenMod的教程，当然是英文的啦：</p>
+
+<blockquote>
+  <p><a href="http://forum.xda-developers.com/chef-central/android/guide-how-to-setup-ubuntu-16-04-lts-t3363669">http://forum.xda-developers.com/chef-central/android/guide-how-to-setup-ubuntu-16-04-lts-t3363669</a></p>
+</blockquote>
+
+<h1 id="12-总结">12 总结</h1>
+
+<p>Android系统源码的编译就是不断和各种error做斗争的过程，考验程序员获取信息的能力，遇到error的时候只能各种百度搜狗，但这也是非常锻炼能力的过程，博主在编译过程中最大的体会就是：英语一定要好，哈哈。如果你成功编译出来了，或者编译遇到问题，欢迎给我留言。</p>
+
+<h1 id="13-转载请注明来自梧桐那时雨的博客httpblogcsdnnetfuchaoszarticledetails51487585">13 转载请注明来自”梧桐那时雨”的博客:<a href="http://blog.csdn.net/fuchaosz/article/details/51487585">http://blog.csdn.net/fuchaosz/article/details/51487585</a></h1>
+
+<blockquote>
+  <p>Tips <br>
+  如果觉得这篇博客对你有帮助或者喜欢博主的写作风格，就给博主留个言或者顶一下呗，鼓励博主创作出更多优质博客，Thank you.</p>
+</blockquote></div>
+        <script  type="text/javascript">
+            $(function () {
+                $('pre.prettyprint code').each(function () {
+                    var lines = $(this).text().split('\n').length;
+                    var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                    $(this).addClass('has-numbering').parent().append($numbering);
+                    for (i = 1; i <= lines; i++) {
+                        $numbering.append($('<li/>').text(i));
+                    };
+                    $numbering.fadeIn(1700);
+                });
+            });
+        </script>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   
+
+<!--172.16.140.13-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+
+
+ 
+
+
+        <div id="digg" ArticleId="51487585" >
+            <dl id="btnDigg" class="digg digg_disable"  onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>20</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable"  onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>               
+            </dl>
+            
+        </div>
+     <div class="tracking-ad" data-mod="popu_222"><a href="javascript:void(0);" >&nbsp;</a>   </div>
+    <div class="tracking-ad" data-mod="popu_223"> <a href="javascript:void(0);" >&nbsp;</a></div>
+    <script type="text/javascript">
+        function btndigga() {
+            $(".tracking-ad[data-mod='popu_222'] a").click();
+        }
+        function btnburya() {
+            $(".tracking-ad[data-mod='popu_223'] a").click();
+        }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/fuchaosz/article/details/51483528';">上一篇</span><a href="http://blog.csdn.net/fuchaosz/article/details/51483528" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">Error:Execution failed for task compileReleaseRenderscript llvm-rs-cc is missing 解决方法</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/fuchaosz/article/details/51513288';">下一篇</span><a href="http://blog.csdn.net/fuchaosz/article/details/51513288" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">SlidingMenu addIgnoreView() 无效的bug解决方法</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+            <div class="similar_article"   >
+                    <h4></h4>
+                    <div class="similar_c"style="margin:20px 0px 0px 0px">
+                        <div class="similar_c_t">
+                          &nbsp;&nbsp;相关文章推荐
+                        </div>
+                   
+                        <div class="similar_wrap tracking-ad" data-mod="popu_36" >                       
+                            <ul class="similar_list fl">    
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/ubuntulover/article/details/18007835" title="linux下查看进程内存使用情况" strategy="BlogCommendFromBaidu" target="_blank">linux下查看进程内存使用情况</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/u010555688/article/details/51984617" title="Ubuntu 查看CPU/GPU内存使用情况" strategy="BlogCommendFromBaidu" target="_blank">Ubuntu 查看CPU/GPU内存使用情况</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/Luoshengyang/article/details/6559955" title="在Ubuntu上下载、编译和安装Android最新源代码" strategy="BlogCommendFromBaidu" target="_blank">在Ubuntu上下载、编译和安装Android最新源代码</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/zqixiao_09/article/details/51417432" title="Linux 下挂载新硬盘方法" strategy="BlogCommendFromBaidu" target="_blank">Linux 下挂载新硬盘方法</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/tianlesoftware/article/details/5642883" title="Linux 下挂载硬盘的 方法" strategy="BlogCommendFromBaidu" target="_blank">Linux 下挂载硬盘的 方法</a>
+                                   </li>
+                            </ul>
+                              <ul class="similar_list fr">      
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/tianlesoftware/article/details/6194358" title="Linux fstab 参数详解" strategy="BlogCommendFromBaidu" target="_blank">Linux fstab 参数详解</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/xuplus/article/details/51668878" title="linux挂载新磁盘、分区和开机自动挂载" strategy="BlogCommendFromBaidu" target="_blank">linux挂载新磁盘、分区和开机自动挂载</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/MonMama/article/details/53174653" title="Linux 下挂载新硬盘" strategy="BlogCommendFromBaidu" target="_blank">Linux 下挂载新硬盘</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/secsky/article/details/41051513" title="linux系统挂载硬盘的方法实例详解" strategy="BlogCommendFromBaidu" target="_blank">linux系统挂载硬盘的方法实例详解</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/leo115/article/details/7697886" title="Linux下给挂载U盘或者SD卡" strategy="BlogCommendFromBaidu" target="_blank">Linux下给挂载U盘或者SD卡</a>
+                                   </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>   
+      
+</div>
+
+     <div>
+           
+
+       
+                           
+            <!-- 广告位：PC端-博客内容页-banner1-960*90 --> 
+            <script> 
+                (function() { 
+                    var s = "_" + Math.random().toString(36).slice(2); 
+                    document.write('<div id="' + s + '"></div>'); 
+                    (window.slotbydup=window.slotbydup || []).push({ 
+                        id: '4228013', 
+                        container: s, 
+                        size: '0,0', 
+                        display: 'inlay-fix' 
+                    }); 
+                })(); 
+            </script>
+    </div>
+
+<div id="suggest"></div>
+         <script  language="javascript" type='text/javascript'>     
+             $(function(){
+                 $.get("/fuchaosz/svc/GetSuggestContent/51487585",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+        <dl class="blog-ass-articl tracking-ad" id="res-relatived" data-mod="popu_84"  > 
+             <dt><span>猜你在找</span></dt>    
+           
+    
+           
+
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/course/detail/5084?utm_source=blog7" title="【直播】机器学习&amp;深度学习系统实战（唐宇迪）" strategy="undefined" target="_blank">【直播】机器学习&amp;深度学习系统实战（唐宇迪）</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/course/detail/5219?utm_source=blog7" title="【直播】Kaggle 神器：XGBoost 从基础到实战（冒教授）" strategy="undefined" target="_blank">【直播】Kaggle 神器：XGBoost 从基础到实战（冒教授）</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/course/detail/5222?utm_source=blog7" title="【直播回放】深度学习基础与TensorFlow实践（王琛）" strategy="undefined" target="_blank">【直播回放】深度学习基础与TensorFlow实践（王琛）</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/huiyiCourse/series_detail/52?utm_source=blog7" title="【直播】计算机视觉原理及实战（屈教授）" strategy="undefined" target="_blank">【直播】计算机视觉原理及实战（屈教授）</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/huiyiCourse/series_detail/48?utm_source=blog7" title="【直播】机器学习之凸优化（马博士）" strategy="undefined" target="_blank">【直播】机器学习之凸优化（马博士）</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/huiyiCourse/series_detail/47?utm_source=blog7" title="【直播】机器学习之矩阵（黄博士）" strategy="undefined" target="_blank">【直播】机器学习之矩阵（黄博士）</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/huiyiCourse/series_detail/46?utm_source=blog7" title="【直播】机器学习之概率与统计推断（冒教授）" strategy="undefined" target="_blank">【直播】机器学习之概率与统计推断（冒教授）</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/huiyiCourse/series_detail/49?utm_source=blog7" title="【直播】机器学习之数学基础" strategy="undefined" target="_blank">【直播】机器学习之数学基础</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/huiyiCourse/series_detail/44?utm_source=blog7" title="【直播】TensorFlow实战进阶（智亮）" strategy="undefined" target="_blank">【直播】TensorFlow实战进阶（智亮）</a>
+                        </dd>
+                        <dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;">
+                             <a href="http://edu.csdn.net/huiyiCourse/series_detail/45?utm_source=blog7" title="【直播】深度学习30天系统实训（唐宇迪）" strategy="undefined" target="_blank">【直播】深度学习30天系统实训（唐宇迪）</a>
+                        </dd>
+
+                  
+              
+                 
+        </dl>
+
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list">
+    </div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form">
+    </div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '51487585';
+    var commentscount = 56;
+    var islock = false
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='[Android 编译(一)] Ubuntu 16.04 LTS 成功编译 Android 6.0 源码教程';
+
+</script>
+
+
+
+
+
+
+
+
+
+
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+               
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/fuchaosz" target="_blank">
+    <img src="http://avatar.csdn.net/1/D/2/1_fuchaosz.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/fuchaosz" class="user_name" target="_blank">fuchaosz</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter"  title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=fuchaosz','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                <div id="bms_box">
+                                            <a  target="_blank">
+                                                    <img src="http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/chizhiyiheng.png" onmouseover="m_over_m(this,4)" onmouseout="m_out_m()" alt="1" >
+                                            </a>
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>225699次</span></li>
+    <li>积分：<span>2080</span> </li>    
+    <li >等级： <span style="position:relative;display:inline-block;z-index:1" >
+            <img src="http://c.csdnimg.cn/jifen/images/xunzhang/jianzhang/blog5.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：2080 </div>
+        </span>  </li>
+    <li>排名：<span>第18004名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>33篇</span></li>
+    <li>转载：<span>0篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>216条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body" class="form_search">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search csdn-tracking-statistics" target="_blank"  data-mod="popu_306">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字" /></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog" />
+        <input type="hidden" name="q" id="inputQ" />
+        <input type="hidden" name="t" value="blog" />
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            window.location.href = url;
+        }   
+    });
+</script><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="/fuchaosz/article/category/5195511" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">android</a><span>(23)</span>
+                </li>
+                 <li>
+                    <a href="/fuchaosz/article/category/6166221" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">插件化</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/fuchaosz/article/category/6182138" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">studio</a><span>(5)</span>
+                </li>
+                 <li>
+                    <a href="/fuchaosz/article/category/6183530" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">gradle</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/fuchaosz/article/category/6216965" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">正则表达式</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/fuchaosz/article/category/6221459" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">足迹</a><span>(0)</span>
+                </li>
+                 <li>
+                    <a href="/fuchaosz/article/category/6228129" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">bug记录</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="/fuchaosz/article/category/6246798" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">系统源码</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/fuchaosz/article/category/6264067" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">技术随笔</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/fuchaosz/article/category/6282023" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">git</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="/fuchaosz/article/category/6309735" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">ubuntu</a><span>(5)</span>
+                </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="/fuchaosz/article/month/2016/11">2016年11月</a><span>(1)</span></li><li><a href="/fuchaosz/article/month/2016/09">2016年09月</a><span>(1)</span></li><li><a href="/fuchaosz/article/month/2016/08">2016年08月</a><span>(2)</span></li><li><a href="/fuchaosz/article/month/2016/07">2016年07月</a><span>(6)</span></li><li><a href="/fuchaosz/article/month/2016/06">2016年06月</a><span>(6)</span></li><li><a href="/fuchaosz/article/month/2016/05">2016年05月</a><span>(7)</span></li><li><a href="/fuchaosz/article/month/2016/04">2016年04月</a><span>(8)</span></li><li><a href="/fuchaosz/article/month/2015/12">2015年12月</a><span>(1)</span></li><li><a href="/fuchaosz/article/month/2015/06">2015年06月</a><span>(1)</span></li>
+</div>
+</ul>
+</div>
+<div id="hotarticls" class="panel tracking-ad" data-mod="popu_340">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/fuchaosz/article/details/51919607" title="Ubuntu 16.04 安装QQ解决方案">Ubuntu 16.04 安装QQ解决方案</a><span>(28931)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51567808" title="[Android Studio系列(五)] Android Studio手动配置Gradle的方法">[Android Studio系列(五)] Android Studio手动配置Gradle的方法</a><span>(25251)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51487585" title="[Android 编译(一)] Ubuntu 16.04 LTS 成功编译 Android 6.0 源码教程">[Android 编译(一)] Ubuntu 16.04 LTS 成功编译 Android 6.0 源码教程</a><span>(25177)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51882935" title="Ubuntu 16.04 一系列软件安装命令，包括QQ、搜狗、Chrome、vlc、网易云音乐安装方法">Ubuntu 16.04 一系列软件安装命令，包括QQ、搜狗、Chrome、vlc、网易云音乐安装方法</a><span>(17936)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/52170105" title="[Git高级教程(二)] 远程仓库版本回退方法">[Git高级教程(二)] 远程仓库版本回退方法</a><span>(17092)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51146091" title="[Android Studio系列(三)]Android Studio 编译、同步慢的解决方法">[Android Studio系列(三)]Android Studio 编译、同步慢的解决方法</a><span>(15677)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51886878" title="Ubuntu 16.04 安装后黑屏，没有声音的解决方法">Ubuntu 16.04 安装后黑屏，没有声音的解决方法</a><span>(9543)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/52473660" title="[Android编译(二)] 从谷歌官网下载android 6.0源码、编译并刷入nexus 6p手机">[Android编译(二)] 从谷歌官网下载android 6.0源码、编译并刷入nexus 6p手机</a><span>(8917)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51852442" title="Android 静默安装和智能安装的实现方法">Android 静默安装和智能安装的实现方法</a><span>(7320)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51076721" title="Android bat批处理自动执行adb shell命令">Android bat批处理自动执行adb shell命令</a><span>(6775)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel tracking-ad" data-mod="popu_341">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="/fuchaosz/article/details/51487585" title="[Android 编译(一)] Ubuntu 16.04 LTS 成功编译 Android 6.0 源码教程">[Android 编译(一)] Ubuntu 16.04 LTS 成功编译 Android 6.0 源码教程</a><span>(56)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51058058" title="[Android 插件化(二)] DroidPlugin 用法">[Android 插件化(二)] DroidPlugin 用法</a><span>(43)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51919607" title="Ubuntu 16.04 安装QQ解决方案">Ubuntu 16.04 安装QQ解决方案</a><span>(17)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51980627" title="Ubuntu 16.04 /home 目录迁移到独立分区的方法">Ubuntu 16.04 /home 目录迁移到独立分区的方法</a><span>(14)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/52170105" title="[Git高级教程(二)] 远程仓库版本回退方法">[Git高级教程(二)] 远程仓库版本回退方法</a><span>(14)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51146091" title="[Android Studio系列(三)]Android Studio 编译、同步慢的解决方法">[Android Studio系列(三)]Android Studio 编译、同步慢的解决方法</a><span>(13)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51567808" title="[Android Studio系列(五)] Android Studio手动配置Gradle的方法">[Android Studio系列(五)] Android Studio手动配置Gradle的方法</a><span>(12)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51882935" title="Ubuntu 16.04 一系列软件安装命令，包括QQ、搜狗、Chrome、vlc、网易云音乐安装方法">Ubuntu 16.04 一系列软件安装命令，包括QQ、搜狗、Chrome、vlc、网易云音乐安装方法</a><span>(10)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51056947" title="[Android 插件化(一)] DynamicLoadApk的用法">[Android 插件化(一)] DynamicLoadApk的用法</a><span>(7)</span>
+</li>
+<li>
+<a href="/fuchaosz/article/details/51852442" title="Android 静默安装和智能安装的实现方法">Android 静默安装和智能安装的实现方法</a><span>(6)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend">
+<ul>
+<li><a href="http://blog.csdn.net/blogdevteam/article/details/76092129" target="_blank">* CSDN日报20170725——《新的开始，从研究生到入职亚马逊》</a></li>
+<li><a href="http://blog.csdn.net/javazejian/article/details/75043422" 
+target="_blank">* 深入剖析基于并发AQS的重入锁(ReetrantLock)及其Condition实现原理</a></li>
+<li><a href="http://blog.csdn.net/jiangwei0910410003/article/details/75512732"target="_blank">* Android版本的"Wannacry"文件加密病毒样本分析(附带锁机)</a></li>
+<li><a href="http://blog.csdn.net/mindfloating/article/details/75948781" 
+target="_blank">* 工作与生活真的可以平衡吗？</a></li>
+<li><a href="http://blog.csdn.net/poem_qianmo/article/details/75943714" 
+target="_blank">* 《Real-Time Rendering 3rd》 提炼总结——高级着色：BRDF及相关技术</a></li>
+<li><a href="http://blog.csdn.net/dog250/article/details/75735806" 
+target="_blank">* 《三体》读后思考-泰勒展开/维度打击/黑暗森林</a></li>
+
+</ul></ul>
+</div>
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="/fuchaosz/article/details/52170105#comments">[Git高级教程(二)] 远程仓库版本回退方法</a>
+    <p style="margin:0px;"><a href="/zhdnuli" class="user_name">zhdnuli</a>:
+牛牛，给力
+    </p>
+    </li>
+    <li>
+   
+         <a href="/fuchaosz/article/details/51058058#comments">[Android 插件化(二)] DroidPlugin 用法</a>
+    <p style="margin:0px;"><a href="/yongge1991" class="user_name">yongge1991</a>:
+有部分读者说plugin需要先安装才能调用，可以看看是不是没有在主项目依赖DroidPlugin的P...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/fuchaosz/article/details/51487585#comments">[Android 编译(一)] Ubuntu 16.04 LTS 成功编译 Android 6.0 源码教程</a>
+    <p style="margin:0px;"><a href="/wddptwd28" class="user_name">wddptwd28</a>:
+我用virtualbox + ubuntu16.04 编译，老是蓝屏死机。
+    </p>
+    </li>
+    <li>
+   
+         <a href="/fuchaosz/article/details/51487585#comments">[Android 编译(一)] Ubuntu 16.04 LTS 成功编译 Android 6.0 源码教程</a>
+    <p style="margin:0px;"><a href="/ningbo2014" class="user_name">ningbo2014</a>:
+@sinat_33276493:jack 什么错？求教怎么解决的？我也遇到了jack的错误。求解。。...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/fuchaosz/article/details/51487585#comments">[Git高级教程(二)] 远程仓库版本回退方法</a>
+    <p style="margin:0px;"><a href="/orange0111" class="user_name">orange0111</a>:
+那个  强制推送到远程的命令 git push -f 不好使啊，依然提交不上去啊提示这一个：yaol...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/fuchaosz/article/details/51487585#comments">[Git高级教程(二)] 远程仓库版本回退方法</a>
+    <p style="margin:0px;"><a href="/orange0111" class="user_name">orange0111</a>:
+强制回退版本 git push -f 不好使啊？？？我是用的将远程分支删除，然后再把本地 reset...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/fuchaosz/article/details/51698896#comments">[Git高级教程 (一)] 通过Tag标签回退版本修复bug</a>
+    <p style="margin:0px;"><a href="/zyzhehe" class="user_name">zyzhehe</a>:
+写得很好很详细，赞赞赞
+    </p>
+    </li>
+    <li>
+   
+         <a href="/fuchaosz/article/details/51698896#comments">[Android 编译(一)] Ubuntu 16.04 LTS 成功编译 Android 6.0 源码教程</a>
+    <p style="margin:0px;"><a href="/kanxian5456" class="user_name">kanxian5456</a>:
+成功了就在昨晚
+    </p>
+    </li>
+    <li>
+   
+         <a href="/fuchaosz/article/details/51220765#comments">Idea 使用 Gradle 插件创建 Java 项目</a>
+    <p style="margin:0px;"><a href="/u014219719" class="user_name">u014219719</a>:
+博主这篇可以转载到个人博客吗？会标注出处的
+    </p>
+    </li>
+    <li>
+   
+         <a href="/fuchaosz/article/details/51146091#comments">[Android Studio系列(三)]Android Studio 编译、同步慢的解决方法</a>
+    <p style="margin:0px;"><a href="/ZY15521325541" class="user_name">ZY15521325541</a>:
+很抱歉，有个疑问想请教一下，下载aar或jar文件是否已经解决了SQUARE全家桶内嵌包的问题
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+
+                 <!-- 广告位开始 --> 
+                <!-- 广告位结束 -->
+                   <div class="tracking-ad" data-view="true" data-mod="ad_popu_189" data-mtp="63" data-order="40" data-con="ad_content_1259" style="width: 250px; height: 500px;">
+                        <div id="nav_show_top_stop" style="width: 250px;height: 500px;z-index:1000"><div id="cpro_u2734133"></div><div id="cpro_u3031286"></div></div>
+                   </div>
+                    <script>
+
+                        setTimeout(function () {
+                            var naviga_offsetTop = 0; function naviga_stay_top() {
+                                var scrollTop = jQuery(document).scrollTop();
+                                if (scrollTop > naviga_offsetTop) {
+                                    jQuery("#nav_show_top_stop").css({ "position": "fixed" });
+                                    jQuery("#nav_show_top_stop").css({ "top": "0px" });
+                                } else { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop - scrollTop + "px" }); }
+                            }
+                            function onload_function() {
+                                naviga_offsetTop = jQuery("#nav_show_top_stop").position().top;
+                                jQuery(window).bind("scroll", naviga_stay_top); jQuery(window).bind("mousewheel", naviga_stay_top);
+                                jQuery(document).bind("scroll", naviga_stay_top); jQuery(document).bind("mousewheel", naviga_stay_top);
+                            } jQuery(document).ready(onload_function);
+                        }, 200);
+
+                    </script>
+                   <script type="text/javascript">
+                       /*PC端-博客内容页左侧Button-250*250，创建于2016-08-15*/
+                       (window.cproArray = window.cproArray || []).push({ id: "u2734133" });
+</script>
+<script type="text/javascript" src="http://cpro.baidustatic.com/cpro/ui/c.js"></script>
+<script type="text/javascript">
+    (window.cproArray = window.cproArray || []).push({ id: "u3031286" });
+</script>
+<script type="text/javascript" src="http://cpro.baidustatic.com/cpro/ui/c.js"></script>
+
+           </div>   
+
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+    <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div>
+      <!--new top-->
+    
+
+     
+
+   
+   
+     <!--new top-->
+   
+   
+
+    
+    
+    
+   
+
+   
+
+
+       <script type="text/javascript" src="http://static.blog.csdn.net/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>
+          <script type="text/javascript">
+              //$(function () {
+              //    setTimeout(function () {
+              //        var searchtitletags = articletitle + ',' + $("#tags").html();
+              //        searchService({
+              //            index: 'blog',
+              //            query: searchtitletags,
+              //            from: 5,
+              //            size: 5,
+              //            appendTo: '#res',
+              //            url: 'recommend',
+              //            his: 2,
+              //            client: "blog_cf_enhance",
+              //            tmpl: '<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="#{ url }" title="#{ title }" strategy="#{ strategy }">#{ title }</a></dd>'
+              //        });
+              //    }, 1000);
+              //});
+
+         </script>
+    
+    <script src="http://static.blog.csdn.net/scripts/csdn_blog_detail.min.js" type="text/javascript"></script>
+        
+    <script type="text/javascript" src="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.js?20170719001"></script>
+
+    <script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=5000017"></script>
+
+     
+    
+
+
+  <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+                    <script id="adJs52b5334"></script>
+                    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+   </div>
+
+    
+    
+        
+     
+
+    
+          
+    <div class="pop_CA_cover"  style="display:none"></div>
+    <div class="pop pop_CA"  style="display:none">
+          <div class="CA_header">
+            收藏助手
+            <span class="cancel_icon"  id="fapancle"  onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+          </div>
+          <iframe src="" id="fa" frameborder="0" width="100%" height="360"  scrolling="no" ></iframe>
+    </div>
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function () {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function () {
+                $(".toc a[target='_blank']").attr("target", "");
+            }, 500);
+
+        </script>
+    
+</body>
+</html>   

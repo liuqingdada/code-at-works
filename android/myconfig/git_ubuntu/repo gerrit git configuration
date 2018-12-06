@@ -1,0 +1,78 @@
+第一步：
+114.215.18.82:8090
+Andy给我们注册好用户，登陆进去； 填写自己的全名， 创建邮箱；
+
+第二步：
+我们会收到一封邮件，点击链接进去，设置ssh key
+
+第三步：
+生成ssh key
+只需要copy进去public key
+
+提示：
+Windows下在gitbash中
+生成key用如下方式, 不要加任何参数，提示输入文件名也不要改， 一路回车即可
+ssh-keygen
+
+第四步：
+用户目录下：/home/liuqing
+新建.gitconfig文件输入以下内容
+[User]
+	email = yanglq@mstarc.com
+	name = suhen
+[color]
+	ui = auto
+	diff = auto
+[core]
+	editor = vim
+注意tab缩进， 用户名（Andy给的用户名）邮箱（114.215.18.82:8090自己注册的邮箱）改成自己的
+
+第五步：
+/home/liuqing/.ssh
+这个目录下的 config文件替换成以下内容， 注意是全部替换
+
+Host 114.215.18.82
+ KexAlgorithms +diffie-hellman-group1-sha1
+Port 29418
+User suhen
+
+注意第二行有一个空格
+User改成Andy给注册的用户名
+
+第六步：
+新建空文件夹， gitbash下切换到新建的文件夹下。
+输入：
+ssh 114.215.18.82
+出现欢迎界面
+
+第七步：
+git init
+
+
+git clone ssh://suhen@114.215.18.82:29418/alps/buildscript -b android_watch_master                  （把suhen改成Andy给注册的用户名）
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

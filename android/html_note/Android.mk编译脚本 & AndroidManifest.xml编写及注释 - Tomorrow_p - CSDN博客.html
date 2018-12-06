@@ -1,0 +1,1512 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    
+<head>          
+            <link rel="canonical" href="http://blog.csdn.net/qq_25804863/article/details/48669003"/> 
+
+   
+
+  
+ <meta http-equiv="Cache-Control" content="no-siteapp" /><link rel="alternate" media="handheld" href="#" />
+
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848"> 
+       
+    <title>Android.mk编译脚本 &amp; AndroidManifest.xml编写及注释 - Tomorrow_p
+        - CSDN博客</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Android.mk# 每个Android.mk文件必须以定义LOCAL_PATH为开始。它用于在开发tree中查找源文件。  # my-dir 则由Build System提供。返回包含Android.mk的目录路径。固定写法  LOCAL_PATH := $(call my-dir)  # CLEAR_VARS 变量由Build System提供。并指向一个指定的GNU Makef" />
+
+    <meta name="keywords" content="android,android.mk,编译文件mk" />
+
+   
+    <script src="http://static.blog.csdn.net/scripts/blog_static_head.min.js" type="text/javascript"></script>
+
+    
+        <!--new top-->
+       
+       
+        <!--new top-->
+    
+      <!-- ad begin -->
+         
+    <!-- ad end-->
+
+    <link rel="Stylesheet" type="text/css" href="http://static.blog.csdn.net/skin/dark1/css/style.css?v=1.1" />
+
+    
+
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="/qq_25804863/rss/list" />
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico" />
+    <link type="text/css" rel="stylesheet" href="http://static.blog.csdn.net/scripts/SyntaxHighlighter/styles/default.css" />
+ 
+
+
+
+    <link href="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.css" type="text/css" rel="stylesheet" />
+     
+         <link rel="stylesheet" href="http://static.blog.csdn.net/css/csdn_blog_detail.min.css" />
+
+  
+
+
+    <!-- 请置于所有广告位代码之前 --> 
+            <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+</head>
+
+
+<body>  
+     
+        <div class="tracking-ad" data-view="true" data-mod="ad_popu_72"  data-mtp="62" data-order="40" data-con="ad_content_2072" >
+                     <script id="popuLayer_js_q" src="http://ads.csdn.net/js/popuLayer.js" defer="defer"  type="text/javascript"></script>
+                <div id="layerd" style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000">
+    	                <div class="J_close layer_close" style="display:;background-color:#efefef;padding:0px;color:#333;font:12px/24px Helvetica,Tahoma,Arial,sans-serif;text-align:right;">关闭</div><!-- 广告占位容器 -->
+                    <div id="cpro_u2895327">
+                        <!-- 投放代码 -->
+                        <script src="http://dup.baidustatic.com/js/ds.js"></script>
+                       <!-- 广告位：PC端-博客详情页右侧弹窗-300*250 -->
+                            <script>
+                                (function () {
+                                    var s = "_" + Math.random().toString(36).slice(2);
+                                    document.write('<div id="' + s + '"></div>');
+                                    (window.slotbydup = window.slotbydup || []).push({
+                                        id: '4740870',
+                                        container: s,
+                                        size: '300,250',
+                                        display: 'inlay-fix'
+                                    });
+                                })();
+                            </script>
+                    </div></div>
+                <script>  document.getElementById("popuLayer_js_q").onload = function () {
+      var styObjd = styObj = { width: "300px", "height": parseInt(250) + 28 };
+      window.CSDN.Layer.PopuLayer("#layerd", { storageName: "layerd", styleObj: styObjd, total: 50, expoire: 1000 * 60 });
+  }</script>
+            
+     
+        </div>
+
+    <!-- 广告位开始 -->
+        
+    <!-- 广告位结束 -->
+
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="http://c.csdnimg.cn/public/common/toolbar/js/html.js" type="text/javascript"></script>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/qq_25804863">Tomorrow_p</a></h2>
+            <h3>YOU JUST LOOK VERY HARD.</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+     
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>           
+                <li id="btnContents"><a href="http://blog.csdn.net/qq_25804863?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="http://static.blog.csdn.net/images/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/qq_25804863?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="http://static.blog.csdn.net/images/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/qq_25804863/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="http://static.blog.csdn.net/images/ico_rss.gif">订阅</span></a></li>                
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "qq_25804863";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/qq_25804863";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod='popu_3' > 
+
+
+<a href="http://blog.csdn.net/epubit17/article/details/78038722">
+<font color=red><strong>异步赠书：9月重磅新书升级，本本经典</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/78105371">
+<font color=blue><strong></strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+<a href="http://blog.csdn.net/turingbooks/article/details/78017356">
+<font color=blue><strong>程序员9月书讯</strong></font></a>
+
+&nbsp;&nbsp;&nbsp;&nbsp
+
+
+<a href="http://blog.csdn.net/broadview2006/article/details/78018836">
+<font color=red><strong>每周荐书：ES6、虚拟现实、物联网（评论送书）</strong></font></a>
+
+
+
+</div>                        </div>
+
+                        
+
+
+
+  
+
+
+
+
+
+
+<script   type="text/javascript" src="http://static.blog.csdn.net/scripts/category.js"></script>
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+      var isBole = false; 
+      var fasrc="http://my.csdn.net/my/favorite/miniadd?t=Android.mk%e7%bc%96%e8%af%91%e8%84%9a%e6%9c%ac+%26+AndroidManifest.xml%e7%bc%96%e5%86%99%e5%8f%8a%e6%b3%a8%e9%87%8a&u=http://blog.csdn.net/qq_25804863/article/details/48669003"
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+    <h1>
+        <span class="link_title"><a href="/qq_25804863/article/details/48669003">
+        Android.mk编译脚本 &amp; AndroidManifest.xml编写及注释        
+           
+        </a>
+        </span>
+
+         
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_l">
+            <span class="link_categories">
+            标签：
+              <a href='http://www.csdn.net/tag/android' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">android</a><a href='http://www.csdn.net/tag/android.mk' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">android.mk</a><a href='http://www.csdn.net/tag/%e7%bc%96%e8%af%91%e6%96%87%e4%bb%b6mk' target=_blank onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">编译文件mk</a>
+            </span>
+        </div>
+        <div class="article_r">
+            <span class="link_postdate">2015-09-23 01:34</span>
+            <span class="link_view" title="阅读次数">5706人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(5)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle('Android.mk%e7%bc%96%e8%af%91%e8%84%9a%e6%9c%ac+%26+AndroidManifest.xml%e7%bc%96%e5%86%99%e5%8f%8a%e6%b3%a8%e9%87%8a','48669003');return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="#report" onclick="javascript:report(48669003,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script  type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="http://static.blog.csdn.net/images/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label  onclick="GetCategoryArticles('5826285','qq_25804863','top','48669003');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">******** Android<em>（80）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/qq_25804863/article/category/5826285"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_5826285">                            
+                            </ul>
+                        </div>
+                    </label>                    
+                    <label  onclick="GetCategoryArticles('6047312','qq_25804863','top','48669003');">
+                        <span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">------ Framework<em>（27）</em></span>
+                      <img class="arrow-down" src="http://static.blog.csdn.net/images/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="http://static.blog.csdn.net/images/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a  href="http://blog.csdn.net/qq_25804863/article/category/6047312"  target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_6047312">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+        <div   class="bog_copyright">         
+            <p  class="copyright_p" >版权声明：TO FLEE IS LIFE,TO LINGER,DEATH.</p>
+        </div>
+
+  
+
+  
+  
+     
+
+
+<div id="article_content" class="article_content tracking-ad" data-mod=popu_307  data-dsm = "post" >
+
+<h2 id="androidmk" style="padding-bottom:0.3em; border-bottom:1px solid rgb(238,238,238); margin-bottom:16px; line-height:1.25; widows:1; margin-top:0px!important">
+<span style=""><span style="color:rgb(102,102,102)"><span style="font-size:18px">Android.mk</span></span></span></h2>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px"><span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 每个Android.mk文件必须以定义LOCAL_PATH为开始。它用于在开发tree中查找源文件。  </span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># my-dir 则由Build System提供。返回包含Android.mk的目录路径。固定写法  </span>
+<span class="hljs-constant" style="">LOCAL_PATH</span> := <span class="hljs-variable" style="color:teal">$(</span>call my-dir)  
+
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># CLEAR_VARS 变量由Build System提供。并指向一个指定的GNU Makefile，负责清理多余的LOCAL_xxx.  </span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 这个清理动作是必须的，因为所有的编译控制文件由同一个GNU Make解析和执行，其变量是全局的  </span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 所以清理后才能避免相互影响 比如LOCAL_MODULE, LOCAL_SRC_FILES, LOCAL_STATIC_LIBRARIES  </span>
+<span class="hljs-keyword" style="font-weight:700">include</span> <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">CLEAR_VARS</span>)  
+
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 定义引用的jar包：名字自定义，后面会针对名字进行路径说明  </span>
+<span class="hljs-constant" style="">LOCAL_STATIC_JAVA_LIBRARIES</span> := supportinternal supportannotions  
+
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 定义引用的aar包：名字自定义，后面会针对名字进行路径说明  </span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># aar包内如果有jar包，需要导出引用比如V4包有jar包  </span>
+<span class="hljs-constant" style="">LOCAL_STATIC_JAVA_AAR_LIBRARIES</span> := support4  
+
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 定义src文件路径  </span>
+<span class="hljs-constant" style="">LOCAL_SRC_FILES</span> := <span class="hljs-variable" style="color:teal">$(</span>call all-subdir-<span class="hljs-constant" style="">Java</span>-files) <span class="hljs-variable" style="color:teal">$(</span>call all-java-files-under, src) <span class="hljs-variable" style="color:teal">$(</span>call all-renderscript-files-under, src)  
+
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 定义res文件路径  </span>
+<span class="hljs-constant" style="">LOCAL_RESOURCE_DIR</span> := <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">LOCAL_PATH</span>)/res  
+
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 编译后名称  </span>
+<span class="hljs-constant" style="">LOCAL_PACKAGE_NAME</span> := <span class="hljs-constant" style="">SysemUI</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 预置到 /system/pri-app/;不添加此属性，编译后的路径为/system/app/SystemUI</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 在同样具有系统权限情况下，/system/pri-app下的apk权限比/system/app下大</span>
+<span class="hljs-constant" style="">LOCAL_PRIVILEGED_MODULE</span> := <span class="hljs-literal" style="">true</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 编译生成目标的安装路径</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 在build/core/envsetup.mk中定义;TARGET_ROOT_OUT：表示根文件系统;TARGET_OUT：表示system文件系统;TARGET_OUT_DATA：表示data文件系统。</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 预置的apk用户可以卸载,恢复出厂设置不可恢复</span>
+<span class="hljs-constant" style="">LOCAL_MODULE_PATH</span> := <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">TARGET_OUT_DATA_APPS</span>)    
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 预置的apk用户可以卸载,恢复出厂设置可恢复</span>
+<span class="hljs-constant" style="">LOCAL_MODULE_PATH</span> := <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">TARGET_OUT</span>)/vendor/operator/app    
+
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 定义生成的apk使用的key  </span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 指定平台签名,生成Settings.apk文件之后,系统会使用如下两个文件对Settings.apk进行签名,这个系统设置就拥有系统权限了</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># (源码根目录)MSM8939_AndroidL/build/target/product/security/platform.pk8</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># (源码根目录)MSM8939_AndroidL/build/target/product/security/platform.x509.pem</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># Settings光使用Platform签名还不行,需要在AndroidManifest.xml文件package=&quot;xxx&quot;后指定共享用户ID,并将添加属性: coreApp=&quot;true&quot;,才会变成内核应用</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 任何一个Android应用,如果使用前面的配置,并在Android源代码中使用mm/mmm命令进行编译,其权限就会和Settings完全一样</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 每一个版本(包括同一版本不同分支)Android源代码所带的Platform签名都不一样,使用不同的签名会导致apk程序认证不通过,尽管system/app下已存在对应apk</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 设置coreApp=&quot;true&quot;和android:sharedUserId=&quot;android.uid.system&quot;的apk将用于系统级的权限(不需要root权限),Android采用了Linux的ACL权限管理方式 </span>
+<span class="hljs-constant" style="">LOCAL_CERTIFICATE</span> := platform
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 指定混淆标识文件</span>
+<span class="hljs-constant" style="">LOCAL_PROGUARD_FLAG_FILES</span> := proguard.flags
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 定义jar包 aar包的路径 :后面跟的是相对Android.mk文件的相对路径  </span>
+<span class="hljs-constant" style="">LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES</span> := <span class="hljs-symbol" style="color:rgb(153,0,115)">supportinternal:</span><span class="hljs-class" style=""><span class="hljs-keyword" style="font-weight:700">lib</span>/<span class="hljs-title" style="color:rgb(68,85,136); font-weight:700">support</span>-<span class="hljs-title" style="color:rgb(68,85,136); font-weight:700">annotations</span>-22.2.1-<span class="hljs-title" style="color:rgb(68,85,136); font-weight:700">sources</span>.<span class="hljs-title" style="color:rgb(68,85,136); font-weight:700">jar</span> \  </span>
+                                        <span class="hljs-symbol" style="color:rgb(153,0,115)">supportannmtions:</span><span class="hljs-class" style=""><span class="hljs-keyword" style="font-weight:700">lib</span>/<span class="hljs-title" style="color:rgb(68,85,136); font-weight:700">internal_impl</span>-22.2.1.<span class="hljs-title" style="color:rgb(68,85,136); font-weight:700">jar</span> \  </span>
+                                        <span class="hljs-symbol" style="color:rgb(153,0,115)">support4:</span><span class="hljs-class" style=""><span class="hljs-keyword" style="font-weight:700">lib</span>/<span class="hljs-title" style="color:rgb(68,85,136); font-weight:700">support</span>-<span class="hljs-title" style="color:rgb(68,85,136); font-weight:700">v4</span>-22.2.1.<span class="hljs-title" style="color:rgb(68,85,136); font-weight:700">aar</span> \  </span>
+
+<span class="hljs-keyword" style="font-weight:700">include</span> <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">CLEAR_VARS</span>)   
+
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 因为aar包的存在，这个主要是用于合并AndroidManifest.xml 和res资源文件   </span>
+<span class="hljs-constant" style="">LOCAL_AAPT_FLAG</span> := \   
+                   --auto-add-overlay \   
+                   --extra-package android.support.v4 \   
+                   --extra-package com.openthos.launcher.openthoslauncher   
+
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 指明合并后的AndroidManifest.xml的路径 （一般不用指定）   </span>
+<span class="hljs-constant" style="">LOCAL_MANIFEST_FILE</span> := <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">LOCAL_PATH</span>)/<span class="hljs-constant" style="">AndroidManifest</span>.xml   
+
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 因引入jar包或aar包，须加上这句   </span>
+<span class="hljs-keyword" style="font-weight:700">include</span> <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">BUILD_MULTI_PREBUILT</span>)   
+
+<span class="hljs-keyword" style="font-weight:700">include</span> <span class="hljs-variable" style="color:teal">$(</span>call all-makefiles-under,<span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">LOCAL_PATH</span>))</span></code></pre>
+<h2 id="androidmanifestxml" style="padding-bottom:0.3em; border-bottom:1px solid rgb(238,238,238); margin-top:24px; margin-bottom:16px; line-height:1.25; color:rgb(51,51,51); widows:1">
+<span style="font-size:18px"><a target="_blank" target="_blank" class="markdownIt-Anchor" href="file:///C:/Users/admin/AppData/Local/Youdao/YNote/markdown/index.html#androidmanifestxml" style="color:rgb(64,120,192); background-color:transparent"></a>AndroidManifest.xml:</span></h2>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px"><span class="hljs-string" style="color:rgb(221,17,68)">android:</span>sharedUserId=<span class="hljs-string" style="color:rgb(221,17,68)">&quot;android.uid.systemui&quot;</span>    <span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">//SystemUI属于系统apk</span>
+coreApp=<span class="hljs-string" style="color:rgb(221,17,68)">&quot;true&quot;</span>    <span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">//SystemUI属于核心apk</span>
+<span class="hljs-string" style="color:rgb(221,17,68)">android:</span>persistent=<span class="hljs-string" style="color:rgb(221,17,68)">&quot;true&quot;</span>    <span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">//SystemUI不会被KILL，即被KILL后会自动重启</span></span></code></pre>
+<h2 id="sample" style="padding-bottom:0.3em; border-bottom:1px solid rgb(238,238,238); margin-top:24px; margin-bottom:16px; line-height:1.25; color:rgb(51,51,51); widows:1">
+<span style="font-size:18px"><a target="_blank" target="_blank" class="markdownIt-Anchor" href="file:///C:/Users/admin/AppData/Local/Youdao/YNote/markdown/index.html#sample" style="color:rgb(64,120,192); background-color:transparent"></a>Sample：</span></h2>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">1.编译添加AAR包</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px">LOCAL_STATIC_JAVA_AAR_LIBRARIES := filepicker
+
+LOCAL_AAPT_FLAGS := --<span class="hljs-attribute" style="color:teal">auto</span>-add-overlay
+LOCAL_AAPT_FLAGS &#43;= --extra-packages com<span class="hljs-class" style="">.tomorrow_p</span><span class="hljs-class" style="">.simple</span>
+
+include $(CLEAR_VARS)
+LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := filepicker:libs/filepicker-<span class="hljs-number" style="color:teal">2.4</span>.<span class="hljs-number" style="color:teal">2</span><span class="hljs-class" style="">.aar</span>
+include $(BUILD_MULTI_PREBUILT)</span></code></pre>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">2.Android.mk添加第三方jar</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px">LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_PATH</span>:= $(call my-dir)
+include $(CLEAR_VARS)
+
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_JAVA_LIBRARIES</span> := bouncycastle conscrypt telephony-common
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_STATIC_JAVA_LIBRARIES</span> := android-support-v4 android-support-v13 jsr305 fc909 quciifplib \
+umeng
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_MODULE_TAGS</span> := optional
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_SRC_FILES</span> := \
+        $(call all-java-files-under, src) \
+        src/com/android/settings/EventLogTags<span class="hljs-variable" style="color:teal">.logtags</span>
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_RESOURCE_DIR</span> := $(LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_PATH</span>)/res
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_SRC_FILES</span> &#43;= \
+        src/com/android/location/XT/IXTSrv<span class="hljs-variable" style="color:teal">.aidl</span> \
+        src/com/android/location/XT/IXTSrvCb<span class="hljs-variable" style="color:teal">.aidl</span>
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_PACKAGE_NAME</span> := Settings
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_CERTIFICATE</span> := platform
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_PRIVILEGED_MODULE</span> := <span class="hljs-literal" style="">true</span>
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_OVERRIDES_PACKAGES</span> := Email
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_PROGUARD_ENABLED</span> := disabled
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_PROGUARD_FLAG_FILES</span> := proguard<span class="hljs-variable" style="color:teal">.flags</span>
+include frameworks/opt/setupwizard/navigationbar/common<span class="hljs-variable" style="color:teal">.mk</span>
+include $(B<span class="hljs-built_in" style="color:rgb(0,134,179)">UILD_PACKAGE</span>)
+<span class="hljs-preprocessor" style="color:rgb(153,153,153); font-weight:700"># Use the following include to make our test apk.</span>
+ifeq (,$(ONE_SHOT_MAKEFILE))
+include $(call all-makefiles-under,$(LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_PATH</span>))
+endif
+include $(CLEAR_VARS)
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_PREBUILT_STATIC_JAVA_LIBRARIES</span> := umeng:libs/umeng-analytics-v6<span class="hljs-number" style="color:teal">.0</span><span class="hljs-number" style="color:teal">.1</span><span class="hljs-variable" style="color:teal">.jar</span>
+<span class="hljs-preprocessor" style="color:rgb(153,153,153); font-weight:700">#冒号前面为jar别名，后面为jar文件的实际路径  </span>
+include $(B<span class="hljs-built_in" style="color:rgb(0,134,179)">UILD_MULTI_PREBUILT</span>)</span></code></pre>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">3.添加第三方jar</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px"><span class="hljs-number" style="color:teal">3.1</span><span class="hljs-number" style="color:teal">.1</span> 在路径下添加文件(绿色字体)prebuilts/misc/common/ansen_libs/umeng-analytics-v6<span class="hljs-number" style="color:teal">.0</span><span class="hljs-number" style="color:teal">.1</span>.jar; fc909.jar;Android.mk(全局添加)
+<span class="hljs-number" style="color:teal">3.1</span><span class="hljs-number" style="color:teal">.2</span> 声明需要编译jar Android.mk :
+LOCAL_PATH:= $(call my-dir)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := fc909
+LOCAL_MODULE_TAGS := optional
+LOCAL_SRC_FILES := fc909.jar
+<span class="hljs-preprocessor" style="color:rgb(153,153,153); font-weight:700">#LOCAL_IS_HOST_MODULE := true</span>
+LOCAL_MODULE_CLASS := JAVA_LIBRARIES
+LOCAL_MODULE_SUFFIX := $(COMMON_JAVA_PACKAGE_SUFFIX)
+include $(BUILD_PREBUILT)
+
+include $(CLEAR_VARS)
+LOCAL_MODULE := umeng-analytics-v6<span class="hljs-number" style="color:teal">.0</span><span class="hljs-number" style="color:teal">.1</span>
+LOCAL_MODULE_TAGS := optional
+LOCAL_SRC_FILES := umeng-analytics-v6<span class="hljs-number" style="color:teal">.0</span><span class="hljs-number" style="color:teal">.1</span>.jar
+<span class="hljs-preprocessor" style="color:rgb(153,153,153); font-weight:700">#LOCAL_IS_HOST_MODULE := true</span>
+LOCAL_MODULE_CLASS := JAVA_LIBRARIES
+LOCAL_MODULE_SUFFIX := $(COMMON_JAVA_PACKAGE_SUFFIX)
+include $(BUILD_PREBUILT)
+<span class="hljs-number" style="color:teal">3.1</span><span class="hljs-number" style="color:teal">.3</span> 在device/qcom/common/base.mk添加:
+PRODUCT_PACKAGES &#43;= $(CRDA)
+PRODUCT_PACKAGES &#43;= $(WLAN)
+PRODUCT_PACKAGES &#43;= \
+    quciifplib \
+    fc909 \
+    umeng-analytics-v6<span class="hljs-number" style="color:teal">.0</span><span class="hljs-number" style="color:teal">.1</span> \
+    fingerprint    
+
+<span class="hljs-preprocessor" style="color:rgb(153,153,153); font-weight:700"># Live Wallpapers</span>
+PRODUCT_PACKAGES &#43;= \
+        LiveWallpapers \
+<span class="hljs-number" style="color:teal">3.1</span><span class="hljs-number" style="color:teal">.4</span> 使用已经添加的jar   packages/apps/Settings/Android.mk:
+LOCAL_STATIC_JAVA_LIBRARIES := android-support-v4 \
+                android-support-v13 fc909 quciifplib \
+                umeng-analytics-v6<span class="hljs-number" style="color:teal">.0</span><span class="hljs-number" style="color:teal">.1</span>
+<span class="hljs-number" style="color:teal">3.2</span> 在对应工程/libs下添加adapter-rxjava-<span class="hljs-number" style="color:teal">2.1</span><span class="hljs-number" style="color:teal">.0</span>.jar; converter-gson-<span class="hljs-number" style="color:teal">2.1</span><span class="hljs-number" style="color:teal">.0</span>.jar(局部添加)
+Android.mk:
+LOCAL_STATIC_JAVA_LIBRARIES := android-support-v4 \
+                android-support-v13 \
+                android-support-v7-appcompat \
+                adapter-rxjava \
+                gson 
+
+include $(CLEAR_VARS)
+LOCAL_PREBUILT_STATIC_JAVA_LIBRARIES := adapter-rxjava:libs/adapter-rxjava-<span class="hljs-number" style="color:teal">2.1</span><span class="hljs-number" style="color:teal">.0</span>.jar \
+                    gson:libs/gson-<span class="hljs-number" style="color:teal">2.7</span>.jar 
+include $(BUILD_MULTI_PREBUILT)</span></code></pre>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">4.编译一个的APK</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px"><span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">#定义当前模块的相对路径</span>
+<span class="hljs-constant" style="">LOCAL_PATH</span> := <span class="hljs-variable" style="color:teal">$(</span>call my-dir)
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">#清空当前环境变量</span>
+<span class="hljs-keyword" style="font-weight:700">include</span> <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">CLEAR_VARS</span>)
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">#编译生成的目标名称</span>
+<span class="hljs-constant" style="">LOCAL_PACKAGE_NAME</span> := <span class="hljs-constant" style="">LocalPackage</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">#编译该模块需要的资源($(call all-subdir-java-files)当前目录下所有的.java文件)</span>
+<span class="hljs-constant" style="">LOCAL_SRC_FILES</span> := <span class="hljs-variable" style="color:teal">$(</span>call all-subdir-java-files)
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">#编译生成目标文件&#26684;式</span>
+<span class="hljs-keyword" style="font-weight:700">include</span> <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">BUILD_PACKAGE</span>)
+<span class="hljs-number" style="color:teal">2</span>装载需要.so（动态库）的第三方apk
+<span class="hljs-constant" style="">LOCAL_PATH</span> := <span class="hljs-variable" style="color:teal">$(</span>my-dir)
+<span class="hljs-keyword" style="font-weight:700">include</span> <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">CLEAR_VARS</span>)
+<span class="hljs-constant" style="">LOCAL_MODULE</span> := baiduinput_android_v1.<span class="hljs-number" style="color:teal">1_1000</span>e
+<span class="hljs-constant" style="">LOCAL_SRC_FILES</span> := <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">LOCAL_MODULE</span>).apk
+<span class="hljs-constant" style="">LOCAL_MODULE_CLASS</span> := <span class="hljs-constant" style="">APPS</span>
+<span class="hljs-constant" style="">LOCAL_MODULE_SUFFIX</span> := <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">COMMON_ANDROID_PACKAGE_SUFFIX</span>)
+<span class="hljs-constant" style="">LOCAL_CERTIFICATE</span> := platform
+<span class="hljs-keyword" style="font-weight:700">include</span> <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">BUILD_PREBUILT</span>)
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">#################################################################</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">####### copy the library to /system/lib #########################</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">#################################################################</span>
+<span class="hljs-keyword" style="font-weight:700">include</span> <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">CLEAR_VARS</span>)
+<span class="hljs-constant" style="">LOCAL_MODULE</span> := libinputcore.so
+<span class="hljs-constant" style="">LOCAL_MODULE_CLASS</span> := <span class="hljs-constant" style="">SHARED_LIBRARIES</span>
+<span class="hljs-constant" style="">LOCAL_MODULE_PATH</span> := <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">TARGET_OUT_SHARED_LIBRARIES</span>)
+<span class="hljs-constant" style="">LOCAL_SRC_FILES</span> := <span class="hljs-class" style=""><span class="hljs-keyword" style="font-weight:700">lib</span>/$(<span class="hljs-title" style="color:rgb(68,85,136); font-weight:700">LOCAL_MODULE</span>)</span>
+<span class="hljs-constant" style="">OVERRIDE_BUILD_MODULE_PATH</span> := <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">TARGET_OUT_INTERMEDIATE_LIBRARIES</span>)
+<span class="hljs-keyword" style="font-weight:700">include</span> <span class="hljs-variable" style="color:teal">$(</span><span class="hljs-constant" style="">BUILD_PREBUILT</span>)</span></code></pre>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">5.编译一个静态java库</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px">LOCAL_PATH := $(<span class="hljs-operator" style=""><span class="hljs-keyword" style="font-weight:700">call</span> my-dir)
+<span class="hljs-keyword" style="font-weight:700">include</span> $(CLEAR_VARS)
+# <span class="hljs-keyword" style="font-weight:700">Build</span> all <span class="hljs-keyword" style="font-weight:700">java</span> files <span class="hljs-keyword" style="font-weight:700">in</span> the <span class="hljs-keyword" style="font-weight:700">java</span> subdirectory
+LOCAL_SRC_FILES := $(<span class="hljs-keyword" style="font-weight:700">call</span> all-subdir-<span class="hljs-keyword" style="font-weight:700">java</span>-files)
+# 生成的<span class="hljs-keyword" style="font-weight:700">java</span>库的jar文件名
+LOCAL_JAVA_LIBRARIES := android.<span class="hljs-keyword" style="font-weight:700">test</span>.runner
+# The <span class="hljs-keyword" style="font-weight:700">name</span> <span class="hljs-keyword" style="font-weight:700">of</span> the jar <span class="hljs-keyword" style="font-weight:700">file</span> <span class="hljs-keyword" style="font-weight:700">to</span> <span class="hljs-keyword" style="font-weight:700">create</span>
+LOCAL_MODULE := <span class="hljs-keyword" style="font-weight:700">sample</span>
+#编译生成静态jar包(静态jar包是使用.<span class="hljs-keyword" style="font-weight:700">class</span>文件打包而成的JAR文件,可以在任何<span class="hljs-keyword" style="font-weight:700">java</span>虚拟机运行);</span>
+include $(BUILD_STATIC_JAVA_LIBRARY)
+#编译生成动态(共享)jar包(在静态jar包基础上使用.dex打包而成的jar文件,.dex是Android系统使用的文件&#26684;式)
+#include $(BUILD_JAVA_LIBRARY)
+#编译生成动态库
+#include $(BUILD_SHARED_LIBRARY)</span></code></pre>
+<p style="margin-top:0px; margin-bottom:16px; color:rgb(51,51,51); line-height:21px; widows:1">
+<span style="font-size:14px">6.编译一个依赖静态.jar文件的APK</span></p>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px">LOCAL_PATH := $(<span class="hljs-operator" style=""><span class="hljs-keyword" style="font-weight:700">call</span> my-dir)
+<span class="hljs-keyword" style="font-weight:700">include</span> $(CLEAR_VARS)
+# 引入名为<span class="hljs-keyword" style="font-weight:700">static</span>-<span class="hljs-keyword" style="font-weight:700">library</span>的静态jar包
+LOCAL_STATIC_JAVA_LIBRARIES := <span class="hljs-keyword" style="font-weight:700">static</span>-<span class="hljs-keyword" style="font-weight:700">library</span>
+# 引入名为<span class="hljs-keyword" style="font-weight:700">static</span>-<span class="hljs-keyword" style="font-weight:700">library</span>的动态jar包
+#LOCAL_STATIC_LIBRARIES := <span class="hljs-keyword" style="font-weight:700">share</span>-<span class="hljs-keyword" style="font-weight:700">library</span>
+# <span class="hljs-keyword" style="font-weight:700">Build</span> all <span class="hljs-keyword" style="font-weight:700">java</span> files <span class="hljs-keyword" style="font-weight:700">in</span> the <span class="hljs-keyword" style="font-weight:700">java</span> subdirectory
+LOCAL_SRC_FILES := $(<span class="hljs-keyword" style="font-weight:700">call</span> all-subdir-<span class="hljs-keyword" style="font-weight:700">java</span>-files)
+# <span class="hljs-keyword" style="font-weight:700">Name</span> <span class="hljs-keyword" style="font-weight:700">of</span> the APK <span class="hljs-keyword" style="font-weight:700">to</span> <span class="hljs-keyword" style="font-weight:700">build</span>
+LOCAL_PACKAGE_NAME := LocalPackage
+# Tell it <span class="hljs-keyword" style="font-weight:700">to</span> <span class="hljs-keyword" style="font-weight:700">build</span> an APK
+<span class="hljs-keyword" style="font-weight:700">include</span> $(BUILD_PACKAGE)</span></span></code></pre>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">7.预编译.jar包</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px">LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_PATH</span> := $(call my-dir)
+include $(CLEAR_VARS)
+<span class="hljs-preprocessor" style="color:rgb(153,153,153); font-weight:700"># 指定编译生成文件类型</span>
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_MODULE_CLASS</span> := J<span class="hljs-built_in" style="color:rgb(0,134,179)">AVA_LIBRARIES</span>
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_MODULE</span> := com<span class="hljs-variable" style="color:teal">.test</span><span class="hljs-variable" style="color:teal">.share</span>
+LO<span class="hljs-built_in" style="color:rgb(0,134,179)">CAL_SRC_FILES</span> := com<span class="hljs-variable" style="color:teal">.test</span><span class="hljs-variable" style="color:teal">.share</span>
+<span class="hljs-preprocessor" style="color:rgb(153,153,153); font-weight:700"># 预编译</span>
+include $(B<span class="hljs-built_in" style="color:rgb(0,134,179)">UILD_PREBUILT</span>)</span></code></pre>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">7.使用ifeq判断语句</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px">LOCAL_PATH := $(<span class="hljs-operator" style=""><span class="hljs-keyword" style="font-weight:700">call</span> my-dir)
+<span class="hljs-keyword" style="font-weight:700">include</span> $(CLEAR_VARS)
+# 判断条件
+USED_SHARE :=<span class="hljs-literal" style="">TRUE</span>
+ifeq ($(USED_SHARE ),<span class="hljs-literal" style="">true</span>)
+# 引入名为<span class="hljs-keyword" style="font-weight:700">static</span>-<span class="hljs-keyword" style="font-weight:700">library</span>的静态jar包
+LOCAL_STATIC_JAVA_LIBRARIES := <span class="hljs-keyword" style="font-weight:700">static</span>-<span class="hljs-keyword" style="font-weight:700">library</span>
+<span class="hljs-keyword" style="font-weight:700">else</span>
+# 引入名为<span class="hljs-keyword" style="font-weight:700">static</span>-<span class="hljs-keyword" style="font-weight:700">library</span>的动态jar包
+LOCAL_STATIC_LIBRARIES := <span class="hljs-keyword" style="font-weight:700">share</span>-<span class="hljs-keyword" style="font-weight:700">library</span>
+endif
+LOCAL_SRC_FILES := $(<span class="hljs-keyword" style="font-weight:700">call</span> all-subdir-<span class="hljs-keyword" style="font-weight:700">java</span>-files)
+LOCAL_PACKAGE_NAME := LocalPackage
+<span class="hljs-keyword" style="font-weight:700">include</span> $(BUILD_PACKAGE)</span></span></code></pre>
+<p style="margin-top:0px; margin-bottom:16px; color:rgb(51,51,51); line-height:21px; widows:1">
+<span style="font-size:14px">-<span style="font-weight:600">8.编译一个需要platform key签名的APK</span></span></p>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px">LOCAL_PATH := $(<span class="hljs-operator" style=""><span class="hljs-keyword" style="font-weight:700">call</span> my-dir)
+<span class="hljs-keyword" style="font-weight:700">include</span> $(CLEAR_VARS)
+# <span class="hljs-keyword" style="font-weight:700">Build</span> all <span class="hljs-keyword" style="font-weight:700">java</span> files <span class="hljs-keyword" style="font-weight:700">in</span> the <span class="hljs-keyword" style="font-weight:700">java</span> subdirectory
+LOCAL_SRC_FILES := $(<span class="hljs-keyword" style="font-weight:700">call</span> all-subdir-<span class="hljs-keyword" style="font-weight:700">java</span>-files)
+# <span class="hljs-keyword" style="font-weight:700">Name</span> <span class="hljs-keyword" style="font-weight:700">of</span> the APK <span class="hljs-keyword" style="font-weight:700">to</span> <span class="hljs-keyword" style="font-weight:700">build</span>
+LOCAL_PACKAGE_NAME := LocalPackage
+LOCAL_CERTIFICATE := platform
+# Tell it <span class="hljs-keyword" style="font-weight:700">to</span> <span class="hljs-keyword" style="font-weight:700">build</span> an APK
+<span class="hljs-keyword" style="font-weight:700">include</span> $(BUILD_PACKAGE)
+注：LOCAL_CERTIFICATE 后面应该是签名文件的文件名</span></span></code></pre>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">9.编译一个需要特殊vendor key签名的APK</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px">LOCAL_PATH := $(<span class="hljs-operator" style=""><span class="hljs-keyword" style="font-weight:700">call</span> my-dir)
+<span class="hljs-keyword" style="font-weight:700">include</span> $(CLEAR_VARS)
+# <span class="hljs-keyword" style="font-weight:700">Build</span> all <span class="hljs-keyword" style="font-weight:700">java</span> files <span class="hljs-keyword" style="font-weight:700">in</span> the <span class="hljs-keyword" style="font-weight:700">java</span> subdirectory
+LOCAL_SRC_FILES := $(<span class="hljs-keyword" style="font-weight:700">call</span> all-subdir-<span class="hljs-keyword" style="font-weight:700">java</span>-files)
+# <span class="hljs-keyword" style="font-weight:700">Name</span> <span class="hljs-keyword" style="font-weight:700">of</span> the APK <span class="hljs-keyword" style="font-weight:700">to</span> <span class="hljs-keyword" style="font-weight:700">build</span>
+LOCAL_PACKAGE_NAME := LocalPackage
+LOCAL_CERTIFICATE := vendor/example/certs/app
+# Tell it <span class="hljs-keyword" style="font-weight:700">to</span> <span class="hljs-keyword" style="font-weight:700">build</span> an APK
+<span class="hljs-keyword" style="font-weight:700">include</span> $(BUILD_PACKAGE)</span></span></code></pre>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">10.装载一个普通的第三方APK</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px"><span class="hljs-constant" style="">LOCAL_PATH</span> := <span class="hljs-variable" style="color:teal">$(call my-dir)</span>
+include $(CLEAR_VARS)
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># Module name should match apk name to be installed.</span>
+<span class="hljs-constant" style="">LOCAL_MODULE</span> := LocalModuleName
+<span class="hljs-constant" style="">LOCAL_SRC_FILES</span> := <span class="hljs-variable" style="color:teal">$(LOCAL_MODULE)</span>.apk
+<span class="hljs-constant" style="">LOCAL_MODULE_CLASS</span> := APPS
+<span class="hljs-constant" style="">LOCAL_MODULE_SUFFIX</span> := <span class="hljs-variable" style="color:teal">$(COMMON_ANDROID_PACKAGE_SUFFIX)</span>
+<span class="hljs-constant" style="">LOCAL_CERTIFICATE</span> := platform
+include $(BUILD_PREBUILT)</span></code></pre>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">11.support包的添加</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px">LOCAL_PATH := $(call my-dir)
+
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># ---------------------------------------</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># Build OmaDrmEngineDemo application</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">#</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># Output: OmaDrmEngineDemo.apk</span>
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># ----------------------------------------</span>
+include $(CLEAR_VARS)
+
+LOCAL_MODULE_TAGS := optional
+
+LOCAL_SRC_FILES := <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        $(call all-java-files-under, src)
+
+LOCAL_PACKAGE_NAME := OmaDrmEngineDemo
+
+LOCAL_STATIC_JAVA_LIBRARIES := <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        android-support-v4 <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        android-support-v7-appcompat <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        android-support-v7-recyclerview <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        android-support-v7-gridlayout <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        android-support-design
+LOCAL_RESOURCE_DIR = <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        $(LOCAL_PATH)/res <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        frameworks/support/v7/appcompat/res <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        frameworks/support/v7/recyclerview/res <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        frameworks/support/v7/gridlayout/res <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        frameworks/support/design/res
+<span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic">#$(LOCAL_PATH)/../../../../prebuilts/sdk/current/support/v7/appcompat/res</span>
+LOCAL_AAPT_FLAGS := <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        --auto-add-overlay <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        --extra-packages android.support.v7.appcompat <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        --extra-packages android.support.v7.recyclerview <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        --extra-packages android.support.v7.gridlayout <span class="hljs-string" style="color:rgb(221,17,68)">\</span>
+        --extra-packages android.support.design
+
+LOCAL_PROGUARD_ENABLED := disabled
+
+LOCAL_DEX_PREOPT := <span class="hljs-literal" style="">false</span>
+
+LOCAL_MODULE_TAGS := eng development
+
+include $(BUILD_PACKAGE)</span></code></pre>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">12.引用系统的库 liblog</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px">LOCAL_SHARED_LIBRARIED &#43;= liblog
+# 编译会从<span class="hljs-regexp" style="color:rgb(0,153,38)">/out/</span>targer<span class="hljs-regexp" style="color:rgb(0,153,38)">/product/</span>fiber-a31st<span class="hljs-regexp" style="color:rgb(0,153,38)">/obj/</span>lib<span class="hljs-regexp" style="color:rgb(0,153,38)">/liblog.so找对应的库</span></span></code></pre>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">12.引用第三方的库文件</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; margin-bottom:16px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247)"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px"><span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 库的路径:/lib/,库的名称:libxx</span>
+<span class="hljs-constant" style="">LOCAL_LDFLAGS</span> &#43;= -<span class="hljs-constant" style="">L</span>/<span class="hljs-class" style=""><span class="hljs-keyword" style="font-weight:700">lib</span>/-<span class="hljs-title" style="color:rgb(68,85,136); font-weight:700">libxx</span></span></span></code></pre>
+<ul style="margin-top:0px; margin-bottom:16px; padding-left:2em; color:rgb(51,51,51); line-height:21px; widows:1">
+<li style=""><span style="font-weight:600"><span style="font-size:14px">13.引用第三方头文件</span></span></li></ul>
+<pre style="line-height:1.45; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; word-wrap:normal; margin-top:0px; padding:16px; overflow:auto; color:rgb(51,51,51); widows:1; background-color:rgb(247,247,247); margin-bottom:0px!important"><code class="hljs" style="display:inline; overflow:visible; padding:0px; font-family:Consolas,&quot;Liberation Mono&quot;,Menlo,Courier,monospace; margin:0px; word-break:normal; border:0px; line-height:inherit; word-wrap:normal; background:0px 0px transparent"><span style="font-size:14px"><span class="hljs-comment" style="color:rgb(153,153,136); font-style:italic"># 头文件绝对路径:/inc/</span>
+<span class="hljs-constant" style="">LOCAL_C_INCLUDES</span> :=<span class="hljs-variable" style="color:teal">$(LOCAL_PATH)</span>/inc/</span></code></pre>
+   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad" style="float: right;" data-mod="popu_172">
+<a href="#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"  style="background-position:0 -52px !important"></a>
+<a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"style="background-position:0 -104px !important"></a>
+<a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"style="background-position:0 -260px !important"></a>
+<a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"style="background-position:0 -208px !important"></a>
+<a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"style="background-position:0 -1612px !important" ></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   
+
+<!--172.16.140.14-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+
+
+ 
+
+
+        <div id="digg" ArticleId="48669003" >
+            <dl id="btnDigg" class="digg digg_disable"  onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>2</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable"  onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>               
+            </dl>
+            
+        </div>
+     <div class="tracking-ad" data-mod="popu_222"><a href="javascript:void(0);" >&nbsp;</a>   </div>
+    <div class="tracking-ad" data-mod="popu_223"> <a href="javascript:void(0);" >&nbsp;</a></div>
+    <script type="text/javascript">
+        function btndigga() {
+            $(".tracking-ad[data-mod='popu_222'] a").click();
+        }
+        function btnburya() {
+            $(".tracking-ad[data-mod='popu_223'] a").click();
+        }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span  onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='http://blog.csdn.net/qq_25804863/article/details/48566975';">上一篇</span><a href="http://blog.csdn.net/qq_25804863/article/details/48566975" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">git &amp; repo 命令</a></li>
+                <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='http://blog.csdn.net/qq_25804863/article/details/48669149';">下一篇</span><a href="http://blog.csdn.net/qq_25804863/article/details/48669149" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">Android开机向导setupwizard,设置系统语言,WiFi向导</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+            <div class="similar_article"   >
+                    <h4></h4>
+                    <div class="similar_c"style="margin:20px 0px 0px 0px">
+                        <div class="similar_c_t">
+                          &nbsp;&nbsp;相关文章推荐
+                        </div>
+                   
+                        <div class="similar_wrap tracking-ad" data-mod="popu_36"  style="max-height:250px">                       
+                            <ul class="similar_list fl">    
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/mvp89120/article/details/54813627" title="android.mk文件注解" strategy="BlogCommendFromBaidu_0" target="_blank">android.mk文件注解</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/huiyiCourse/series_detail/64?utm_source=blog7" title="Presto的服务治理与架构在京东的实践与应用--王哲涵" strategy="undefined" target="_blank">Presto的服务治理与架构在京东的实践与应用--王哲涵</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/jinglijun/article/details/51276431" title="Android开发，关于aar你应该知道的" strategy="BlogCommendFromBaidu_1" target="_blank">Android开发，关于aar你应该知道的</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/course/detail/6080?utm_source=blog7" title="深入掌握Kubernetes应用实践--王渊命" strategy="undefined" target="_blank">深入掌握Kubernetes应用实践--王渊命</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/qq_25804863/article/details/48669003" title="Android.mk编译脚本 &amp; AndroidManifest.xml编写及注释" strategy="BlogCommendFromCsdn_2" target="_blank">Android.mk编译脚本 &amp; AndroidManifest.xml编写及注释</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/course/detail/4199?utm_source=blog7" title="Python基础知识汇总" strategy="undefined" target="_blank">Python基础知识汇总</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://download.csdn.net/download/wacr2008/7858171" title="android.mk 拷贝文件的脚本" strategy="BlogCommendFromCsdn_3" target="_blank">android.mk 拷贝文件的脚本</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/course/detail/3677?utm_source=blog7" title="Android核心技术详解" strategy="undefined" target="_blank">Android核心技术详解</a>
+                                   </li>
+                            </ul>
+                              <ul class="similar_list fr">      
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://download.csdn.net/download/yangysng07/8207323" title="opus NDK 编译 Android.mk文件" strategy="BlogCommendFromCsdn_4" target="_blank">opus NDK 编译 Android.mk文件</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/course/detail/4100?utm_source=blog7" title="Retrofit 从入门封装到源码解析" strategy="undefined" target="_blank">Retrofit 从入门封装到源码解析</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/jshazk1989/article/details/6823888" title="Makefile 理解（4） 【Android.mk 浅析  模块编译Makefile编写】" strategy="BlogCommendFromCsdn_5" target="_blank">Makefile 理解（4） 【Android.mk 浅析  模块编译Makefile编写】</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://edu.csdn.net/course/detail/5226?utm_source=blog7" title="自然语言处理工具Word2Vec" strategy="undefined" target="_blank">自然语言处理工具Word2Vec</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/ljcome/article/details/53291561" title="Ubuntu下编写Android.mk文件编译生成.apk文件" strategy="BlogCommendFromCsdn_6" target="_blank">Ubuntu下编写Android.mk文件编译生成.apk文件</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/kingabcde/article/details/25800273" title="cocos2d-x在Android上的编译过程（3）：简化Android.mk文件的编写" strategy="BlogCommendFromCsdn_7" target="_blank">cocos2d-x在Android上的编译过程（3）：简化Android.mk文件的编写</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://blog.csdn.net/u011913612/article/details/52412190" title="shell脚本：拷贝android源码下所有的Android.mk到特定目录" strategy="BlogCommendFromCsdn_8" target="_blank">shell脚本：拷贝android源码下所有的Android.mk到特定目录</a>
+                                   </li>
+                                   <li>
+                                       <em>•</em>
+                                       <a href="http://download.csdn.net/download/jijun0817/5041911" title="Android.mk生成工具" strategy="BlogCommendFromCsdn_9" target="_blank">Android.mk生成工具</a>
+                                   </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>   
+      
+</div>
+
+     <div>
+           
+
+       
+                           
+            <!-- 广告位：PC端-博客内容页-banner1-960*90 --> 
+           
+         <script type="text/javascript" src="http://mpb1.iteye.com/kfunnhoouimhnlou.js"></script>
+    </div>
+
+<div id="suggest"></div>
+         <script  language="javascript" type='text/javascript'>     
+             $(function(){
+                 $.get("/qq_25804863/svc/GetSuggestContent/48669003",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+
+            
+                                    
+            
+                                    
+
+        <!-- 广告位开始 -->
+        <!-- 广告位结束 -->
+
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list">
+    </div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form">
+    </div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '48669003';
+    var commentscount = 5;
+    var islock = false
+</script>
+
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top"  style="bottom:60px;">
+
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="http://static.blog.csdn.net/images/blog-icon-reply.png" alt="快速回复">
+        </a>    
+    <a id="d-top-a" class="btn btn-top backtop"  style="display: none;" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])" style="">         
+         <img src="http://static.blog.csdn.net/images/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){        
+        
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+    var articletitle='Android.mk编译脚本 &amp; AndroidManifest.xml编写及注释';
+
+</script>
+
+
+
+
+
+
+
+
+
+
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+               
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/qq_25804863" target="_blank">
+    <img src="http://avatar.csdn.net/7/D/9/1_qq_25804863.jpg" title="访问我的空间" style="max-width:90%"/>
+    </a>
+    <br />
+    <span><a href="http://my.csdn.net/qq_25804863" class="user_name" target="_blank">qq_25804863</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter"  title="[发私信]" onclick="window.open('http://msg.csdn.net/letters/model?receiver=qq_25804863','_blank','height=350,width=700');_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_sixin'])"></a>  
+</div>
+<div id="blog_medal">
+                <div id="bms_box">
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>286290次</span></li>
+    <li>积分：<span>3607</span> </li>    
+    <li >等级： <span style="position:relative;display:inline-block;z-index:1" >
+            <img src="http://c.csdnimg.cn/jifen/images/xunzhang/jianzhang/blog5.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：3607 </div>
+        </span>  </li>
+    <li>排名：<span>第9553名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>57篇</span></li>
+    <li>转载：<span>27篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>40条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body" class="form_search">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search csdn-tracking-statistics" target="_blank"  data-mod="popu_306">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字" /></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog" />
+        <input type="hidden" name="q" id="inputQ" />
+        <input type="hidden" name="t" value="blog" />
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+
+   
+    $(function () {
+        $("#btnSubmit").unbind("click");
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {           
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            if ($("#inputSearch").val() == "") {               
+                alert("请录入搜索关键词！");                         
+                return false;
+            }
+            //var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";           
+            var url = "https://www.baidu.com/s?wd=" + encodeURIComponent($("#inputSearch").val()) + "%20site%3Ablog.csdn.net"
+            window.location.href = url;
+        }   
+    });
+</script><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="/qq_25804863/article/category/5826287" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">******** Java</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="/qq_25804863/article/category/5826285" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">******** Android</a><span>(81)</span>
+                </li>
+                 <li>
+                    <a href="/qq_25804863/article/category/6047312" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">------ Framework</a><span>(28)</span>
+                </li>
+                 <li>
+                    <a href="/qq_25804863/article/category/5826775" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">------ UI</a><span>(22)</span>
+                </li>
+                 <li>
+                    <a href="/qq_25804863/article/category/5895347" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">------ 通讯协议</a><span>(4)</span>
+                </li>
+                 <li>
+                    <a href="/qq_25804863/article/category/5826765" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">------ 性能优化</a><span>(10)</span>
+                </li>
+                 <li>
+                    <a href="/qq_25804863/article/category/6047314" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">------ 架构设计</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="/qq_25804863/article/category/5837769" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">------ 知识点</a><span>(7)</span>
+                </li>
+                 <li>
+                    <a href="/qq_25804863/article/category/5837753" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">********DevelopTools</a><span>(7)</span>
+                </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list">
+<!--归档统计-->
+<li><a href="/qq_25804863/article/month/2017/06">2017年06月</a><span>(1)</span></li><li><a href="/qq_25804863/article/month/2017/04">2017年04月</a><span>(1)</span></li><li><a href="/qq_25804863/article/month/2017/03">2017年03月</a><span>(1)</span></li><li><a href="/qq_25804863/article/month/2016/12">2016年12月</a><span>(1)</span></li><li><a href="/qq_25804863/article/month/2016/11">2016年11月</a><span>(1)</span></li><li><a href="/qq_25804863/article/month/2016/04">2016年04月</a><span>(1)</span></li><li><a href="/qq_25804863/article/month/2016/03">2016年03月</a><span>(7)</span></li><li><a href="/qq_25804863/article/month/2016/02">2016年02月</a><span>(2)</span></li><li><a href="/qq_25804863/article/month/2015/12">2015年12月</a><span>(5)</span></li><li><a href="/qq_25804863/article/month/2015/11">2015年11月</a><span>(13)</span></li><li><a href="/qq_25804863/article/month/2015/10">2015年10月</a><span>(8)</span></li><li><a href="/qq_25804863/article/month/2015/09">2015年09月</a><span>(41)</span></li><li><a href="/qq_25804863/article/month/2015/02">2015年02月</a><span>(1)</span></li>
+</div>
+</ul>
+</div>
+<div id="hotarticls" class="panel tracking-ad" data-mod="popu_340">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="/qq_25804863/article/details/50229473" title="免费的天气预报API接口--谷歌，雅虎，中央气象台">免费的天气预报API接口--谷歌，雅虎，中央气象台</a><span>(7759)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48697257" title="Netty Http协议栈开发(客户端&amp;服务端)">Netty Http协议栈开发(客户端&amp;服务端)</a><span>(7469)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48697423" title="Android_PackageInstall源码">Android_PackageInstall源码</a><span>(7178)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48698943" title="PowerManagerService电源管理和Wacklock锁申请与释放机制">PowerManagerService电源管理和Wacklock锁申请与释放机制</a><span>(6875)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48669149" title="Android开机向导setupwizard,设置系统语言,WiFi向导">Android开机向导setupwizard,设置系统语言,WiFi向导</a><span>(6758)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48686325" title="Android自定义软键盘输入法,隐藏系统输入法显示光标的实现">Android自定义软键盘输入法,隐藏系统输入法显示光标的实现</a><span>(6558)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48688611" title="Android所有对话框_dialog大全">Android所有对话框_dialog大全</a><span>(6226)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48669385" title="Android DrawableShape资源的用法,Shape属性,Shape开发">Android DrawableShape资源的用法,Shape属性,Shape开发</a><span>(6224)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48698737" title="Android动画">Android动画</a><span>(6109)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48698873" title="Android Socket通讯TCP和UDP协议Demo">Android Socket通讯TCP和UDP协议Demo</a><span>(6095)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel tracking-ad" data-mod="popu_341">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="/qq_25804863/article/details/48669003" title="Android.mk编译脚本 &amp; AndroidManifest.xml编写及注释">Android.mk编译脚本 &amp; AndroidManifest.xml编写及注释</a><span>(5)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/49313913" title="Android实现AirPlay，DriodAirPlay开发">Android实现AirPlay，DriodAirPlay开发</a><span>(3)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/49742159" title="Android自定义相机,切换前后摄像头,照相机拍照">Android自定义相机,切换前后摄像头,照相机拍照</a><span>(3)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/43936223" title="AndroidIPC进程间通信 binder机制&amp;aidl远程服务demo">AndroidIPC进程间通信 binder机制&amp;aidl远程服务demo</a><span>(2)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/49703833" title="蜻蜓FM刷活跃度实现原理">蜻蜓FM刷活跃度实现原理</a><span>(2)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48686325" title="Android自定义软键盘输入法,隐藏系统输入法显示光标的实现">Android自定义软键盘输入法,隐藏系统输入法显示光标的实现</a><span>(2)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48566861" title="Eclipse快捷键大全">Eclipse快捷键大全</a><span>(2)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48697797" title="Java数据结构与算法">Java数据结构与算法</a><span>(2)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/65634864" title="Android帧动画实现,防OOM,比原生动画集节约超过十倍的资源">Android帧动画实现,防OOM,比原生动画集节约超过十倍的资源</a><span>(1)</span>
+</li>
+<li>
+<a href="/qq_25804863/article/details/48688611" title="Android所有对话框_dialog大全">Android所有对话框_dialog大全</a><span>(1)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend">
+<ul>
+<li><a href="http://blog.csdn.net/blogdevteam/article/details/78105371" target="_blank">* CSDN新版博客feed流内测用户征集令</a></li>
+<li><a href="http://blog.csdn.net/lowprofile_coding/article/details/77852131" 
+target="_blank">* Android检查更新下载安装</a></li>
+<li><a href="http://blog.csdn.net/yhaolpz/article/details/77366154"target="_blank">* 动手打造史上最简单的 Recycleview 侧滑菜单</a></li>
+<li><a href="http://blog.csdn.net/sweettool/article/details/77018506" 
+target="_blank">* TCP网络通讯如何解决分包粘包问题</a></li>
+<li><a href="http://edu.csdn.net/huiyiCourse/series_detail/64" 
+target="_blank">* SDCC 2017之大数据技术实战线上峰会</a></li>
+<li><a href="http://blog.csdn.net/pangpang123654/article/details/78012706" 
+target="_blank">* 快速集成一个视频直播功能
+</a></li>
+
+</ul></ul>
+</div>
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="/qq_25804863/article/details/49742159#comments">Android自定义相机,切换前后摄像头,照相机拍照</a>
+    <p style="margin:0px;"><a href="/GuiLJDANdy" class="user_name">GuiLJDANdy</a>:
+不可用
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_25804863/article/details/49313913#comments">Android实现AirPlay，DriodAirPlay开发</a>
+    <p style="margin:0px;"><a href="/qq_25804863" class="user_name">qq_25804863</a>:
+@i1065517719:可能吧,没去验证
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_25804863/article/details/49313913#comments">Android实现AirPlay，DriodAirPlay开发</a>
+    <p style="margin:0px;"><a href="/i1065517719" class="user_name">i1065517719</a>:
+看这时间应该是老的协议吧，不支持了新的ios吧
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_25804863/article/details/48669003#comments">Android.mk编译脚本 &amp; AndroidManifest.xml编写及注释</a>
+    <p style="margin:0px;"><a href="/huweigoodboy" class="user_name">huweigoodboy</a>:
+@qq_25804863:好的，我这边暴力把两个jar包合成一个解决问题了。 手动哭笑
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_25804863/article/details/48669003#comments">Android.mk编译脚本 &amp; AndroidManifest.xml编写及注释</a>
+    <p style="margin:0px;"><a href="/qq_25804863" class="user_name">qq_25804863</a>:
+@qq_25804863:输入字数有限,接上一份LOCAL_AAPT_FLAGS := --auto...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_25804863/article/details/48669003#comments">Android.mk编译脚本 &amp; AndroidManifest.xml编写及注释</a>
+    <p style="margin:0px;"><a href="/qq_25804863" class="user_name">qq_25804863</a>:
+@huweigoodboy:系统里一份mk文件,供参考:LOCAL_PATH:= $(call my...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_25804863/article/details/48669003#comments">Android.mk编译脚本 &amp; AndroidManifest.xml编写及注释</a>
+    <p style="margin:0px;"><a href="/qq_25804863" class="user_name">qq_25804863</a>:
+@huweigoodboy:配置代码没有问题,那就是配置的顺序有问题,我遇到过
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_25804863/article/details/48669003#comments">Android.mk编译脚本 &amp; AndroidManifest.xml编写及注释</a>
+    <p style="margin:0px;"><a href="/huweigoodboy" class="user_name">huweigoodboy</a>:
+你好，请问23.3.0的v4包aar里面有libs/internal_impl-23.3.0.jar...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_25804863/article/details/48669477#comments">Android系统源码Settings导入eclipse</a>
+    <p style="margin:0px;"><a href="/sunhuaqiang1" class="user_name">sunhuaqiang1</a>:
+CSDN博友你好，我是孙华强，现将此篇博文收录进“Android知识库”。CSDN现在在做CSDN博...
+    </p>
+    </li>
+    <li>
+   
+         <a href="/qq_25804863/article/details/65634864#comments">Android帧动画实现,防OOM,比原生动画集节约超过十倍的资源</a>
+    <p style="margin:0px;"><a href="/qq446282412" class="user_name">qq446282412</a>:
+到此一游！
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+
+                   <div class="tracking-ad" data-view="true"  data-mtp="63" data-order="40" data-con="ad_content_1260" style="width: 200px; height: 400px;">
+                         <div id="nav_show_top_stop" style="width: 200px;height: 500px;z-index:1000">
+                             <div id="cpro_u2734128">
+                                  <!-- 投放代码 -->                           
+                              <!-- 请置于所有广告位代码之前 -->
+                                <script src="http://dup.baidustatic.com/js/ds.js"></script>
+                                 <!-- 广告位：PC端-博客详情页-左侧button1-200*200 -->
+                                    <script>
+                                        (function () {
+                                            var s = "_" + Math.random().toString(36).slice(2);
+                                            document.write('<div id="' + s + '"></div>');
+                                            (window.slotbydup = window.slotbydup || []).push({
+                                                id: '4740881',
+                                                container: s,
+                                                size: '200,200',
+                                                display: 'inlay-fix'
+                                            });
+                                        })();
+                                    </script>
+                             </div>
+                             <div id="cpro_u3031287">
+                                  <!-- 投放代码 -->
+                                <!-- 请置于所有广告位代码之前 -->
+                                    <script src="http://dup.baidustatic.com/js/ds.js"></script>
+
+                                 <!-- 广告位：PC端-博客详情页-左侧button2-200*200 -->
+                                <script>
+                                    (function () {
+                                        var s = "_" + Math.random().toString(36).slice(2);
+                                        document.write('<div id="' + s + '"></div>');
+                                        (window.slotbydup = window.slotbydup || []).push({
+                                            id: '4740894',
+                                            container: s,
+                                            size: '200,200',
+                                            display: 'inlay-fix'
+                                        });
+                                    })();
+                                </script>
+
+                             </div>
+
+                         </div>
+                   </div>
+                <script type="text/javascript">
+                    setTimeout(function () {
+                        var naviga_offsetTop = 0;
+                        function naviga_stay_top() { var scrollTop = jQuery(document).scrollTop(); if (scrollTop > naviga_offsetTop) { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": "0px" }); } else { jQuery("#nav_show_top_stop").css({ "position": "fixed" }); jQuery("#nav_show_top_stop").css({ "top": naviga_offsetTop - scrollTop + "px" }); } }
+                        function onload_function() { naviga_offsetTop = jQuery("#nav_show_top_stop").position().top; jQuery(window).bind("scroll", naviga_stay_top); jQuery(window).bind("mousewheel", naviga_stay_top); jQuery(document).bind("scroll", naviga_stay_top); jQuery(document).bind("mousewheel", naviga_stay_top); } jQuery(document).ready(onload_function);
+
+                    }, 200);
+                </script>                    
+
+           </div>   
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+    <script type="text/javascript" src="http://passport.csdn.net/content/loginbox/login.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+
+    </div>
+     
+
+
+       <script type="text/javascript" src="http://static.blog.csdn.net/public/res/bower-libs/MathJax/MathJax.js?config=TeX-AMS_HTML"></script>   
+    
+    <script src="http://static.blog.csdn.net/scripts/csdn_blog_detail.min.js" type="text/javascript"></script>
+        
+    <script type="text/javascript" src="http://c.csdnimg.cn/blog/csdn_public_blog_detail.min.js?20170719001"></script>
+
+    <script type="text/javascript" src="http://medal.blog.csdn.net/showblogmedal.ashx?blogid=4957337"></script>
+
+
+  <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+                    <script id="adJs52b5334"></script>
+                    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+   </div>
+          
+    <div class="pop_CA_cover"  style="display:none"></div>
+    <div class="pop pop_CA"  style="display:none">
+          <div class="CA_header">
+            收藏助手
+            <span class="cancel_icon"  id="fapancle"  onclick="$('.pop_CA').hide();$('.pop_CA_cover').hide();"></span>
+          </div>
+          <iframe src="" id="fa" frameborder="0" width="100%" height="360"  scrolling="no" ></iframe>
+    </div>
+
+
+        <script type="text/javascript">
+
+            $(function () {
+                var fromjs = $("#fromjs");
+                if (fromjs.length > 0) {
+                    $("#fromjs .markdown_views pre").addClass("prettyprint");
+                    prettyPrint();
+
+                    $('pre.prettyprint code').each(function () {
+                        var lines = $(this).text().split('\n').length;
+                        var $numbering = $('<ul/>').addClass('pre-numbering').hide();
+                        $(this).addClass('has-numbering').parent().append($numbering);
+                        for (i = 1; i <= lines; i++) {
+                            $numbering.append($('<li/>').text(i));
+                        };
+                        $numbering.fadeIn(1700);
+                    });
+
+                    $('.pre-numbering li').css("color", "#999");
+                }
+            });
+
+            $(".markdown_views a[target!='_blank']").attr("target", "_blank");
+
+            //$(".toc a[target='_blank']").attr("target", "");
+
+            setTimeout(function () {
+                $(".toc a[target='_blank']").attr("target", "");
+            }, 500);
+
+        </script>
+
+</body>
+</html>   

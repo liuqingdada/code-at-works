@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!--[if IE 6]><html class="ie lt-ie8"><![endif]-->
+<!--[if IE 7]><html class="ie lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="ie ie8"><![endif]-->
+<!--[if IE 9]><html class="ie ie9"><![endif]-->
+<!--[if !IE]><!-->
+<html><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="mobile-agent" content="format=html5;url=http://www.jianshu.com/p/94f8e3119981">
+  <!-- End of Baidu Transcode -->
+
+    <meta name="description" content="Android在蓝牙开发过程中，经常需要蓝牙成功连接后，控制像音箱，蓝牙灯之类的硬件。这时候，打开手机的蓝牙设置，常会看到电话音频和媒体音频，这两个是什么鬼？ 从开发Android到现在，我感觉都是懵懵懂懂的，每天和硬件工程师在一起。只能说算是能开发Android app，至于这些协议总是啃了忘，忘了啃。下面说一下，我的理解。如果有不对的地方，烦请留言或者私信告诉我。 如上图中，一般电话音频...">
+
+  <meta name="360-site-verification" content="604a14b53c6b871206001285921e81d8">
+  <meta property="wb:webmaster" content="294ec9de89e7fadb">
+  <meta property="qc:admins" content="104102651453316562112116375">
+  <meta property="qc:admins" content="11635613706305617">
+  <meta property="qc:admins" content="1163561616621163056375">
+  <meta name="google-site-verification" content="cV4-qkUJZR6gmFeajx_UyPe47GW9vY6cnCrYtCHYNh4">
+  <meta name="google-site-verification" content="HF7lfF8YEGs1qtCE-kPml8Z469e2RHhGajy6JPVy5XI">
+  <meta http-equiv="mobile-agent" content="format=html5; url=http://www.jianshu.com/p/94f8e3119981">
+
+  <!-- Apple -->
+  <meta name="apple-mobile-web-app-title" content="简书">
+
+    <!--  Meta for Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=888237539, app-argument=jianshu://notes/10382261">
+  <!-- End -->
+
+  <!--  Meta for Twitter Card -->
+  <meta content="summary" property="twitter:card">
+  <meta content="@jianshucom" property="twitter:site">
+  <meta content="Android蓝牙开发中电话音频（HSP，HFP）和媒体音频（A2DP，AVRCP）到底是个什么鬼" property="twitter:title">
+  <meta content="Android在蓝牙开发过程中，经常需要蓝牙成功连接后，控制像音箱，蓝牙灯之类的硬件。这时候，打开手机的蓝牙设置，常会看到电话音频和媒体音频，这两个是什么鬼？ 从开发Android到现在，我感觉都是懵懵懂懂的，每天和硬件工程师在一起。只能说算是能开发Android app，至于这些协议总是啃了忘，忘了啃。下面说一下，我的理解。如果有不对的地方，烦请留言或者私信告诉我。 如上图中，一般电话音频是否支持要和嵌入式工程师确认。蓝牙芯片如果不支持电话音频，这里就不会显示出来了。这里说一下电话音频的协议：HSP和HFP。先看定义： HSP（手机规格）– 提供手机（移动电话）与耳机之间通信所需的基本..." property="twitter:description">
+  <meta content="http://www.jianshu.com/p/94f8e3119981" property="twitter:url">
+  <!-- End -->
+
+  <!--  Meta for OpenGraph -->
+  <meta property="fb:app_id" content="865829053512461">
+  <meta property="og:site_name" content="简书">
+  <meta property="og:title" content="Android蓝牙开发中电话音频（HSP，HFP）和媒体音频（A2DP，AVRCP）到底是个什么鬼">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://www.jianshu.com/p/94f8e3119981">
+  <meta property="og:description" content="Android在蓝牙开发过程中，经常需要蓝牙成功连接后，控制像音箱，蓝牙灯之类的硬件。这时候，打开手机的蓝牙设置，常会看到电话音频和媒体音频，这两个是什么鬼？ 从开发Android到现在，我感觉...">
+  <!-- End -->
+
+  <!--  Meta for Facebook Applinks -->
+  <meta property="al:ios:url" content="jianshu://notes/10382261">
+  <meta property="al:ios:app_store_id" content="888237539">
+  <meta property="al:ios:app_name" content="简书">
+
+  <meta property="al:android:url" content="jianshu://notes/10382261">
+  <meta property="al:android:package" content="com.jianshu.haruki">
+  <meta property="al:android:app_name" content="简书">
+  <!-- End -->
+
+
+    <title>Android蓝牙开发中电话音频（HSP，HFP）和媒体音频（A2DP，AVRCP）到底是个什么鬼 - 简书</title>
+
+  <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="5D53kziZQjxI0HXdJQ9IhubmrcandjVq/wVkkC/FrbMc90tpIeLmlEMpTJRrV2oZWlhf8ZOCkb08+s3euQv98w==">
+
+  <link rel="stylesheet" media="all" href="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/web-04d0b3d33adf1549e566.css">
+  
+  <link rel="stylesheet" media="all" href="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/entry-04d0b3d33adf1549e566.css">
+
+  <link href="http://cdn2.jianshu.io/assets/favicons/favicon-783beb88ed621ceab614de960376ac0c.ico" rel="icon">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/57-47624b2e2161e8eb144462c85db0a5ff.png" sizes="57x57">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/72-c00cde7cf98fc49e50cbb3ee1dcd5804.png" sizes="72x72">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/76-e8af0bdeaf1ba31e303b1fde8b5e66c4.png" sizes="76x76">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/114-f4c78569bbf1977e8382a5fd90c9237a.png" sizes="114x114">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/120-cf10c3711dba269522743729efe66bbc.png" sizes="120x120">
+      <link rel="apple-touch-icon-precomposed" href="http://cdn2.jianshu.io/assets/apple-touch-icons/152-7bd60457b5f3ecbf1343f0e6241be4f8.png" sizes="152x152">
+<link rel="stylesheet" href="blob:http://www.jianshu.com/a1507803-5d61-4de2-8883-0dc58fbc6f5b"><link rel="stylesheet" href="blob:http://www.jianshu.com/55cb2a20-fbf2-4c81-8a5e-5b9dd0887e32"></head>
+
+  <body class="reader-black-font" lang="zh-CN">
+    <!-- 全局顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="width-limit">
+    <!-- 左上方 Logo -->
+    <a class="logo" href="http://www.jianshu.com/"><img src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/logo-58fd04f6f0de908401aa561cda6a0688.png" alt="Logo"></a>
+
+    <!-- 右上角 -->
+      <!-- 未登录显示登录/注册/写文章 -->
+      <a class="btn write-btn" target="_blank" href="http://www.jianshu.com/writer#/">
+        <i class="iconfont ic-write"></i>写文章
+</a>      <a class="btn sign-up" href="http://www.jianshu.com/sign_up">注册</a>
+      <a class="btn log-in" href="http://www.jianshu.com/sign_in">登录</a>
+
+    <!-- 如果用户登录，显示下拉菜单 -->
+
+    <div class="style-mode"><a class="style-mode-btn"><i class="iconfont ic-navigation-mode"></i></a> <div class="popover-modal" style="left: 0px; display: none;"><div class="meta"><i class="iconfont ic-navigation-night"></i><span>夜间模式</span></div> <div class="switch day-night-group"><a class="switch-btn">开</a> <a class="switch-btn active">关</a></div> <hr> <div class="switch font-family-group"><a class="switch-btn font-song">宋体</a> <a class="switch-btn font-hei active">黑体</a></div> <div class="switch"><a class="switch-btn active">简</a> <a class="switch-btn">繁</a></div></div></div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="nav navbar-nav">
+            <li class="">
+              <a href="http://www.jianshu.com/">
+                <span class="menu-text">首页</span><i class="iconfont ic-navigation-discover menu-icon"></i>
+</a>            </li>
+            <li class="">
+              <a class="app-download-btn" href="http://www.jianshu.com/apps"><span class="menu-text">下载App</span><i class="iconfont ic-navigation-download menu-icon"></i></a>
+            </li>
+          <li class="search">
+            <form target="_blank" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" value="✓" type="hidden">
+              <input name="q" id="q" placeholder="搜索" class="search-input" type="text">
+              <a class="search-btn" href="javascript:void(null)"><i class="iconfont ic-search"></i></a>
+              <!-- <div id="navbar-trending-search"></div> -->
+</form>          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    
+<div class="note">
+  <div class="post">
+    <div class="article">
+        <h1 class="title">Android蓝牙开发中电话音频（HSP，HFP）和媒体音频（A2DP，AVRCP）到底是个什么鬼</h1>
+
+        <!-- 作者区域 -->
+        <div class="author">
+          <a class="avatar" href="http://www.jianshu.com/u/224542bcc403">
+            <img src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/77cc06be-1924-442b-a5cf-b964e47fe6be.jpg" alt="144">
+</a>          <div class="info">
+            <span class="tag">作者</span>
+            <span class="name"><a href="http://www.jianshu.com/u/224542bcc403">墙角的牵牛花</a></span>
+            <!-- 关注用户按钮 -->
+            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <!-- 文章数据信息 -->
+            <div class="meta">
+              <!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
+                <span class="publish-time" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="最后编辑于 2017.03.28 23:42">2017.03.21 14:07*</span>
+              <span class="wordage">字数 1167</span>
+            <span class="views-count">阅读 215</span><span class="comments-count">评论 0</span><span class="likes-count">喜欢 5</span></div>
+          </div>
+          <!-- 如果是当前作者，加入编辑按钮 -->
+        </div>
+        <!-- -->
+
+        <!-- 文章内容 -->
+        <div data-note-content="" class="show-content">
+          <p>Android在蓝牙开发过程中，经常需要蓝牙成功连接后，控制像音箱，蓝牙灯之类的硬件。这时候，打开手机的蓝牙设置，常会看到电话音频和媒体音频，这两个是什么鬼？</p>
+<p>从开发Android到现在，我感觉都是懵懵懂懂的，每天和硬件工程师在一起。只能说算是能开发Android app，至于这些协议总是啃了忘，忘了啃。下面说一下，我的理解。如果有不对的地方，烦请留言或者私信告诉我。</p>
+<div class="image-package">
+<img src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/3426598-522cc0153906d61c.jpg" data-original-src="http://upload-images.jianshu.io/upload_images/3426598-522cc0153906d61c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2" style="cursor: zoom-in;"><br><div class="image-caption">蓝牙连接时.jpg</div>
+</div>
+<p>如上图中，一般电话音频是否支持要和嵌入式工程师确认。蓝牙芯片如果不支持电话音频，这里就不会显示出来了。<br>这里说一下电话音频的协议：HSP和HFP。<br>先看定义：</p>
+<p>HSP（手机规格）– 提供手机（移动电话）与耳机之间通信所需的基本功能。<br>HFP（免提规格）– 在 HSP 的基础上增加了某些扩展功能，原来只用于从固定车载免提装置来控制移动电话。</p>
+<p>这个网上的解释我觉得是最好理解的了。这里要重点说一下连接HSP的核心代码处理了。</p>
+<p>public class Hfp {<br>    public static final String TAG = "Hfp";<br>    private BluetoothAdapter mBluetoothAdapter;<br>    private BluetoothProfile hfpProfile;<br>    private static Hfp INSTANCE;<br>    private boolean enableHfp = false;</p>
+<pre class="hljs aspectj"><code class="aspectj"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Hfp</span><span class="hljs-params">()</span> </span>{
+    mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    enableHfp = mBluetoothAdapter.getProfileProxy(XApplication.getInstance(), <span class="hljs-keyword">new</span> ProfileListener(), BluetoothProfile.HEADSET);
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">isEnableHfp</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-keyword">return</span> enableHfp;
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">static</span> <span class="hljs-function">Hfp <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">if</span> (INSTANCE == <span class="hljs-keyword">null</span>) {
+        INSTANCE = <span class="hljs-keyword">new</span> Hfp();
+    }
+    <span class="hljs-keyword">return</span> INSTANCE;
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProfileListener</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">BluetoothProfile</span>.<span class="hljs-title">ServiceListener</span> </span>{
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onServiceConnected</span><span class="hljs-params">(<span class="hljs-keyword">int</span> profile, BluetoothProfile proxy)</span> </span>{
+        <span class="hljs-keyword">if</span> (profile == BluetoothProfile.HEADSET) {
+            hfpProfile = proxy;
+        }
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onServiceDisconnected</span><span class="hljs-params">(<span class="hljs-keyword">int</span> profile)</span> </span>{
+        Log.i(TAG, <span class="hljs-string">"onServiceDisconnected="</span>+profile);
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getHfpState</span><span class="hljs-params">()</span></span>{
+    <span class="hljs-keyword">if</span>(mBluetoothAdapter != <span class="hljs-keyword">null</span>){
+        <span class="hljs-function"><span class="hljs-keyword">return</span> mBluetoothAdapter.<span class="hljs-title">getProfileConnectionState</span><span class="hljs-params">(BluetoothProfile.HEADSET)</span></span>;
+    }<span class="hljs-keyword">else</span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function">BluetoothDevice <span class="hljs-title">getSysHfpConnected</span><span class="hljs-params">()</span></span>{
+    List&lt;BluetoothDevice&gt; devices = DeviceManager.getSysPairedDevices();
+    <span class="hljs-keyword">for</span>(BluetoothDevice device : devices){
+        <span class="hljs-keyword">if</span>(getHfpState(device)){
+            <span class="hljs-keyword">return</span> device;
+        }
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">getHfpState</span><span class="hljs-params">(BluetoothDevice device)</span></span>{
+    Logg.e(TAG, <span class="hljs-string">"hfpProfile_--&gt;"</span> + hfpProfile);
+    <span class="hljs-keyword">if</span>(hfpProfile != <span class="hljs-keyword">null</span> &amp;&amp; hfpProfile.getConnectionState(device) == BluetoothProfile.STATE_CONNECTED){
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+}</code></pre>
+<p>}</p>
+<p>————————————————————————————————————<br>估计没有写注释很多人还是云里雾里的。说一下具体思路：<br>构造函数：Hfp（）<br>获取蓝牙适配器：（蓝牙开发中常用代码）<br> mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();<br>//判断Hsp的状态<br>enableHfp = mBluetoothAdapter.getProfileProxy(XApplication.getInstance(), new ProfileListener(), BluetoothProfile.HEADSET);<br>注意：XApplication.getInstance()<br>XApplication就是你的项目的application，记得绑定在一起。</p>
+<p>getHfpState()，getSysHfpConnected()，getHfpState三个方法根据实际情况使用。<br>至于：public class ProfileListener implements BluetoothProfile.ServiceListener<br>记得看Google的api，上面都有。官方推荐的获取hsp的代理。</p>
+<p>再说一下：<br>A2DP，AVRCP。<br>找一个能看懂的解释：<br>A2DP（高级音频传送规格）– 允许传输立体声音频信号。 （相比用于 HSP 和 HFP 的单声道加密，质量要好得多）。<br>AVRCP（音频/视频遥控规格）–用于从控制器（如立体声耳机）向目标设备（如装有 Media Player 的电脑）发送命令（如前跳、暂停和播放）。</p>
+<p>而实际开发中，Android工程师要控制的就是A2DP的连接了。逻辑和获取HSP的大致差不多。<br>构造函数：<br> mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();<br>        mBluetoothAdapter.getProfileProxy(XApplication.getInstance(), new profileListener(), BluetoothProfile.A2DP);</p>
+<p>获取A2DP的代理：<br> public class profileListener implements BluetoothProfile.ServiceListener {<br>        @Override<br>        public void onServiceConnected(int profile, BluetoothProfile proxy) {<br>            Log.i(TAG, "connect to a2dp server");<br>            a2dpProfile = proxy;<br>        }<br>        @Override<br>        public void onServiceDisconnected(int profile) {<br>            Log.i(TAG, "disconnect to a2dp server");<br>            a2dpProfile = null;<br>        }<br>    }</p>
+<p>判断A2DP的连接状态:<br>  public boolean getA2dpState(BluetoothDevice device){<br>        if(a2dpProfile != null &amp;&amp; a2dpProfile.getConnectionState(device) == BluetoothProfile.STATE_CONNECTED){<br>            return true;<br>        }<br>        return false;<br>    }</p>
+<p>A2DP与设备相连：<br>public void a2dpConnect(BluetoothDevice device){<br>        if(a2dpProfile != null){<br>            BluetoothA2dp a2dp = (BluetoothA2dp) a2dpProfile;<br>            Class&lt;? extends BluetoothA2dp&gt; clazz = a2dp.getClass();<br>            Method m2;<br>            try {<br>                Log.i(TAG,"use reflect to connect a2dp");<br>                m2 = clazz.getMethod("connect",BluetoothDevice.class);<br>                m2.invoke(a2dp, device);<br>            } catch (Exception e) {<br>                Log.e(TAG,"error:" + e.toString());<br>            }<br>        }<br>    }</p>
+<p>注意了：这里运用到了Java反射的原理。<br>———————————————————————————————————————<br>在实际开发中<br>关于A2DP，手机支持A2DP的（安卓机都是标配了），只需要通过广播就可以获取状态了。我实际在开发中，建议借鉴网络连接的逻辑，一旦A2DP中断，蓝牙音响设备自然就没有声音了。所以，必须是全局的。<br>关于AVRCP，这部分嵌入式工程师的逻辑多，硬件上的按键可以控制手机app的，比如按键加减时，可以与app交互。<br>关于HSP，HFP。尽管可以实现手机来电时，硬件设备也会响，自然接听时，会被别人听到，所以接听时，需要嵌入式工程师做额外处理。Android工程师看情况要不要配合一下。</p>
+<p>还是那句老话，强烈建议学习Google 官方在github的demo：<a href="https://github.com/googlesamples/" target="_blank">https://github.com/googlesamples/</a><br>然后再根据自己的实际情况代码的扩展。</p>
+
+        </div>
+        <!--  -->
+
+        <div class="show-foot">
+          <a class="notebook" href="http://www.jianshu.com/nb/8768747">
+            <i class="iconfont ic-search-notebook"></i> <span>Andriod世界</span>
+</a>          <div class="copyright" data-toggle="tooltip" data-html="true" data-original-title="转载请联系作者获得授权，并标注“简书作者”。">
+            © 著作权归作者所有
+          </div>
+          <div class="modal-wrap" data-report-note="">
+            <a id="report-modal">举报文章</a>
+          </div>
+        </div>
+    </div>
+
+    <!-- 文章底部作者信息 -->
+      <div class="follow-detail">
+        <div class="info">
+          <a class="avatar" href="http://www.jianshu.com/u/224542bcc403">
+            <img src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/77cc06be-1924-442b-a5cf-b964e47fe6be.jpg" alt="144">
+</a>          <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+          <a class="title" href="http://www.jianshu.com/u/224542bcc403">墙角的牵牛花</a>
+        <p>写了 47587 字，被 216 人关注，获得了 385 个喜欢</p></div>
+          <div class="signature">一个爱好文字的Android攻城狮。
+
+
+
+我已委托“维权骑士”（rightknights.com）为我的文章进行维权行动。
+
+
+
+</div>
+      </div>
+
+      <div class="support-author"><p>谢谢你支持原创！墙角的牵牛花会努力的！</p> <div class="btn btn-pay">赞赏支持</div> <!----> <!----> <!----></div>
+
+    <div class="meta-bottom">
+      <div class="like"><div class="btn like-group"><div class="btn-like"><a href="http://www.jianshu.com/sign_in"><i class="iconfont ic-like"></i>喜欢</a></div> <div class="modal-wrap"><a>5</a></div></div> <!----></div>
+      <div class="share-group">
+        <a class="share-circle" data-action="weixin-share" data-toggle="tooltip" data-original-title="分享到微信">
+          <i class="iconfont ic-wechat"></i>
+        </a>
+        <a class="share-circle" data-toggle="tooltip" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=1881139527',u=z||d.location,p=['&amp;url=',e(u),'&amp;title=',e(t||d.title),'&amp;source=',e(r),'&amp;sourceUrl=',e(l),'&amp;content=',c||'gb2312','&amp;pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','http://cwb.assets.jianshu.io/notes/images/10382261/weibo/image_712c6b1be7b8.jpg',%20'%E6%8E%A8%E8%8D%90%20%E5%A2%99%E8%A7%92%E7%9A%84%E7%89%B5%E7%89%9B%E8%8A%B1%20%E7%9A%84%E6%96%87%E7%AB%A0%E3%80%8AAndroid%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%E3%80%8B%EF%BC%88%20%E5%88%86%E4%BA%AB%E8%87%AA%20@%E7%AE%80%E4%B9%A6%20%EF%BC%89','http://www.jianshu.com/p/94f8e3119981?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo','%E9%A1%B5%E9%9D%A2%E7%BC%96%E7%A0%81gb2312|utf-8%E9%BB%98%E8%AE%A4gb2312'));" data-original-title="分享到微博">
+          <i class="iconfont ic-weibo"></i>
+        </a>
+          <a class="share-circle" data-toggle="tooltip" href="http://cwb.assets.jianshu.io/notes/images/10382261/weibo/image_712c6b1be7b8.jpg" target="_blank" data-original-title="下载长微博图片">
+            <i class="iconfont ic-picture"></i>
+          </a>
+        <a class="share-circle more-share" tabindex="0" data-toggle="popover" data-placement="top" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="
+          &lt;ul class=&quot;share-list&quot;&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url='+e('http://www.jianshu.com/p/94f8e3119981?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone')+'&amp;title='+e('推荐 墙角的牵牛花 的文章《Android蓝牙开发中电话音频（HSP，HFP）和媒体音频（A2DP，AVRCP）到底是个什么鬼》'),x=function(){if(!window.open(r,'qzone','toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-zone&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='https://twitter.com/share?url='+e('http://www.jianshu.com/p/94f8e3119981?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter')+'&amp;text='+e('推荐 墙角的牵牛花 的文章《Android蓝牙开发中电话音频（HSP，HFP）和媒体音频（A2DP，AVRCP）到底是个什么鬼》（ 分享自 @jianshucom ）')+'&amp;related='+e('jianshucom'),x=function(){if(!window.open(r,'twitter','toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-twitter&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=http://www.jianshu.com/p/94f8e3119981?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook',x=function(){if(!window.open(r,'facebook','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-facebook&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='https://plus.google.com/share?url='+e('http://www.jianshu.com/p/94f8e3119981?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus'),x=function(){if(!window.open(r,'google_plus','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-google&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e('http://www.jianshu.com/p/94f8e3119981?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban')+'&amp;title='+e('Android蓝牙开发中电话音频（HSP，HFP）和媒体音频（A2DP，AVRCP）到底是个什么鬼')+'&amp;sel='+e(s)+'&amp;v=1',x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r+'&amp;r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-douban&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        " data-original-title="" title="">更多分享</a>
+      </div>
+    </div>
+    <div><div id="comment-list" class="comment-list"><div><form class="new-comment"><a class="avatar"><img src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/avatar_default-78d4d1f68984cd6d4379508dd94b4210.png"></a> <div class="sign-container"><a href="http://www.jianshu.com/sign_in" class="btn btn-sign">登录</a> <span>后发表评论</span></div></form></div> <div id="normal-comment-list" class="normal-comment-list"><div><!----> <div><div class="top"><span>评论</span> <a class="close-btn" style="display: none;">关闭评论</a></div> <div class="no-comment"></div> <div class="text">
+            智慧如你，不想<a href="http://www.jianshu.com/sign_in">发表一点想法</a>咩~
+          </div></div> <!----> <div class="comments-placeholder" style="display: none;"><div class="author"><div class="avatar"></div> <div class="info"><div class="name"></div> <div class="meta"></div></div></div> <div class="text"></div> <div class="text animation-delay"></div> <div class="tool-group"><i class="iconfont ic-zan-active"></i><div class="zan"></div> <i class="iconfont ic-list-comments"></i><div class="zan"></div></div></div> </div></div> <!----> <div><!----></div></div></div>
+  </div>
+
+  <div class="side-tool"><ul><li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="回到顶部" style="display: none;"><a class="function-button"><i class="iconfont ic-backtop"></i></a></li> <!----> <!----> <li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="分享文章"><a tabindex="0" role="button" data-toggle="popover" data-placement="left" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="&lt;ul class='share-list'&gt;
+                &lt;li&gt;&lt;a class=&quot;weixin-share&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-weixin&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到微信&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f='http://v.t.sina.com.cn/share/share.php?appkey=1881139527',u=z||d.location,p=['&amp;url=',e(u),'&amp;title=',e(t||d.title),'&amp;source=',e(r),'&amp;sourceUrl=',e(l),'&amp;content=',c||'gb2312','&amp;pic=',e(p||'')].join('');function%20a(){if(!window.open([f,p].join(''),'mb',['toolbar=0,status=0,resizable=1,width=440,height=430,left=',(s.width-440)/2,',top=',(s.height-430)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,'','','http://cwb.assets.jianshu.io/notes/images/10382261/weibo/image_712c6b1be7b8.jpg', '推荐 墙角的牵牛花 的文章《Android蓝牙开发中电话音频（HSP，HFP）和媒体音频（A2DP，AVRCP）到底是个什么鬼》（ 分享自 @简书 ）','http://www.jianshu.com/p/94f8e3119981?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo','页面编码gb2312|utf-8默认gb2312'));&quot;&gt;&lt;i class='social-icon-sprite social-icon-weibo'&gt;&lt;/i&gt;&lt;span&gt;分享到微博&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;http://cwb.assets.jianshu.io/notes/images/10382261/weibo/image_712c6b1be7b8.jpg&quot; target=&quot;_blank&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-picture&quot;&gt;&lt;/i&gt;&lt;span&gt;下载长微博图片&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url='+e('http://www.jianshu.com/p/94f8e3119981?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone')+'&amp;title='+e('推荐 墙角的牵牛花 的文章《Android蓝牙开发中电话音频（HSP，HFP）和媒体音频（A2DP，AVRCP）到底是个什么鬼》'),x=function(){if(!window.open(r,'qzone','toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class='social-icon-sprite social-icon-zone'&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='https://twitter.com/share?url='+e('http://www.jianshu.com/p/94f8e3119981?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter')+'&amp;text='+e('推荐 墙角的牵牛花 的文章《Android蓝牙开发中电话音频（HSP，HFP）和媒体音频（A2DP，AVRCP）到底是个什么鬼》（ 分享自 @jianshucom ）')+'&amp;related='+e('jianshucom'),x=function(){if(!window.open(r,'twitter','toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class='social-icon-sprite social-icon-twitter'&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=http://www.jianshu.com/p/94f8e3119981?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook',x=function(){if(!window.open(r,'facebook','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class='social-icon-sprite social-icon-facebook'&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r='https://plus.google.com/share?url='+e('http://www.jianshu.com/p/94f8e3119981?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus'),x=function(){if(!window.open(r,'google_plus','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class='social-icon-sprite social-icon-google'&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:'',r='http://www.douban.com/recommend/?url='+e('http://www.jianshu.com/p/94f8e3119981?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban')+'&amp;title='+e('Android蓝牙开发中电话音频（HSP，HFP）和媒体音频（A2DP，AVRCP）到底是个什么鬼')+'&amp;sel='+e(s)+'&amp;v=1',x=function(){if(!window.open(r,'douban','toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330'))location.href=r+'&amp;r=1'};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class='social-icon-sprite social-icon-douban'&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+              &lt;/ul&gt;" data-original-title="" title="" class="function-button"><i class="iconfont ic-share"></i></a> <!----></li></ul></div>
+</div>
+<div class="note-bottom">
+  <div><div class="main"><div class="title">被以下专题收入，发现更多相似内容</div> <!----> <div class="include-collection"><!----> <a href="http://www.jianshu.com/c/NEt52a?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/computer_guy.jpg"><div class="name">程序员</div></a><a href="http://www.jianshu.com/c/3fde3b545a35?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/android.jpeg"><div class="name">Android知识</div></a><a href="http://www.jianshu.com/c/d1591c322c89?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/android_002.jpeg"><div class="name">Android开发</div></a><a href="http://www.jianshu.com/c/961dcd2b32ab?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/1463872983.jpg"><div class="name">Android</div></a> <!----></div></div> <!----> <!----></div>
+  <div data-vcomp="recommended-notes" data-note-id="10382261"></div>
+</div>
+
+    <script src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/push.js"></script><script src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/hm.js"></script><script async="" src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/analytics.js"></script><script type="application/json" data-name="page-data">{"user_signed_in":false,"locale":"zh-CN","os":"linux","read_mode":"day","read_font":"font2","note_show":{"is_author":false,"is_following_author":false,"is_liked_note":false,"uuid":"0d8a9ae3-1cff-47ec-86cf-c60c6b755a5c"},"note":{"id":10382261,"slug":"94f8e3119981","user_id":3426598,"notebook_id":8768747,"commentable":true,"likes_count":5,"views_count":215,"public_wordage":1167,"comments_count":0,"total_rewards_count":0,"is_author":false,"author":{"nickname":"墙角的牵牛花","total_wordage":47587,"followers_count":216,"total_likes_count":385}}}</script>
+    
+    <script src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/babel-polyfill-d0c2732d002a471ed287.js"></script>
+    <script src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/web-base-04d0b3d33adf1549e566.js"></script>
+<script src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/web-1bc6f25d67ffa58ce876.js"></script>
+    
+    <script src="Android%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E4%B8%AD%E7%94%B5%E8%AF%9D%E9%9F%B3%E9%A2%91%EF%BC%88HSP%EF%BC%8CHFP%EF%BC%89%E5%92%8C%E5%AA%92%E4%BD%93%E9%9F%B3%E9%A2%91%EF%BC%88A2DP%EF%BC%8CAVRCP%EF%BC%89%E5%88%B0%E5%BA%95%E6%98%AF%E4%B8%AA%E4%BB%80%E4%B9%88%E9%AC%BC%20-%20%E7%AE%80%E4%B9%A6_files/entry-6f034d43d24e8ff141af.js"></script>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-35169517-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+<script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?0c0e9d9b1e7d617b3e6842e85b9fb068";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+  })();
+</script>
+
+<script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+  
+
+<!----><!----></body></html>

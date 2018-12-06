@@ -1,0 +1,16 @@
+﻿在ubuntu 11.10(12.04)下，gcc、g++的版本是 4.6.1，编译之前应先把版本降到4.4；
+否则编译 android 4.0 会出现很多意想不到的问题。
+先下载4.4版本的gcc、g++：
+sudo apt-get install gcc-4.4
+sudo apt-get install g++-4.4
+然后操作如下：
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.4 40
+sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.4 40
+此时可以使用 gcc -v、g++ -v 命令分别查看gcc、g++当前使用的版本已为4.4了！
+另外，Ubuntu11.10版本，更新软件的包的命令是：
+sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev libc6-dev lib32ncurses5-dev ia32-libs x11proto-core-dev libx11-dev lib32readline-gplv2-dev lib32z-dev libgl1-mesa-dev g++-multilib mingw32 tofrodos python-markdown libxml2-utils xsltproc uboot-mkimage
+编译Android系统时，有可能报错：
+g++: selected multilib '32' not installed
+make: *** [out/host/linux-x86/obj/EXECUTABLES/acp_intermediates/acp] Error 1
+解决办法：
+sudo apt-get install g++-4.4-multilib

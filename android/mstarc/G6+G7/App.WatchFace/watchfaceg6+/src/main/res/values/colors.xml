@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="modern_city_normal_powerstep_color">#eda55d</color>
+    <color name="modern_city_ambient_powerstep_color">#a5a5a5</color>
+</resources>

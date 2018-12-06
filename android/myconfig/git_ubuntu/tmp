@@ -1,0 +1,23 @@
+sudo apt-get update && sudo apt-get full-upgrade
+
+sudo add-apt-repository ppa:uget-team/ppa
+sudo apt update
+sudo apt install uget-integrator
+
+
+sudo add-apt-repository ppa:slgobinath/uget-chrome-wrapper
+sudo apt update
+sudo apt install uget-chrome-wrapper
+
+
+安装Chrome插件：https://chrome.google.com/webstore/detail/uget-integration/efjgjleilhflffpbnkaofpmdnajdpepi?hl=zh-CN
+
+
+sudo add-apt-repository ppa:plushuang-tw/uget-stable
+sudo apt-get update
+sudo apt-get install uget
+
+
+sudo add-apt-repository ppa:t-tujikawa/ppa
+sudo apt-get update
+sudo apt-get install aria2

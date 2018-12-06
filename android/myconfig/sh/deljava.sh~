@@ -1,0 +1,41 @@
+sudo update-alternatives --remove  jar /home/jason/jdk1.6.0_43/bin/jar 5000
+sudo update-alternatives --remove  jarsigner /home/jason/jdk1.6.0_43/bin/jarsigner 5000
+sudo update-alternatives --remove  java /home/jason/jdk1.6.0_43/bin/java 5000
+sudo update-alternatives --remove  javac /home/jason/jdk1.6.0_43/bin/javac 5000
+sudo update-alternatives --remove  javadoc /home/jason/jdk1.6.0_43/bin/javadoc 5000
+sudo update-alternatives --remove  javah /home/jason/jdk1.6.0_43/bin/javah 5000
+sudo update-alternatives --remove  javaws /home/jason/jdk1.6.0_43/bin/javaws 5000
+sudo update-alternatives --remove  javap /home/jason/jdk1.6.0_43/bin/javap 5000
+
+sudo update-alternatives --remove  appletviewer /home/jason/jdk1.6.0_43/bin/appletviewer 5000
+sudo update-alternatives --remove  extcheck /home/jason/jdk1.6.0_43/bin/extcheck 5000
+sudo update-alternatives --remove  idlj /home/jason/jdk1.6.0_43/bin/idlj 5000
+sudo update-alternatives --remove  jconsole /home/jason/jdk1.6.0_43/bin/jconsole 5000
+sudo update-alternatives --remove  jdb /home/jason/jdk1.6.0_43/bin/jdb 5000
+sudo update-alternatives --remove  jhat /home/jason/jdk1.6.0_43/bin/jhat 5000
+sudo update-alternatives --remove  jmap /home/jason/jdk1.6.0_43/bin/jmap 5000
+sudo update-alternatives --remove  jps /home/jason/jdk1.6.0_43/bin/jps 5000
+sudo update-alternatives --remove  jrunscript /home/jason/jdk1.6.0_43/bin/jrunscript 5000
+sudo update-alternatives --remove  jsadebugd /home/jason/jdk1.6.0_43/bin/jsadebugd 5000
+sudo update-alternatives --remove  jstack /home/jason/jdk1.6.0_43/bin/jstack 5000
+sudo update-alternatives --remove  jstat /home/jason/jdk1.6.0_43/bin/jstat 5000
+sudo update-alternatives --remove  jstatd /home/jason/jdk1.6.0_43/bin/jstatd 5000
+sudo update-alternatives --remove  keytool /home/jason/jdk1.6.0_43/bin/keytool 5000
+sudo update-alternatives --remove  native2ascii /home/jason/jdk1.6.0_43/bin/native2ascii 5000
+sudo update-alternatives --remove  orbd /home/jason/jdk1.6.0_43/bin/orbd 5000
+sudo update-alternatives --remove  pack200 /home/jason/jdk1.6.0_43/bin/pack200 5000
+sudo update-alternatives --remove  policytool /home/jason/jdk1.6.0_43/bin/policytool 5000
+sudo update-alternatives --remove  rmic /home/jason/jdk1.6.0_43/bin/rmic 5000
+sudo update-alternatives --remove  rmid /home/jason/jdk1.6.0_43/bin/rmid 5000
+sudo update-alternatives --remove  rmiregistry /home/jason/jdk1.6.0_43/bin/rmiregistry 5000
+sudo update-alternatives --remove  schemagen /home/jason/jdk1.6.0_43/bin/schemagen 5000
+sudo update-alternatives --remove  serialver /home/jason/jdk1.6.0_43/bin/serialver 5000
+sudo update-alternatives --remove  servertool /home/jason/jdk1.6.0_43/bin/servertool 5000
+sudo update-alternatives --remove  tnameserv /home/jason/jdk1.6.0_43/bin/tnameserv 5000
+sudo update-alternatives --remove  unpack200 /home/jason/jdk1.6.0_43/bin/unpack200 5000
+sudo update-alternatives --remove  wsgen /home/jason/jdk1.6.0_43/bin/wsgen 5000
+sudo update-alternatives --remove  wsimport /home/jason/jdk1.6.0_43/bin/wsimport 5000
+sudo update-alternatives --remove  xjc /home/jason/jdk1.6.0_43/bin/xjc 5000
+
+
+

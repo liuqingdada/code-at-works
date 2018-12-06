@@ -1,0 +1,722 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Android实现主动连接蓝牙耳机 - 沉淀之路—Android - ITeye博客</title>
+    <meta name="description" content="在Android程序中可以实现自动扫描蓝牙、配对蓝牙、建立数据通道。 蓝牙分不同类型，可以参考（http://gqdy365.iteye.com/admin/blogs/2229304） 可以入下面方法获取蓝牙设备支持的类型：   BluetoothDevice device;  Arrays.toString(device.getUuids());   我的蓝牙音箱支持的类型有：   000011 ...">
+    <meta name="keywords" content=" Android实现主动连接蓝牙耳机">
+    <link rel="shortcut icon" href="http://gqdy365.iteye.com/images/favicon.ico" type="image/x-icon">
+    <link rel="search" type="application/opensearchdescription+xml" href="http://gqdy365.iteye.com/open_search.xml" title="ITeye">
+    <link href="http://gqdy365.iteye.com/rss" rel="alternate" title="沉淀之路—Android" type="application/rss+xml">
+    <link href="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/blog.css" media="screen" rel="stylesheet" type="text/css">
+<link href="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/red.css" media="screen" rel="stylesheet" type="text/css">
+    <script type="text/javascript" async="" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/zcem_002.js"></script><script src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/ca-pub-8990951720398508.js"></script><script type="text/javascript" async="" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/zcem.js"></script><script src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/hm.js"></script><script src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/application.js" type="text/javascript"></script>    
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?e19a8b00cf63f716d774540875007664";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+      <link href="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/SyntaxHighlighter.css" media="screen" rel="stylesheet" type="text/css">
+  <script src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/shCoreCommon.js" type="text/javascript"></script>
+<script src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/hotkey.js" type="text/javascript"></script>
+  <script src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/code_favorites.js" type="text/javascript"></script>
+<script src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/weiboshare.js" type="text/javascript"></script>
+
+    
+  <style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style></head>
+  <body><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/o.html" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div>
+    <div id="header">
+	      <div id="blog_site_nav">
+  <a href="http://www.iteye.com/" class="homepage">首页</a>
+  <a href="http://www.iteye.com/news">资讯</a>
+  <a href="http://www.iteye.com/magazines">精华</a>
+  <a href="http://www.iteye.com/forums">论坛</a>
+  <a href="http://www.iteye.com/ask">问答</a>
+  <a href="http://www.iteye.com/blogs">博客</a>
+  <a href="http://www.iteye.com/blogs/subjects">专栏</a>
+  <a href="http://www.iteye.com/groups">群组</a>
+  <a href="#" onclick="return false;" id="msna"><u>更多</u> <small>▼</small></a>
+  <div class="quick_menu" style="display:none;">
+    <a target="_blank" href="http://job.iteye.com/iteye">知识库</a>
+    <a href="http://www.iteye.com/search">搜索</a>
+  </div>
+</div>
+
+	      <div id="user_nav">
+  <span style="color:red;">因系统升级，暂停注册。稍后将全面支持使用CSDN帐号进行注册及登录</span>
+  
+      <a href="http://gqdy365.iteye.com/login" class="welcome" title="登录">您还未登录 !</a>
+    <a href="http://gqdy365.iteye.com/login">登录</a>
+  </div>
+
+	    
+    </div>
+
+    <div id="page">
+        <div id="branding" class="clearfix" style="overflow: hidden;background: none;padding:0 0 2px;">
+          <script type="text/javascript">
+            /*Iteye博客内页顶部通栏-960*90，创建于 2016-08-01*/
+            var cpro_id = "u2720131";
+          </script>
+          <script type="text/javascript" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/c.js"></script><div id="BAIDU_SSP__wrapper_u2720131_0"><iframe id="iframeu2720131_0" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/zcem.html" vspace="0" hspace="0" marginwidth="0" marginheight="0" scrolling="no" style="border:0;vertical-align:bottom;margin:0;width:960px;height:90px" allowtransparency="true" align="center,center" width="960" height="90" frameborder="0"></iframe></div>
+        </div>
+      <div id="branding" class="clearfix">
+        <div id="blog_name">
+          <h1><a href="http://gqdy365.iteye.com/">沉淀之路—Android</a></h1>
+        </div>
+        <div id="fd"></div>
+        <div id="blog_navbar">
+          <ul>
+            <li class="blog_navbar_for"><a href="http://gqdy365.iteye.com/"><strong>博客</strong></a></li>
+            <li><a href="http://gqdy365.iteye.com/weibo">微博</a></li>
+            <li><a href="http://gqdy365.iteye.com/album">相册</a></li>
+            <li><a href="http://gqdy365.iteye.com/link">收藏</a></li>
+            <li><a href="http://gqdy365.iteye.com/blog/guest_book">留言</a></li>
+            <li><a href="http://gqdy365.iteye.com/blog/profile">关于我</a></li>
+          </ul>
+    
+          <div class="search">
+            <form action="/blog/search" method="get">
+              <input class="search_text" id="query" name="query" style="margin-left: 10px;width: 110px;" type="text">
+              <input class="submit_search" value="" type="submit">
+            </form>
+          </div> 
+          <div id="fd"></div>         
+        </div>
+      </div>
+      
+      <div id="content" class="clearfix">
+        <div id="main">
+          
+
+
+
+          
+
+
+<div class="h-entry" style="display:none">
+  <a href="http://gqdy365.iteye.com/" class="p-author" target="_blank">gqdy365</a>
+</div>
+
+
+<div class="blog_main">
+  <div class="blog_title">
+    <h3>
+      <a href="http://gqdy365.iteye.com/blog/2227454">Android实现主动连接蓝牙耳机</a>
+      <em class="actions">      </em>
+    </h3>
+    <ul class="blog_categories"><strong>博客分类：</strong> <li><a href="http://gqdy365.iteye.com/category/331875">Android蓝牙</a></li> </ul>
+        <div class="news_tag">&nbsp;</div>
+    	  
+    	
+    	
+  		
+      </div>
+
+  <div id="blog_content" class="blog_content">
+    在Android程序中可以实现自动扫描蓝牙、配对蓝牙、建立数据通道。
+<br>蓝牙分不同类型，可以参考（http://gqdy365.iteye.com/admin/blogs/2229304）
+<br>可以入下面方法获取蓝牙设备支持的类型：
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=BluetoothDevice%20device%3B%0AArrays.toString(device.getUuids())%3B%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span>BluetoothDevice&nbsp;device;&nbsp;&nbsp;</span></span></li><li><span>Arrays.toString(device.getUuids());&nbsp;&nbsp;</span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="0" title="Android实现主动连接蓝牙耳机">BluetoothDevice device;
+Arrays.toString(device.getUuids());
+</pre>
+<br>
+<br>我的蓝牙音箱支持的类型有：
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=0000111e-0000-1000-8000-00805f9b34fb%EF%BC%9AHandsfree%0A0000110b-0000-1000-8000-00805f9b34fb%EF%BC%9AAudioSink%0A0000110e-0000-1000-8000-00805f9b34fb%EF%BC%9AAVRemoteControl%0A00001203-0000-1000-8000-00805f9b34fb%EF%BC%9AGenericFileTransfer%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span>0000111e-</span><span class="number">0000</span><span>-</span><span class="number">1000</span><span>-</span><span class="number">8000</span><span>-00805f9b34fb：Handsfree&nbsp;&nbsp;</span></span></li><li><span>0000110b-<span class="number">0000</span><span>-</span><span class="number">1000</span><span>-</span><span class="number">8000</span><span>-00805f9b34fb：AudioSink&nbsp;&nbsp;</span></span></li><li><span>0000110e-<span class="number">0000</span><span>-</span><span class="number">1000</span><span>-</span><span class="number">8000</span><span>-00805f9b34fb：AVRemoteControl&nbsp;&nbsp;</span></span></li><li><span><span class="number">00001203</span><span>-</span><span class="number">0000</span><span>-</span><span class="number">1000</span><span>-</span><span class="number">8000</span><span>-00805f9b34fb：GenericFileTransfer&nbsp;&nbsp;</span></span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="1" title="Android实现主动连接蓝牙耳机">0000111e-0000-1000-8000-00805f9b34fb：Handsfree
+0000110b-0000-1000-8000-00805f9b34fb：AudioSink
+0000110e-0000-1000-8000-00805f9b34fb：AVRemoteControl
+00001203-0000-1000-8000-00805f9b34fb：GenericFileTransfer
+</pre>
+<br>
+<br>这篇文字只讨论如何与蓝牙耳机（蓝牙音箱）连接。
+<br>蓝牙耳机一般都支持A2DP（蓝牙立体声，用于音乐播放）、HFP协议（通话），参考：http://gqdy365.iteye.com/admin/blogs/2231553
+<br>所以下面操作要同时操作A2DP和HFP，两个都连接成功，才算连接成功；
+<br>
+<br>一、A2DP的操作可以分三步：
+<br>
+<br>1、扫描蓝牙设备：
+<br>注册并监听广播：
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=BluetoothAdapter.ACTION_DISCOVERY_STARTED%0ABluetoothDevice.ACTION_FOUND%0ABluetoothAdapter.ACTION_DISCOVERY_FINISHED%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span>BluetoothAdapter.ACTION_DISCOVERY_STARTED&nbsp;&nbsp;</span></span></li><li><span>BluetoothDevice.ACTION_FOUND&nbsp;&nbsp;</span></li><li><span>BluetoothAdapter.ACTION_DISCOVERY_FINISHED&nbsp;&nbsp;</span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="2" title="Android实现主动连接蓝牙耳机">BluetoothAdapter.ACTION_DISCOVERY_STARTED
+BluetoothDevice.ACTION_FOUND
+BluetoothAdapter.ACTION_DISCOVERY_FINISHED
+</pre>
+<br>启动扫描：
+<br>
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=BluetoothAdapter.getDefaultAdapter().startDiscovery()%3B%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span>BluetoothAdapter.getDefaultAdapter().startDiscovery();&nbsp;&nbsp;</span></span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="3" title="Android实现主动连接蓝牙耳机">BluetoothAdapter.getDefaultAdapter().startDiscovery();
+</pre>
+<br>
+<br>对扫描的结果按类型进行筛选，只保留我们需要的蓝牙耳机：
+<br>
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=%0A%09%09if(device.getBluetoothClass().getDeviceClass()%20%3D%3D%20BluetoothClass.Device.AUDIO_VIDEO_WEARABLE_HEADSET%0A%09%09%09%09%7C%7C%20device.getBluetoothClass().getDeviceClass()%20%3D%3D%20BluetoothClass.Device.AUDIO_VIDEO_HANDSFREE)%7B%0A%2F%2F%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%0A%7D%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">if</span><span>(device.getBluetoothClass().getDeviceClass()&nbsp;==&nbsp;BluetoothClass.Device.AUDIO_VIDEO_WEARABLE_HEADSET&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;||&nbsp;device.getBluetoothClass().getDeviceClass()&nbsp;==&nbsp;BluetoothClass.Device.AUDIO_VIDEO_HANDSFREE){&nbsp;&nbsp;</span></li><li><span><span class="comment">//蓝牙耳机</span><span>&nbsp;&nbsp;</span></span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="4" title="Android实现主动连接蓝牙耳机">
+		if(device.getBluetoothClass().getDeviceClass() == BluetoothClass.Device.AUDIO_VIDEO_WEARABLE_HEADSET
+				|| device.getBluetoothClass().getDeviceClass() == BluetoothClass.Device.AUDIO_VIDEO_HANDSFREE){
+//蓝牙耳机
+}
+</pre>
+<br>
+<br>2、配对指定的蓝牙设备：
+<br>这个跟配对普通蓝牙一样，方法如下：
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=%09public%20static%20%20boolean%20createBond(BluetoothDevice%20btDevice)%7B%0A%09%09boolean%20result%20%3D%20false%3B%0A%09%09try%7B%0A%09%09%09Method%20m%20%3D%20btDevice.getClass().getDeclaredMethod(%22createBond%22%2Cnew%20Class%5B%5D%7B%7D)%3B%0A%09%09%09m.setAccessible(true)%3B%0A%09%09%09Boolean%20originalResult%20%3D%20(Boolean)%20m.invoke(btDevice)%3B%0A%09%09%09result%20%3D%20originalResult.booleanValue()%3B%0A%09%09%7Dcatch(Exception%20ex)%7B%0A%09%09%7D%0A%09%09return%20result%3B%0A%09%7D%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">static</span><span>&nbsp;&nbsp;</span><span class="keyword">boolean</span><span>&nbsp;createBond(BluetoothDevice&nbsp;btDevice){&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">boolean</span><span>&nbsp;result&nbsp;=&nbsp;</span><span class="keyword">false</span><span>;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span><span>{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Method&nbsp;m&nbsp;=&nbsp;btDevice.getClass().getDeclaredMethod(<span class="string">"createBond"</span><span>,</span><span class="keyword">new</span><span>&nbsp;Class[]{});&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m.setAccessible(<span class="keyword">true</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Boolean&nbsp;originalResult&nbsp;=&nbsp;(Boolean)&nbsp;m.invoke(btDevice);&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;originalResult.booleanValue();&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}<span class="keyword">catch</span><span>(Exception&nbsp;ex){&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span><span>&nbsp;result;&nbsp;&nbsp;</span></span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="5" title="Android实现主动连接蓝牙耳机">	public static  boolean createBond(BluetoothDevice btDevice){
+		boolean result = false;
+		try{
+			Method m = btDevice.getClass().getDeclaredMethod("createBond",new Class[]{});
+			m.setAccessible(true);
+			Boolean originalResult = (Boolean) m.invoke(btDevice);
+			result = originalResult.booleanValue();
+		}catch(Exception ex){
+		}
+		return result;
+	}
+</pre>
+<br>
+<br>等配对完成之后就是要建立数据连接；
+<br>
+<br>3、建立数据连接：
+<br>
+<br>if you SDK between 11 and 16.call a2dp.connectSink(btDevice) or a2dp.connect(btDevice) 
+<br>
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=private%20static%20IBluetoothA2dp%20getIBluetoothA2dp()%20%7B%0A%20%20%20%20IBluetoothA2dp%20ibta%20%3D%20null%3B%0A%0A%20%20%20%20try%20%7B%0A%20%20%20%20%20%20%20%20final%20Class%20serviceManager%20%3D%20Class.forName(%22android.os.ServiceManager%22)%3B%0A%20%20%20%20%20%20%20%20final%20Method%20getService%20%3D%20serviceManager.getDeclaredMethod(%22getService%22%2C%20String.class)%3B%0A%20%20%20%20%20%20%20%20final%20IBinder%20iBinder%20%3D%20(IBinder)%20getService.invoke(null%2C%20%22bluetooth_a2dp%22)%3B%0A%20%20%20%20%20%20%20%20final%20Class%20iBluetoothA2dp%20%3D%20Class.forName(%22android.bluetooth.IBluetoothA2dp%22)%3B%0A%20%20%20%20%20%20%20%20final%20Class%5B%5D%20declaredClasses%20%3D%20iBluetoothA2dp.getDeclaredClasses()%3B%0A%20%20%20%20%20%20%20%20final%20Class%20c%20%3D%20declaredClasses%5B0%5D%3B%0A%20%20%20%20%20%20%20%20final%20Method%20asInterface%20%3D%20c.getDeclaredMethod(%22asInterface%22%2C%20IBinder.class)%3B%0A%0A%20%20%20%20%20%20%20%20asInterface.setAccessible(true)%3B%0A%20%20%20%20%20%20%20%20ibta%20%3D%20(IBluetoothA2dp)%20asInterface.invoke(null%2C%20iBinder)%3B%0A%20%20%20%20%7D%20catch%20(final%20Exception%20e)%20%7B%0A%20%20%20%20%20%20%20%20Log.e(%22Error%20%22%20%2B%20e.getMessage())%3B%0A%20%20%20%20%7D%0A%20%20%20%20return%20ibta%3B%0A%7D%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">private</span><span>&nbsp;</span><span class="keyword">static</span><span>&nbsp;IBluetoothA2dp&nbsp;getIBluetoothA2dp()&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;IBluetoothA2dp&nbsp;ibta&nbsp;=&nbsp;<span class="keyword">null</span><span>;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span><span>&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">final</span><span>&nbsp;Class&nbsp;serviceManager&nbsp;=&nbsp;Class.forName(</span><span class="string">"android.os.ServiceManager"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">final</span><span>&nbsp;Method&nbsp;getService&nbsp;=&nbsp;serviceManager.getDeclaredMethod(</span><span class="string">"getService"</span><span>,&nbsp;String.</span><span class="keyword">class</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">final</span><span>&nbsp;IBinder&nbsp;iBinder&nbsp;=&nbsp;(IBinder)&nbsp;getService.invoke(</span><span class="keyword">null</span><span>,&nbsp;</span><span class="string">"bluetooth_a2dp"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">final</span><span>&nbsp;Class&nbsp;iBluetoothA2dp&nbsp;=&nbsp;Class.forName(</span><span class="string">"android.bluetooth.IBluetoothA2dp"</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">final</span><span>&nbsp;Class[]&nbsp;declaredClasses&nbsp;=&nbsp;iBluetoothA2dp.getDeclaredClasses();&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">final</span><span>&nbsp;Class&nbsp;c&nbsp;=&nbsp;declaredClasses[</span><span class="number">0</span><span>];&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">final</span><span>&nbsp;Method&nbsp;asInterface&nbsp;=&nbsp;c.getDeclaredMethod(</span><span class="string">"asInterface"</span><span>,&nbsp;IBinder.</span><span class="keyword">class</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asInterface.setAccessible(<span class="keyword">true</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ibta&nbsp;=&nbsp;(IBluetoothA2dp)&nbsp;asInterface.invoke(<span class="keyword">null</span><span>,&nbsp;iBinder);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="keyword">catch</span><span>&nbsp;(</span><span class="keyword">final</span><span>&nbsp;Exception&nbsp;e)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Log.e(<span class="string">"Error&nbsp;"</span><span>&nbsp;+&nbsp;e.getMessage());&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span><span>&nbsp;ibta;&nbsp;&nbsp;</span></span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="6" title="Android实现主动连接蓝牙耳机">private static IBluetoothA2dp getIBluetoothA2dp() {
+    IBluetoothA2dp ibta = null;
+
+    try {
+        final Class serviceManager = Class.forName("android.os.ServiceManager");
+        final Method getService = serviceManager.getDeclaredMethod("getService", String.class);
+        final IBinder iBinder = (IBinder) getService.invoke(null, "bluetooth_a2dp");
+        final Class iBluetoothA2dp = Class.forName("android.bluetooth.IBluetoothA2dp");
+        final Class[] declaredClasses = iBluetoothA2dp.getDeclaredClasses();
+        final Class c = declaredClasses[0];
+        final Method asInterface = c.getDeclaredMethod("asInterface", IBinder.class);
+
+        asInterface.setAccessible(true);
+        ibta = (IBluetoothA2dp) asInterface.invoke(null, iBinder);
+    } catch (final Exception e) {
+        Log.e("Error " + e.getMessage());
+    }
+    return ibta;
+}
+</pre>
+<br>参考：http://stackoverflow.com/questions/8467178/working-around-a2dp-and-hfp-limitations-of-android-pre-honeycomb
+<br>
+<br>如果API大于16需要用如下的方法：
+<br>
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=%09private%20void%20initA2dpService()%7B%0A%2F%2F%09%09Intent%20i%20%3D%20getExplicitIntent(mContext%2Cnew%20Intent(IBluetoothA2dp.class.getName()))%3B%2F%2F5.0%E4%BB%A5%E4%B8%8A%E7%B3%BB%E7%BB%9F%E9%9C%80%E8%A6%81%E6%98%BE%E7%A4%BAintent%0A%2F%2F%E8%AF%A6%E7%BB%86%E5%8F%82%E8%80%83http%3A%2F%2Fblog.csdn.net%2Fl2show%2Farticle%2Fdetails%2F47421961%0A%09%09Intent%20i%20%3D%20new%20Intent(IBluetoothA2dp.class.getName())%3B%0A%09%09boolean%20success%20%3D%20mContext.bindService(i%2C%20mConnection%2C%20Context.BIND_AUTO_CREATE)%3B%0A%09%09if%20(success)%20%7B%0A%0A%09%09%7D%20else%20%7B%0A%09%09%7D%0A%09%7D%0A%0A%09public%20ServiceConnection%20mConnection%20%3D%20new%20ServiceConnection()%20%7B%0A%0A%09%09%40Override%0A%09%09public%20void%20onServiceConnected(ComponentName%20name%2C%20IBinder%20service)%20%7B%0A%09%09%09try%20%7B%0A%09%09%09%09mA2dpService%20%3D%20IBluetoothA2dp.Stub.asInterface(service)%3B%0A%09%09%09%7D%20catch%20(Exception%20e)%20%7B%0A%09%09%09%09e.printStackTrace()%3B%0A%09%09%09%7D%0A%09%09%7D%0A%0A%09%09%40Override%0A%09%09public%20void%20onServiceDisconnected(ComponentName%20name)%20%7B%0A%09%09%09%2F%2F%20TODO%20Auto-generated%20method%20stub%0A%0A%09%09%7D%0A%0A%09%7D%3B%0A%09%0A%20%20%20%20public%20Intent%20getExplicitIntent(Context%20context%2C%20Intent%20implicitIntent)%20%7B%0A%20%20%20%20%20%20%20%20%2F%2F%20Retrieve%20all%20services%20that%20can%20match%20the%20given%20intent%0A%20%20%20%20%20%20%20%20PackageManager%20pm%20%3D%20context.getPackageManager()%3B%0A%20%20%20%20%20%20%20%20List%3CResolveInfo%3E%20resolveInfo%20%3D%20pm.queryIntentServices(implicitIntent%2C%200)%3B%0A%20%20%20%20%20%20%20%20%2F%2F%20Make%20sure%20only%20one%20match%20was%20found%0A%20%20%20%20%20%20%20%20if%20(resolveInfo%20%3D%3D%20null%20%7C%7C%20resolveInfo.size()%20!%3D%201)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20return%20null%3B%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%2F%2F%20Get%20component%20info%20and%20create%20ComponentName%0A%20%20%20%20%20%20%20%20ResolveInfo%20serviceInfo%20%3D%20resolveInfo.get(0)%3B%0A%20%20%20%20%20%20%20%20String%20packageName%20%3D%20serviceInfo.serviceInfo.packageName%3B%0A%20%20%20%20%20%20%20%20String%20className%20%3D%20serviceInfo.serviceInfo.name%3B%0A%20%20%20%20%20%20%20%20ComponentName%20component%20%3D%20new%20ComponentName(packageName%2C%20className)%3B%0A%20%20%20%20%20%20%20%20%2F%2F%20Create%20a%20new%20intent.%20Use%20the%20old%20one%20for%20extras%20and%20such%20reuse%0A%20%20%20%20%20%20%20%20Intent%20explicitIntent%20%3D%20new%20Intent(implicitIntent)%3B%0A%20%20%20%20%20%20%20%20%2F%2F%20Set%20the%20component%20to%20be%20explicit%0A%20%20%20%20%20%20%20%20explicitIntent.setComponent(component)%3B%0A%20%20%20%20%20%20%20%20return%20explicitIntent%3B%0A%20%20%20%20%7D%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">private</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;initA2dpService(){&nbsp;&nbsp;</span></span></li><li><span><span class="comment">//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Intent&nbsp;i&nbsp;=&
+nbsp;getExplicitIntent(mContext,new&nbsp;Intent(IBluetoothA2dp.class.getName()));//5.0
+以上系统需要显示intent</span><span>&nbsp;&nbsp;</span></span></li><li><span><span class="comment">//详细参考http://blog.csdn.net/l2show/article/details/47421961</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Intent&nbsp;i&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;Intent(IBluetoothA2dp.</span><span class="keyword">class</span><span>.getName());&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">boolean</span><span>&nbsp;success&nbsp;=&nbsp;mContext.bindService(i,&nbsp;mConnection,&nbsp;Context.BIND_AUTO_CREATE);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span><span>&nbsp;(success)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="keyword">else</span><span>&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;ServiceConnection&nbsp;mConnection&nbsp;=&nbsp;</span><span class="keyword">new</span><span>&nbsp;ServiceConnection()&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="annotation">@Override</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;onServiceConnected(ComponentName&nbsp;name,&nbsp;IBinder&nbsp;service)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span><span>&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mA2dpService&nbsp;=&nbsp;IBluetoothA2dp.Stub.asInterface(service);&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span class="keyword">catch</span><span>&nbsp;(Exception&nbsp;e)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e.printStackTrace();&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="annotation">@Override</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;onServiceDisconnected(ComponentName&nbsp;name)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;TODO&nbsp;Auto-generated&nbsp;method&nbsp;stub</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;Intent&nbsp;getExplicitIntent(Context&nbsp;context,&nbsp;Intent&nbsp;implicitIntent)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;Retrieve&nbsp;all&nbsp;services&nbsp;that&nbsp;can&nbsp;match&nbsp;the&nbsp;given&nbsp;intent</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PackageManager&nbsp;pm&nbsp;=&nbsp;context.getPackageManager();&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&lt;ResolveInfo&gt;&nbsp;resolveInfo&nbsp;=&nbsp;pm.queryIntentServices(implicitIntent,&nbsp;<span class="number">0</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;Make&nbsp;sure&nbsp;only&nbsp;one&nbsp;match&nbsp;was&nbsp;found</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span><span>&nbsp;(resolveInfo&nbsp;==&nbsp;</span><span class="keyword">null</span><span>&nbsp;||&nbsp;resolveInfo.size()&nbsp;!=&nbsp;</span><span class="number">1</span><span>)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span><span>&nbsp;</span><span class="keyword">null</span><span>;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;Get&nbsp;component&nbsp;info&nbsp;and&nbsp;create&nbsp;ComponentName</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ResolveInfo&nbsp;serviceInfo&nbsp;=&nbsp;resolveInfo.get(<span class="number">0</span><span>);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;packageName&nbsp;=&nbsp;serviceInfo.serviceInfo.packageName;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;className&nbsp;=&nbsp;serviceInfo.serviceInfo.name;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ComponentName&nbsp;component&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;ComponentName(packageName,&nbsp;className);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;Create&nbsp;a&nbsp;new&nbsp;intent.&nbsp;Use&nbsp;the&nbsp;old&nbsp;one&nbsp;for&nbsp;extras&nbsp;and&nbsp;such&nbsp;reuse</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Intent&nbsp;explicitIntent&nbsp;=&nbsp;<span class="keyword">new</span><span>&nbsp;Intent(implicitIntent);&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//&nbsp;Set&nbsp;the&nbsp;component&nbsp;to&nbsp;be&nbsp;explicit</span><span>&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;explicitIntent.setComponent(component);&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span><span>&nbsp;explicitIntent;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="7" title="Android实现主动连接蓝牙耳机">	private void initA2dpService(){
+//		Intent i = getExplicitIntent(mContext,new Intent(IBluetoothA2dp.class.getName()));//5.0以上系统需要显示intent
+//详细参考http://blog.csdn.net/l2show/article/details/47421961
+		Intent i = new Intent(IBluetoothA2dp.class.getName());
+		boolean success = mContext.bindService(i, mConnection, Context.BIND_AUTO_CREATE);
+		if (success) {
+
+		} else {
+		}
+	}
+
+	public ServiceConnection mConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			try {
+				mA2dpService = IBluetoothA2dp.Stub.asInterface(service);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			// TODO Auto-generated method stub
+
+		}
+
+	};
+	
+    public Intent getExplicitIntent(Context context, Intent implicitIntent) {
+        // Retrieve all services that can match the given intent
+        PackageManager pm = context.getPackageManager();
+        List&lt;ResolveInfo&gt; resolveInfo = pm.queryIntentServices(implicitIntent, 0);
+        // Make sure only one match was found
+        if (resolveInfo == null || resolveInfo.size() != 1) {
+            return null;
+        }
+        // Get component info and create ComponentName
+        ResolveInfo serviceInfo = resolveInfo.get(0);
+        String packageName = serviceInfo.serviceInfo.packageName;
+        String className = serviceInfo.serviceInfo.name;
+        ComponentName component = new ComponentName(packageName, className);
+        // Create a new intent. Use the old one for extras and such reuse
+        Intent explicitIntent = new Intent(implicitIntent);
+        // Set the component to be explicit
+        explicitIntent.setComponent(component);
+        return explicitIntent;
+    }
+</pre>
+<br>建立连接：mA2dpService.connect(device);
+<br>断开连接：mA2dpService.disconnect(device);
+<br>
+<br>参考：http://stackoverflow.com/questions/14705167/how-connect-paired-bluetooth-a2dp-device-on-android-4-2-using-reflection
+<br>
+<br>http://blog.csdn.net/qs_csu/article/details/45114251
+<br>
+<br>二、HFP操作：
+<br>下面只针对4.0及以上版本；
+<br>1、初始化：
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=%09private%20void%20initOrCloseBtCheck(boolean%20init)%7B%0A%09%09if(init)%7B%0A%09%09%09mBluetoothAdapter%20%3D%20BluetoothAdapter.getDefaultAdapter()%3B%0A%09%09%09mBluetoothAdapter.getProfileProxy(mContext%2C%20new%20ServiceListener()%20%7B%0A%09%09%09%09public%20void%20onServiceConnected(int%20profile%2C%20BluetoothProfile%20proxy)%20%7B%0A%09%09%09%09%09if%20(profile%20%3D%3D%20BluetoothProfile.HEADSET)%20%7B%0A%09%09%09%09%09%09mBluetoothHeadset%20%3D%20(BluetoothHeadset)%20proxy%3B%0A%09%09%09%09%09%7D%0A%09%09%09%09%7D%0A%0A%09%09%09%09public%20void%20onServiceDisconnected(int%20profile)%20%7B%0A%09%09%09%09%09if%20(profile%20%3D%3D%20BluetoothProfile.HEADSET)%20%7B%0A%09%09%09%09%09%09mBluetoothHeadset%20%3D%20null%3B%0A%09%09%09%09%09%7D%0A%09%09%09%09%7D%0A%09%09%09%7D%2CBluetoothProfile.HEADSET)%3B%0A%09%09%7Delse%7B%0A%09%09%09mBluetoothAdapter.closeProfileProxy(BluetoothProfile.HEADSET%2CmBluetoothHeadset)%3B%0A%09%09%7D%0A%09%7D%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span class="keyword">private</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;initOrCloseBtCheck(</span><span class="keyword">boolean</span><span>&nbsp;init){&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span><span>(init){&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBluetoothAdapter&nbsp;=&nbsp;BluetoothAdapter.getDefaultAdapter();&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBluetoothAdapter.getProfileProxy(mContext,&nbsp;<span class="keyword">new</span><span>&nbsp;ServiceListener()&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;onServiceConnected(</span><span class="keyword">int</span><span>&nbsp;profile,&nbsp;BluetoothProfile&nbsp;proxy)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span><span>&nbsp;(profile&nbsp;==&nbsp;BluetoothProfile.HEADSET)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBluetoothHeadset&nbsp;=&nbsp;(BluetoothHeadset)&nbsp;proxy;&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;onServiceDisconnected(</span><span class="keyword">int</span><span>&nbsp;profile)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span><span>&nbsp;(profile&nbsp;==&nbsp;BluetoothProfile.HEADSET)&nbsp;{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBluetoothHeadset&nbsp;=&nbsp;<span class="keyword">null</span><span>;&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},BluetoothProfile.HEADSET);&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}<span class="keyword">else</span><span>{&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mBluetoothAdapter.closeProfileProxy(BluetoothProfile.HEADSET,mBluetoothHeadset);&nbsp;&nbsp;</span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</span></li><li><span>}&nbsp;&nbsp;</span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="8" title="Android实现主动连接蓝牙耳机">	private void initOrCloseBtCheck(boolean init){
+		if(init){
+			mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+			mBluetoothAdapter.getProfileProxy(mContext, new ServiceListener() {
+				public void onServiceConnected(int profile, BluetoothProfile proxy) {
+					if (profile == BluetoothProfile.HEADSET) {
+						mBluetoothHeadset = (BluetoothHeadset) proxy;
+					}
+				}
+
+				public void onServiceDisconnected(int profile) {
+					if (profile == BluetoothProfile.HEADSET) {
+						mBluetoothHeadset = null;
+					}
+				}
+			},BluetoothProfile.HEADSET);
+		}else{
+			mBluetoothAdapter.closeProfileProxy(BluetoothProfile.HEADSET,mBluetoothHeadset);
+		}
+	}
+</pre>
+<br>
+<br>建立连接：
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=%09%09%20%20%20%20%20%20%20%20%20%20%20%20Method%20m%20%3D%20mBluetoothHeadset.getClass().getDeclaredMethod(%22connect%22%2CBluetoothDevice.class)%3B%20%20%0A%09%09%09%09%09m.setAccessible(true)%3B%0A%09%09%09%09%09%2F%2F%E8%BF%9E%E6%8E%A5Headset%0A%09%09%09%09%09boolean%20successHeadset%20%3D%20(Boolean)m.invoke(mBluetoothHeadset%2C%20device)%3B%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Method&nbsp;m&nbsp;=&nbsp;mBluetoothHeadset.getClass().getDeclaredMethod(</span><span class="string">"connect"</span><span>,BluetoothDevice.</span><span class="keyword">class</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>m.setAccessible(<span class="keyword">true</span><span>);&nbsp;&nbsp;</span></span></li><li><span><span class="comment">//连接Headset</span><span>&nbsp;&nbsp;</span></span></li><li><span><span class="keyword">boolean</span><span>&nbsp;successHeadset&nbsp;=&nbsp;(Boolean)m.invoke(mBluetoothHeadset,&nbsp;device);&nbsp;&nbsp;</span></span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="9" title="Android实现主动连接蓝牙耳机">		            Method m = mBluetoothHeadset.getClass().getDeclaredMethod("connect",BluetoothDevice.class);  
+					m.setAccessible(true);
+					//连接Headset
+					boolean successHeadset = (Boolean)m.invoke(mBluetoothHeadset, device);
+</pre>
+<br>
+<br>断开连接：
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=%09%09%20%20%20%20%20%20%20%20%20%20%20%20Method%20m%20%3D%20mBluetoothHeadset.getClass().getDeclaredMethod(%22disconnect%22%2CBluetoothDevice.class)%3B%20%20%0A%09%09%09%09%09m.setAccessible(true)%3B%0A%09%09%09%09%09m.invoke(mBluetoothHeadset%2C%20device)%3B%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Method&nbsp;m&nbsp;=&nbsp;mBluetoothHeadset.getClass().getDeclaredMethod(</span><span class="string">"disconnect"</span><span>,BluetoothDevice.</span><span class="keyword">class</span><span>);&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li><li><span>m.setAccessible(<span class="keyword">true</span><span>);&nbsp;&nbsp;</span></span></li><li><span>m.invoke(mBluetoothHeadset,&nbsp;device);&nbsp;&nbsp;</span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="10" title="Android实现主动连接蓝牙耳机">		            Method m = mBluetoothHeadset.getClass().getDeclaredMethod("disconnect",BluetoothDevice.class);  
+					m.setAccessible(true);
+					m.invoke(mBluetoothHeadset, device);
+</pre>
+<br>
+<br>
+<br>三、状态判断：
+<br>
+<br>蓝牙耳机连接成功：
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=mA2dpService.getConnectionState(device)%20%3D%3D%20BluetoothA2dp.STATE_DISCONNECTED%20%26%26%20mBluetoothHeadset.getConnectionState(device)%20%3D%3D%20BluetoothProfile.STATE_DISCONNECTED%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span>mA2dpService.getConnectionState(device)&nbsp;==&nbsp;BluetoothA2dp.STATE_DISCONNECTED&nbsp;&amp;&amp;&nbsp;mBluetoothHeadset.getConnectionState(device)&nbsp;==&nbsp;BluetoothProfile.STATE_DISCONNECTED&nbsp;&nbsp;</span></span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="11" title="Android实现主动连接蓝牙耳机">mA2dpService.getConnectionState(device)
+ == BluetoothA2dp.STATE_DISCONNECTED &amp;&amp; 
+mBluetoothHeadset.getConnectionState(device) == 
+BluetoothProfile.STATE_DISCONNECTED
+</pre>
+<br>断开成功：
+<br><div class="dp-highlighter" id=""><div class="bar"><div class="tools">Java代码 <embed wmode="transparent" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/clipboard_new.swf" flashvars="clipboard=(mA2dpService.getConnectionState(device)%20%3D%3D%20BluetoothA2dp.STATE_CONNECTED%20%7C%7C%20mA2dpService.getConnectionState(device)%20%3D%3D%20BluetoothA2dp.STATE_PLAYING)%0A%09%09%09%09%09%09%09%09%26%26%20mBluetoothHeadset.getConnectionState(device)%20%3D%3D%20BluetoothProfile.STATE_CONNECTED%0A" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" width="14" height="15">&nbsp;<a href="javascript:void()" title="收藏这段代码" onclick="code_favorites_do_favorite(this);return false;"><img class="star" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_star.png" alt="收藏代码"><img class="spinner" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/spinner.gif" style="display:none"></a></div></div><ol start="1" class="dp-j"><li><span><span>(mA2dpService.getConnectionState(device)&nbsp;==&nbsp;BluetoothA2dp.STATE_CONNECTED&nbsp;||&nbsp;mA2dpService.getConnectionState(device)&nbsp;==&nbsp;BluetoothA2dp.STATE_PLAYING)&nbsp;&nbsp;</span></span></li><li><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp;&nbsp;mBluetoothHeadset.getConnectionState(device)&nbsp;==&nbsp;BluetoothProfile.STATE_CONNECTED&nbsp;&nbsp;</span></li></ol></div><pre class="java" name="code" style="display: none;" codeable_id="" codeable_type="BlogComment" source_url="http://gqdy365.iteye.com/blog/2227454#" pre_index="12" title="Android实现主动连接蓝牙耳机">(mA2dpService.getConnectionState(device)
+ == BluetoothA2dp.STATE_CONNECTED || 
+mA2dpService.getConnectionState(device) == BluetoothA2dp.STATE_PLAYING)
+								&amp;&amp; mBluetoothHeadset.getConnectionState(device) == 
+BluetoothProfile.STATE_CONNECTED
+</pre>
+  </div>
+
+  
+
+  
+      <script type="text/javascript"><!--
+      google_ad_client = "ca-pub-8990951720398508";
+      /* iteye博客内页Banner-728*90 */
+      google_ad_slot = "8267689356/1918544322";
+      google_ad_width = 728;
+      google_ad_height = 90;
+      //-->
+      </script>
+      <script type="text/javascript" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/show_ads.js">
+      </script><ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;width:728px;height:90px;" width="728" height="90" frameborder="0"></iframe></ins></ins>
+  
+
+  <div id="bottoms" class="clearfix">
+    <div id="digg_bottom" class="clearfix"><div class="digged"><strong>3</strong> <br>顶</div><div class="digged"><strong>1</strong> <br>踩</div></div>
+    <div id="share_weibo">分享到：
+      <a data-type="sina" href="javascript:;" title="分享到新浪微博"><img src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/sina.jpg"></a>
+      <a data-type="qq" href="javascript:;" title="分享到腾讯微博"><img src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/tec.jpg"></a>
+    </div>
+  </div>
+
+  <div class="blog_nav">
+    <div class="pre_next">
+      <a href="http://gqdy365.iteye.com/blog/2229304" class="next" title="Android 蓝牙 UUID分类汇总">Android 蓝牙 UUID分类汇总</a>
+      |
+      <a href="http://gqdy365.iteye.com/blog/2222115" class="pre" title="Android 应用程序开关GPS">Android 应用程序开关GPS</a>
+    </div>
+  </div>
+  <div class="blog_bottom">
+    <ul>
+      <li>2015-07-15 11:14</li>
+      <li>浏览 9169</li>
+      <li><a href="#comments">评论(1)</a></li>
+      
+      
+      <li>分类:<a href="http://www.iteye.com/blogs/category/mobile">移动开发</a></li>      
+      <li class="last"><a href="http://www.iteye.com/wiki/blog/2227454" target="_blank" class="more">相关推荐</a></li>
+    </ul>    
+  </div>
+  
+		    
+		
+<div class="boutique-curr-box blog_comment">
+	  <div class="boutique-curr clearfix">
+	    <h5 class="h3titles">参考知识库</h5>
+	    
+	    <dl class="dlnewlist">
+	    
+          <dd><a target="_blank" href="http://lib.csdn.net/base/android"><img src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/1455589744328_328.jpg" alt="" width="58" height="58"></a></dd>
+          <dt>
+              <a target="_blank" href="http://lib.csdn.net/base/android" classs="title">Android知识库</a>
+              <span>
+                 <em>36150</em>&nbsp;&nbsp;关注 <i>|</i> <em>3137</em>&nbsp;&nbsp;收录                  
+              </span>
+          </dt>
+      
+	    </dl>
+	    
+	    <dl class="dlnewlist">
+	    
+          <dd><a target="_blank" href="http://lib.csdn.net/base/react"><img src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/1465887837340_340.jpg" alt="" width="58" height="58"></a></dd>
+          <dt>
+              <a target="_blank" href="http://lib.csdn.net/base/react" classs="title">React知识库</a>
+              <span>
+                 <em>3091</em>&nbsp;&nbsp;关注 <i>|</i> <em>393</em>&nbsp;&nbsp;收录                  
+              </span>
+          </dt>
+      
+	    </dl>
+	    
+	    <dl class="dlnewlist">
+	    
+          <dd><a target="_blank" href="http://lib.csdn.net/base/ai"><img src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/1479972981201_201.jpg" alt="" width="58" height="58"></a></dd>
+          <dt>
+              <a target="_blank" href="http://lib.csdn.net/base/ai" classs="title">人工智能基础知识库</a>
+              <span>
+                 <em>15026</em>&nbsp;&nbsp;关注 <i>|</i> <em>208</em>&nbsp;&nbsp;收录                  
+              </span>
+          </dt>
+      
+	    </dl>
+	    
+	    <dl class="dlnewlist">
+	    
+          <dd><a target="_blank" href="http://lib.csdn.net/base/java"><img src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/1453701371636_636.jpg" alt="" width="58" height="58"></a></dd>
+          <dt>
+              <a target="_blank" href="http://lib.csdn.net/base/java" classs="title">Java 知识库</a>
+              <span>
+                 <em>31072</em>&nbsp;&nbsp;关注 <i>|</i> <em>3747</em>&nbsp;&nbsp;收录                  
+              </span>
+          </dt>
+      
+	    </dl>
+	    
+	  </div>
+</div>
+ 		
+      
+  <div class="blog_comment">
+    <h5>评论</h5>
+    <a id="comments" name="comments"></a>
+    <div id="bc2393656">
+  <div class="comment_title">
+    1 楼
+    <a href="http://yangshengnai.iteye.com/" target="_blank" title="yangshengnai">yangshengnai</a>
+    2016-09-26&nbsp;&nbsp;
+    
+    
+  </div>
+  <div class="comment_content">有没有demo？</div>
+</div>
+
+
+    
+    
+  </div>
+
+  <div class="blog_comment">
+    <h5>发表评论</h5>
+            <p style="text-align:center; margin-top:30px;margin-bottom:0px;"><a href="http://gqdy365.iteye.com/login" style="background-color:white;"> <img src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/login_icon.png" style="vertical-align:middle; margin-right: 10px;"></a><a href="http://gqdy365.iteye.com/login">  您还没有登录,请您登录后再发表评论 </a></p>
+      </div>
+</div>
+
+
+<script type="text/javascript">
+  dp.SyntaxHighlighter.HighlightAll('code', true, true);
+
+  $$('#main .blog_content pre[name=code]').each(function(pre, index){ // blog content
+    var post_id = 2227454;
+    var location = window.location;
+    source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+    pre.writeAttribute('codeable_id', post_id);
+    pre.writeAttribute('codeable_type', "Blog");
+    pre.writeAttribute('source_url', source_url);
+    pre.writeAttribute('pre_index', index);
+    pre.writeAttribute('title', 'Android实现主动连接蓝牙耳机');
+  });
+
+  fix_image_size($$('div.blog_content img'), 700);
+
+  function processComment() {
+    $$('#main .blog_comment > div').each(function(comment){// comment
+      var post_id = comment.id.substr(2);
+      $$("#"+comment.id+" pre[name=code]").each(function(pre, index){
+        var location = window.location;
+        source_url = location.protocol + "//" + location.host + location.pathname + location.search;
+        source_url += "#" + comment.id;
+        pre.writeAttribute('codeable_id', post_id);
+        pre.writeAttribute('codeable_type', "BlogComment");
+        pre.writeAttribute('source_url', source_url);
+        pre.writeAttribute('pre_index', index);
+        pre.writeAttribute('title', 'Android实现主动连接蓝牙耳机');
+      });
+    });
+  }
+
+  function quote_comment(id) {
+    new Ajax.Request('/editor/quote', {
+      parameters: {'id':id, 'type':'BlogComment'},
+      onSuccess:function(response){editor.bbcode_editor.textarea.insertAfterSelection(response.responseText);
+        Element.scrollTo(editor.bbcode_editor.textarea.element);}
+    });
+  }
+
+  code_favorites_init();
+  processComment();
+  new WeiboShare({share_buttons: $('share_weibo'), img_scope: $('blog_content')});
+</script>
+
+
+
+
+        </div>
+
+        <div id="local">
+          <div class="local_top"></div>
+          <div id="blog_owner">
+  <div id="blog_owner_logo"><a href="http://gqdy365.iteye.com/"><img alt="gqdy365的博客" class="logo" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/28c74a3f-6a81-381f-8d6b-cc2ebc46b36f.png" title="gqdy365的博客: 沉淀之路—Android" width=""></a></div>
+  <div id="blog_owner_name">gqdy365</div>
+</div>
+
+          <div id="blog_actions">
+            <ul>
+              <li>浏览: 859825 次</li>
+              <li>性别: <img alt="Icon_minigender_1" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/icon_minigender_1.gif" title="男"></li>
+              <li>来自: 深圳</li>
+              <li><img src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/offline.gif"></li>
+              
+            </ul>
+          </div>
+          <div id="user_visits" class="clearfix">
+            <h5>最近访客 <span style="font-weight:normal;font-size:12px;padding-left:30px;"><a href="http://gqdy365.iteye.com/blog/user_visits">更多访客&gt;&gt;</a></span></h5>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://aason.iteye.com/" target="_blank"><img alt="aason的博客" class="logo" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/user-logo-thumb.gif" title="aason的博客: aason" width="48px"></a></div>
+                <div class="left"><a href="http://aason.iteye.com/" target="_blank" title="aason">aason</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://dezhihuang.iteye.com/" target="_blank"><img alt="dezhihuang的博客" class="logo" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/user-logo-thumb.gif" title="dezhihuang的博客: " width="48px"></a></div>
+                <div class="left"><a href="http://dezhihuang.iteye.com/" target="_blank" title="dezhihuang">dezhihuang</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://hbczlaoxu.iteye.com/" target="_blank"><img alt="hbczlaoxu的博客" class="logo" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/user-logo-thumb.gif" title="hbczlaoxu的博客: " width="48px"></a></div>
+                <div class="left"><a href="http://hbczlaoxu.iteye.com/" target="_blank" title="hbczlaoxu">hbczlaoxu</a></div>
+              </div>
+            
+              <div class="user_visit">
+                <div class="logo"><a href="http://wechengjun.iteye.com/" target="_blank"><img alt="wechengjun的博客" class="logo" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/user-logo-thumb.gif" title="wechengjun的博客: " width="48px"></a></div>
+                <div class="left"><a href="http://wechengjun.iteye.com/" target="_blank" title="wechengjun">wechengjun</a></div>
+              </div>
+            
+          </div>
+
+          
+
+                      <div id="blog_menu">
+              <h5>文章分类</h5>
+              <ul>
+                <li><a href="http://gqdy365.iteye.com/">全部博客 (132)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/119113">android Launcher (15)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/141735">收藏夹 (3)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/151647">UI设计 (28)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/157791">J2EE (2)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/163561">android网络编程 (8)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/186916">项目经理是熬出来的 (8)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/221700">Android图像处理 (5)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/226738">系统层开发 (12)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/298104">数据库 (2)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/319818">程序员是熬出来的 (2)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/320205">Android技巧 (11)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/321397">地图相关 (2)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/321586">Android底层 (9)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/322248">Android疑难杂症 (4)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/323218">开发工具 (4)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/324847">知识梳理 (8)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/324911">源码阅读 (7)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/326459">Media媒体库 (5)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/329701">调试技术 (3)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/331875">Android蓝牙 (3)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/332202">动画特效 (5)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/334427">jni (3)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/334446">串口通信 (1)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/334982">Android优化 (3)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/339807">架构设计 (1)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/354743">Android Test (1)</a></li>
+                
+                  <li><a href="http://gqdy365.iteye.com/category/361922">翻译系列 (0)</a></li>
+                
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>社区版块</h5>
+              <ul>
+                <li><a href="http://gqdy365.iteye.com/blog/news">我的资讯</a> (0)</li>
+                <li>
+                  <a href="http://gqdy365.iteye.com/blog/post">我的论坛</a> (8)
+                </li>
+                <li><a href="http://gqdy365.iteye.com/blog/answered_problems">我的问答</a> (1)</li>
+              </ul>
+            </div>
+            <div id="month_blogs">
+              <h5>存档分类</h5>
+              <ul>
+                
+                  <li><a href="http://gqdy365.iteye.com/blog/monthblog/2016-03">2016-03</a> (1)</li>
+                
+                  <li><a href="http://gqdy365.iteye.com/blog/monthblog/2016-02">2016-02</a> (1)</li>
+                
+                  <li><a href="http://gqdy365.iteye.com/blog/monthblog/2015-10">2015-10</a> (1)</li>
+                
+                <li><a href="http://gqdy365.iteye.com/blog/monthblog_more">更多存档...</a></li>
+              </ul>
+            </div>
+            
+            
+
+            <div id="guest_books">
+              <h5>最新评论</h5>
+              <ul>
+                
+                <li>
+                  <a href="http://yizhangbiao.iteye.com/" target="_blank" title="yizhangbiao">yizhangbiao</a>： 
+                  咋用啊，搞不懂<br>
+                  <a href="http://gqdy365.iteye.com/blog/1695136#bc2397970">Android 蓝牙手柄开发</a>
+                </li>
+                
+                <li>
+                  <a href="http://yihuangol.iteye.com/" target="_blank" title="yihuangol">yihuangol</a>： 
+                  hahhaha <br>
+                  <a href="http://gqdy365.iteye.com/blog/2193913#bc2395259">Android截屏并对图片做高斯模糊处理</a>
+                </li>
+                
+                <li>
+                  <a href="http://919131954.iteye.com/" target="_blank" title="严健严健">严健严健</a>： 
+                  非常感谢！！！！！！！！！<br>
+                  <a href="http://gqdy365.iteye.com/blog/2188906#bc2394538">Android串口通信：串口读写实例</a>
+                </li>
+                
+                <li>
+                  <a href="http://manlan123.iteye.com/" target="_blank" title="manlan123">manlan123</a>： 
+                  请问 sendBuffer&nbsp; sendCmds 里面传入的数据 ...<br>
+                  <a href="http://gqdy365.iteye.com/blog/2188906#bc2393936">Android串口通信：串口读写实例</a>
+                </li>
+                
+                <li>
+                  <a href="http://yangshengnai.iteye.com/" target="_blank" title="yangshengnai">yangshengnai</a>： 
+                  有没有demo？<br>
+                  <a href="http://gqdy365.iteye.com/blog/2227454#bc2393656">Android实现主动连接蓝牙耳机</a>
+                </li>
+                
+              </ul>
+            </div>
+
+            <div class="local_bottom"></div>
+          
+        </div>
+        <div style="margin-top: 10px;float: left;clear: left;">
+          <script type="text/javascript">
+            /*iteye博客内页左侧Button-200*200，创建于2016-08-01*/
+            var cpro_id = "u2720202";
+          </script>
+          <script type="text/javascript" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/c.js"></script><div id="BAIDU_SSP__wrapper_u2720202_0"><iframe id="iframeu2720202_0" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/zcem_002.html" vspace="0" hspace="0" marginwidth="0" marginheight="0" scrolling="no" style="border:0;vertical-align:bottom;margin:0;width:200px;height:200px" allowtransparency="true" align="center,center" width="200" height="200" frameborder="0"></iframe></div>
+				</div>
+      </div>    
+
+      <div id="footer" class="clearfix">
+        <div id="copyright">
+          <hr>
+          声明：ITeye文章版权属于作者，受法律保护。没有作者书面许可不得转载。若作者同意转载，必须以超链接形式标明文章原始出处和作者。<br>
+          © 2003-2017 ITeye.com.   All rights reserved.  [ 京ICP证110151号  京公网安备110105010620 ]
+        </div>
+        <div style="position: fixed;bottom:0px;right:0px;line-height:0px;z-index:1000;">
+          <script type="text/javascript"><!--
+          google_ad_client = "ca-pub-8990951720398508";
+          /* iteye博客内页弹窗-300*250 */
+          google_ad_slot = "8267689356/5752063962";
+          google_ad_width = 300;
+          google_ad_height = 250;
+          //-->
+          </script>
+          <script type="text/javascript" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/show_ads.js">
+          </script><ins id="aswift_1_expand" style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;width:300px;height:250px;" width="300" height="250" frameborder="0"></iframe></ins></ins>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+  document.write("<img src='http://stat.iteye.com/?url="+ 
+encodeURIComponent(document.location.href) + "&referrer=" + 
+encodeURIComponent(document.referrer) + "&user_id=' width='0' height='0'
+ />");
+</script><img src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/a.gif" width="0" height="0">
+
+<script src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/tracking_002.js" type="text/javascript"></script>
+
+    
+<script type="text/javascript" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/tongji.js"></script>
+      
+    
+    <script language="javascript" type="text/javascript" src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/async_new.js"></script>
+<script src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/jquery-1.js" type="text/javascript"></script>
+<script type="text/javascript">var $csdn_iteye_jq = jQuery.noConflict();// 解决jq与prototype.js命名空间冲突的问题</script>
+<script src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/tracking.js" type="text/javascript"></script>
+    
+	    
+	    <script src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/web-storage-cache.js" type="text/javascript"></script>
+	    <script src="Android%E5%AE%9E%E7%8E%B0%E4%B8%BB%E5%8A%A8%E8%BF%9E%E6%8E%A5%E8%93%9D%E7%89%99%E8%80%B3%E6%9C%BA%20-%20%E6%B2%89%E6%B7%80%E4%B9%8B%E8%B7%AF%E2%80%94Android%20-%20ITeye%E5%8D%9A%E5%AE%A2_files/replace.js" type="text/javascript"></script>
+    
+    
+  
+
+</body></html>

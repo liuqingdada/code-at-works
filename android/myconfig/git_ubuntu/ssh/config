@@ -1,0 +1,16 @@
+Host 114.215.18.82
+ KexAlgorithms +diffie-hellman-group1-sha1
+ Port 29418
+ User suhen
+# User mstarc
+ 
+Host githost
+ HostName 114.215.18.82
+ KexAlgorithms +diffie-hellman-group1-sha1
+ Port 22
+ User root
+
+Host 192.168.0.11
+ KexAlgorithms +diffie-hellman-group1-sha1
+ Port 29418
+ User suhen

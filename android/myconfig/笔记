@@ -1,0 +1,179 @@
+###########################################################################################################
+
+差分包生成：
+./build/tools/releasetools/ota_from_target_files -i ota/A.zip ota/B.zip ota/update.zip
+
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+
+实现仅仅policy.jar回退到某个版本：
+mstarc@mstarc:~/g7/alps$ cd packages/apps
+    #返回到某个版本
+mstarc@mstarc:~/g7/alps/packages/apps$ git reset 2b2f5f80e6bf12d7b3dd77963fd077ad9e2cdafa --hard
+HEAD 现在位于 2b2f5f8 [Watch] add libvinit library to system.
+    #把policy.jar复制到文件夹缓存
+mstarc@mstarc:~/g7/alps/packages/apps$ cp WearableUIlib/libs/mstarc.policy.jar /tmp/
+    #其余文件返回到最新状态
+mstarc@mstarc:~/g7/alps/packages/apps$ git reset watch/android_watch_master --hard
+HEAD 现在位于 1b28942 Merge "[WearableSetting] Change ota file location." into android_watch_master
+     #把缓存的policy.jar复制回来
+mstarc@mstarc:~/g7/alps/packages/apps$ cp /tmp/mstarc.policy.jar WearableUIlib/libs/mstarc.policy.jar
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+未提交的内容：加了导航apk和Android.mk；2601 g6addfull那个文件添加了一行g6_res？？没了; 目前g7的资源还没添加完所以还是G6的界面；g7的lwqc2.sh更改了路径.。
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+还是在终端里用命令：
+sudo nautilus,这样直接出现“我的电脑”的窗口，从这个窗口进行复制，粘贴都可以，但还是不要忘了命令前面的sudo.
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+查看内存使用量： df -h
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+
+提示“设备上没有空间”， df -h 查看发现某个挂载100%了删除无用文件释放空间。
+
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+find .|xargs grep -ri "IBM"文件夹下查找字符串
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+删除文件夹   sudo rm -Rfv /home/mstarc/桌面/software
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+
+fakewatchDemo下载：git clone ssh://mstarc@114.215.18.82:29418/fakewatchDemo -b android_watch_master
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+查看一段日期内的log:
+repo forall -c git log --since="2017-03-10" --until="2017-03-22" 
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+指定版本的代码：
+repo forall -c git checkout 指定节点的哈希值（commit那个）
+
+返回指定日期之前版本：
+repo forall -c 'commitID=`git log --before "2017-03-17 07:00" -1 --pretty=format:"%H"`; git reset --hard $commitID'
+
+repo 回退当前所有的修改，和服务器上代码拉下来一样：
+repo forall -c "git clean -df" && repo forall -c "git checkout ." && repo sync -j8
+
+git 回退到某一条的提交 ：
+git reset --hard  commitID 
+
+git revert 是生成一个新的提交来撤销某次提交，此次提交之前的commit都会被保留：
+git revert commitID
+
+make update-api（版本回滚之后要执行这个）
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+
+build: 
+
+./mstarc_mtk2601/choose.sh g7
+source build/envsetup.sh
+lunch 27    // 27-g7userdebug24-g6+userdebug   // make update-api
+make -j8//make -j8 2>&1 | tee build.log
+
+./mstarc_mtk2601/lwqc.sh g6+201703221859
+
+make otapackage
+
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+ｒｅｐｏ提交：
+git status -s
+git add .
+git status -s
+git commit -m "[FakeDemo] modify mobileData&BTWIFI."
+git push origin HEAD:refs/for/master
+
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+上传完fakewatchDemo后编译下看是否有引用的类没有：
+source build/envsetup.sh
+lunch 23   (eng)
+mm -B    (模块下打开终端编译)
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+
+从头获取整个代码树：
+
+repo init -u ssh://114.215.18.82:29418/repo/manifests -b android_watch_master
+repo sync
+
+
+
+
+
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+ubuntu16.04编译android5.1报错问题？
+｛
+dell笔记本XPS 15-9550-R1828安装ubuntu16.04系统，编译android5.1源码报如下错误：
+/home/elinksoft/code/8163/alps/prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.11-4.6/bin/../lib/gcc/x86_64-linux/4.6/../../../../x86_64-linux/bin/ld: error: out/host/linux-x86/obj32/STATIC_LIBRARIES/libcompiler_rt_intermediates/libcompiler_rt.a(eprintf.o): unsupported reloc 43 against global symbol stderr
+external/compiler-rt/lib/builtins/eprintf.c:32: error: unsupported reloc 43
+collect2: ld returned 1 exit status
+build/core/host_shared_library_internal.mk:44: recipe for target 'out/host/linux-x86/obj32/lib/libcompiler_rt.so' failed
+make: *** [out/host/linux-x86/obj32/lib/libcompiler_rt.so] Error 1
+make: *** Waiting for unfinished jobs....
+host C++: libnativehelper_32 <= libnativehelper/JNIHelp.cpp
+make: *** wait: No child processes.  Stop.
+｝
+解决：
+｛
+in file /art/build/Android.common_build.mk, find out:
+
+# Host.
+ART_HOST_CLANG := false
+ifneq ($(WITHOUT_HOST_CLANG),true)
+  # By default, host builds use clang for better warnings.
+  ART_HOST_CLANG := true
+endif
+
+change to :
+
+# Host.
+ART_HOST_CLANG := false
+ifeq ($(WITHOUT_HOST_CLANG),false)
+  # By default, host builds use clang for better warnings.
+  ART_HOST_CLANG := true
+endif
+
+If it still not works,try this in your android root path:
+
+cp /usr/bin/ld.gold prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.11-4.6/x86_64-linux/bin/ld
+｝
+
+
+
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+错误：
+git push origin HEAD:refs/for/master
+fatal: 'origin' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+错误：
+
+单个项目git push origin HEAD:refs/for/master时　ERROR: missing Change-Id in commit message footer
+解决：gitdir=$(git rev-parse --git-dir); scp -p -P 29418 mstarc@114.215.18.82:hooks/commit-msg ${gitdir}/hooks/
+
+　　　　git commit --amend　　　输入　:quit  回车键
+
+　　　　git push origin HEAD:refs/for/master
+
+××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+刚建的文件夹初始化时
+完美解决repo init 错误 fatal: Cannot get https://gerrit.googlesource.com/git-repo/clone.bundle 
+     repo init -u ssh://114.215.18.82:29418/repo/manifests -b android_watch_master --repo-url=https://gerrit-google.tuna.tsinghua.edu.cn/git-repo
+     repo sync
+ 参考http://blog.csdn.net/xiaokeweng/article/details/46743409
+
+新文件要 cp /usr/bin/ld.gold prebuilts/gcc/linux-x86/host/x86_64-linux-glibc2.11-4.6/x86_64-linux/bin/ld
+
+      make update-api
+      out里添加库lib
+再编译
+×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+错误：代码拉不到最新的
+git clone ssh://mstarc@114.215.18.82:29418/alps/developers -b android_watch_master（改成master）  
+**********************************************************************************************************×××××××××××××××××××××××××
+错误：device/mediatek/build/build/libs/custom.mk:160: *** Can not find ProjectConfig.mk , MTK_PROJECT_CONFIGS = .  Stop.
+解决：source build/envsetup  
+    lunch   
+    source build/envsetup    #需要重新source一次，
+×××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××
+错误：g6的总是报天气找不到资源包
+解决：这是因为g6的devices/ultra/ultra2601_wp_l里没有配置g6_res 而g7里有这句话MSTARC_INTERNAL_RESOURCE_VERSION := g7_res，天气是根据这个值来决定用哪个资源包的
+
+get_build_var  MSTARC_INTERNAL_RESOURCE_VERSION  得到res值
+
+find .|xargs grep -ri "字符串" 在文件夹查询字符串
+
+mgrep  MSTARC_INTERNAL_RESOURCE_VERSION 提示mgrep不存在的时候，source build/envsetup.sh一下就有了

@@ -1,0 +1,19 @@
+@添加java
+
+sudo gedit /etc/profile
+
+@在文件末尾添加
+
+export JAVA_HOME=/home/gln/jdk1.8.0_121
+
+export JAVA_BIN=/home/gln/jdk1.8.0_121/bin
+
+export PATH=$PATH:$JAVA_HOME/bin
+
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+
+export JAVA_HOME JAVA_BIN PATH CLASSPATH
+
+@添加结束
+
+. /etc/profile

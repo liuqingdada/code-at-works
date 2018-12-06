@@ -1,0 +1,267 @@
+	编译
+
+
+在home/mstarc/下，分别有g6和g7文件夹,看需要用哪个
+同步代码：
+在对应文件夹alps目录下,右键打开终端输入：repo sync     同步代码，过程中不能有错误，如果有链接错误，重新repo sync ,如果提示哪个文件夹有未提交的修改，就去对应文件夹下git stash 一下恢复初始状态,再repo sync
+
+repo sync 成功后要全编译:
+alps目录下执行./mstarc_mtk2601/choose.sh g7    ---如果是g6+就选g6+
+source build/envsetup.sh
+lunch     ----我的电脑23是全debug版本，24是部分debug版本，25是user版本,user版本编的东西少，速度快，具体是什么数字要根据你的电脑，每个电脑不一样
+make -j8    --开始全编译
+make otapackage   --在前边的基础上生成ota升级包，不需要的话就不用执行这一步。
+
+
+
+
+如果需要编译fakewatchdemo,则按照前边lunch 完了的基础上 cd packages/apps/mstarc_library
+然后 mm -B
+有错的话改错后终端不要关闭，继续mm -B 直到没错。
+如果要把fakewatchdemo生成的包用到系统中，那么再去alps/out/target/common/obj/JAVA_LIBRARIES/mstarc.policy_intermediates/下找到classes.jar复制到alps/packages/apps/WearableUIlib/libs/ 重命名替换之前的mstarc.policy.jar 再全编译即可。
+
+
+
+打包    ./mstarc_mtk2601/lwqc.sh 文件名                              wsxz1122
+
+String s=Float.toString(mSportNodeInfo.getStep());
+                    s = s.substring(0,s.length() - 2);
+                    sportInfo.mValue =s;
+                    //sportInfo.mValue = Float.toString(mSportNodeInfo.getStep())+"test";
+
+
+
+/*
+
+    /******************************************************************
+     * AIDL listener interface
+     */
+
+    private IStringTransmitListener mIStringTransmitListener;
+    private IConnectStateListener mIConnectStateListener;
+    private OnReceiveNotification mOnReceiveNotification;
+    private OnDeleteNotificationListener mOnDeleteNotificationListener;
+    private OnUpdataNotificationListener mOnUpdataNotificationListener;
+
+    private class AdvertiserBinder extends ICommunicateAidl.Stub {
+        /*
+         ***********************************************************************************
+         ************************************ BLE 接口 **************************************
+         ***********************************************************************************
+         */
+
+        @Override
+        public void setOnReceiveMessageListener(IStringTransmitListener istl)
+                throws RemoteException {
+            mIStringTransmitListener = istl;
+        }
+
+        @Override
+        public void setBleConnectStateListener(IConnectStateListener icsl) throws RemoteException {
+            mIConnectStateListener = icsl;
+        }
+
+        @Override
+        public void sendMessage(String json, @NonNull String filePath) throws RemoteException {
+            if (mAdvertiser.isConnected()) {
+                String dataType = json.substring(0, 6); // 数据类型
+                short type = ByteUtils.stringConvert(dataType);
+
+                Class<?> clazz = Compatable.getDataType(type);
+
+                if (clazz != null) {
+                    Object obj = GsonUtil.parseJson(json.substring(6, json.length()), clazz);
+                    mAdvertiser.sendMsg(obj, filePath);
+                }
+            }
+        }
+
+        @Override
+        public boolean isBleConnect() throws RemoteException {
+            return Advertiser.getInstance()
+                             .isConnected();
+        }
+
+        /*
+         ***********************************************************************************
+         ************************************ 腕表开关接口 ***********************************
+         ***********************************************************************************
+         */
+
+        @Override
+        public void setPowerReminder(boolean b) throws RemoteException {
+            Switch aSwitch = getSwitch();
+            aSwitch.setPowerReminder(b);
+            setSwitch(aSwitch);
+        }
+
+        @Override
+        public boolean getPowerReminder() throws RemoteException {
+            return getSwitch().getPowerReminder();
+        }
+
+        @Override
+        public void setScheduleReminder(boolean b) throws RemoteException {
+            Switch aSwitch = getSwitch();
+            aSwitch.setSchedule(b);
+            setSwitch(aSwitch);
+        }
+
+        @Override
+        public boolean getScheduleReminder() throws RemoteException {
+            return getSwitch().getSchedule();
+        }
+
+        @Override
+        public void setSweetWordsReminder(boolean b) throws RemoteException {
+            Switch aSwitch = getSwitch();
+            aSwitch.setSweetWords(b);
+            setSwitch(aSwitch);
+        }
+
+        @Override
+        public boolean getSweetWordsReminder() throws RemoteException {
+            return getSwitch().getSweetWords();
+        }
+
+        @Override
+        public void setSedentarinessReminder(boolean b) throws RemoteException {
+            Switch aSwitch = getSwitch();
+            aSwitch.setSedentariness(b);
+            setSwitch(aSwitch);
+        }
+
+        @Override
+        public boolean getSedentarinessReminder() throws RemoteException {
+            return getSwitch().getSedentariness();
+        }
+
+        @Override
+        public void setMobileAwayBodyRemind(boolean b) throws RemoteException {
+            Switch aSwitch = getSwitch();
+            aSwitch.setMobileAwayBodyRemind(b);
+            setSwitch(aSwitch);
+        }
+
+        @Override
+        public boolean getMobileAwayBodyRemind() throws RemoteException {
+            return getSwitch().getMobileAwayBodyRemind();
+        }
+
+        /*
+         ***********************************************************************************
+         ********************************* Notification 相 关 接 口 *************************
+         ***********************************************************************************
+         */
+
+        @Override
+        public String getAll() throws RemoteException {
+            List<NotificationBean> all = mNotificationWizard.getAll();
+            return GsonUtil.toJson(all);
+        }
+
+        @Override
+        public void remove(long id) throws RemoteException {
+            mNotificationWizard.remove(id);
+        }
+
+        @Override
+        public void removeAll() throws RemoteException {
+            mNotificationWizard.removeAll();
+        }
+
+        @Override
+        public void update(long id, String title, String content) throws RemoteException {
+            mNotificationWizard.update(id, title, content);
+        }
+
+        @Override
+        public void setRead(long id) throws RemoteException {
+            mNotificationWizard.setRead(id);
+        }
+
+        @Override
+        public void setOnReceiveNotification(OnReceiveNotification ornl) throws RemoteException {
+            mOnReceiveNotification = ornl;
+        }
+
+        @Override
+        public void setOnDeleteNotificationListener(OnDeleteNotificationListener odnl)
+                throws RemoteException {
+            mOnDeleteNotificationListener = odnl;
+        }
+
+        @Override
+        public void setOnUpdataNotificationListener(OnUpdataNotificationListener ounl)
+                throws RemoteException {
+            mOnUpdataNotificationListener = ounl;
+        }
+
+        @Override
+        public void add2Black(String appPkg) throws RemoteException {
+            mNotificationWizard.add2BlackList(appPkg);
+        }
+    }
+
+    /*
+     ***********************************************************************************
+     ************************************* 数据库接口 ************************************
+     ***********************************************************************************
+     */
+
+    /**
+     * 更新/设置 开关状态
+     */
+    private synchronized void setSwitch(Switch aSwitch) {
+        DatabaseWizard.getInstance()
+                      .getDaoSession()
+                      .getSwitchDao()
+                      .updateInTx(aSwitch);
+    }
+
+    /**
+     * 获取开关状态
+     */
+    private synchronized Switch getSwitch() {
+        return DatabaseWizard.getInstance()
+                             .getDaoSession()
+                             .getSwitchDao()
+                             .load(1L);
+    }
+
+    /*
+     *******************************************************************************
+     ************************************ 开关状态和设置 *****************************
+     *******************************************************************************
+     */
+
+    private mstarc_os_api_msg m_api_msg;
+
+    // 常量微光
+    public boolean isConstantLight() { // 0 关  1 开
+        int state = m_api_msg.mstarc_api_getlcmevent_modem(this);
+        return state != 0;
+    }
+
+    public void setConstantLight(boolean constantLight) {
+        m_api_msg.mstarc_api_setlcmevent_modem(this, constantLight);
+    }
+
+    // 点击亮屏
+    public boolean isClickScreenLight() {
+        int state = m_api_msg.mstarc_api_gettpevent_modem(this);
+        return state != 0;
+    }
+
+    public void setClickScreenLight(boolean clickScreenLight) {
+        m_api_msg.mstarc_api_settpevent_modem(this, clickScreenLight);
+    }
+
+    public mstarc_os_api_msg getM_api_msg() {
+        return m_api_msg;
+    }
+
+    public static CommunicateService getInstance() {
+        return sCommunicateService;
+    }
+*/

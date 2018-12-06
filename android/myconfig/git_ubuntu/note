@@ -1,0 +1,25 @@
+git config --global user.name "Your Name"
+git config --global user.email "email@example.com"
+
+注意 git config 命令的 --global 参数，用了这个参数，表示你这台机器上所有的 Git 仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和 Email 地址。
+
+在项目根目录下进行单独配置
+
+git config user.name "Your Name"
+git config user.email "email@xx.com"
+
+git config --list 查看当前配置, 在当前项目下面查看的配置是全局配置+当前项目的配置, 使用的时候会优先使用当前项目的配置
+
+需要取消git的全局设置:
+
+git config --global --unset user.name  
+
+git config --global --unset user.email
+
+//
+
+git push -u origin master
+把本地库的内容推送到远程，用git push命令，实际上是把当前分支推送到远程。加上了-u参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。
+
+
+HEAD严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。

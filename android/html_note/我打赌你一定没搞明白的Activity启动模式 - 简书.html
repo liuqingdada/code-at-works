@@ -1,0 +1,3444 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)https://www.jianshu.com/p/2a9fcf3c11e4 -->
+<html><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+
+  <!-- Start of Baidu Transcode -->
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta name="applicable-device" content="pc,mobile">
+  <meta name="MobileOptimized" content="width">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="mobile-agent" content="format=html5;url=https://www.jianshu.com/p/2a9fcf3c11e4">
+  <!-- End of Baidu Transcode -->
+
+    <meta name="description" content="一个应用程序当中通常都会包含很多个Activity，每个Activity都是一个具有特定的功能，并且可以让用户进行操作的组件。另外，Activity之间可以相互启动，当前应用的Activity甚至可以去启动其他应用的Activity。比如你的应用希望去发送一封邮件，你就可以定义一个具有&quot;send&quot;动作的Intent，并且传入一些数据，如对方邮箱地址、邮件内容等。这样，如果另外一个应用程序中的...">
+
+  <meta name="360-site-verification" content="604a14b53c6b871206001285921e81d8">
+  <meta property="wb:webmaster" content="294ec9de89e7fadb">
+  <meta property="qc:admins" content="104102651453316562112116375">
+  <meta property="qc:admins" content="11635613706305617">
+  <meta property="qc:admins" content="1163561616621163056375">
+  <meta name="google-site-verification" content="cV4-qkUJZR6gmFeajx_UyPe47GW9vY6cnCrYtCHYNh4">
+  <meta name="google-site-verification" content="HF7lfF8YEGs1qtCE-kPml8Z469e2RHhGajy6JPVy5XI">
+  <meta http-equiv="mobile-agent" content="format=html5; url=https://www.jianshu.com/p/2a9fcf3c11e4">
+
+  <!-- Apple -->
+  <meta name="apple-mobile-web-app-title" content="简书">
+
+    <!--  Meta for Smart App Banner -->
+  <meta name="apple-itunes-app" content="app-id=888237539, app-argument=jianshu://notes/4176698">
+  <!-- End -->
+
+  <!--  Meta for Twitter Card -->
+  <meta content="summary" property="twitter:card">
+  <meta content="@jianshucom" property="twitter:site">
+  <meta content="我打赌你一定没搞明白的Activity启动模式" property="twitter:title">
+  <meta content="一个应用程序当中通常都会包含很多个Activity，每个Activity都是一个具有特定的功能，并且可以让用户进行操作的组件。另外，Activity之间可以相互启动，当前应用..." property="twitter:description">
+  <meta content="https://www.jianshu.com/p/2a9fcf3c11e4" property="twitter:url">
+  <!-- End -->
+
+  <!--  Meta for OpenGraph -->
+  <meta property="fb:app_id" content="865829053512461">
+  <meta property="og:site_name" content="简书">
+  <meta property="og:title" content="我打赌你一定没搞明白的Activity启动模式">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.jianshu.com/p/2a9fcf3c11e4">
+  <meta property="og:description" content="一个应用程序当中通常都会包含很多个Activity，每个Activity都是一个具有特定的功能，并且可以让用户进行操作的组件。另外，Activity之间可以相互启动，当前应用的Activity甚...">
+  <!-- End -->
+
+  <!--  Meta for Facebook Applinks -->
+  <meta property="al:ios:url" content="jianshu://notes/4176698">
+  <meta property="al:ios:app_store_id" content="888237539">
+  <meta property="al:ios:app_name" content="简书">
+
+  <meta property="al:android:url" content="jianshu://notes/4176698">
+  <meta property="al:android:package" content="com.jianshu.haruki">
+  <meta property="al:android:app_name" content="简书">
+  <!-- End -->
+
+
+    <title>我打赌你一定没搞明白的Activity启动模式 - 简书</title>
+
+  <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="jANUipev0NccigkgJ0gr2PQkplRZKjLLLRi6nK0TLyHcy+vw+lJ2iUTj/8JOdL1vOWjqIP25K/ACycFD810iWQ==">
+
+  <link rel="stylesheet" media="all" href="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/web-2b26d78a4d3c053b7b1c.css">
+  
+  <link rel="stylesheet" media="all" href="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/entry-7fb4c1aebb52435f09b0.css">
+
+  <link href="https://cdn2.jianshu.io/assets/favicons/favicon-e743bfb1821442341c3ab15bdbe804f7ad97676bd07a770ccc9483473aa76f06.ico" rel="shortcut icon" type="image/x-icon">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/57-a6f1f1ee62ace44f6dc2f6a08575abd3c3b163288881c78dd8d75247682a4b27.png" sizes="57x57">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/72-fb9834bcfce738fd7b9c5e31363e79443e09a81a8e931170b58bc815387c1562.png" sizes="72x72">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/76-49d88e539ff2489475d603994988d871219141ecaa0b1a7a9a1914f4fe3182d6.png" sizes="76x76">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/114-24252fe693524ed3a9d0905e49bff3cbd0228f25a320aa09053c2ebb4955de97.png" sizes="114x114">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/120-1bb7371f5e87f93ce780a5f1a05ff1b176828ee0d1d130e768575918a2e05834.png" sizes="120x120">
+      <link rel="apple-touch-icon-precomposed" href="https://cdn2.jianshu.io/assets/apple-touch-icons/152-bf209460fc1c17bfd3e2b84c8e758bc11ca3e570fd411c3bbd84149b97453b99.png" sizes="152x152">
+
+  <!-- Start of 访问统计 -->
+    <script src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/push.js"></script><script src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/hm.js"></script><script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?0c0e9d9b1e7d617b3e6842e85b9fb068";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+  <!-- End of 访问统计 -->
+<style type="text/css">fieldset[disabled] .multiselect {
+  pointer-events: none;
+}
+
+.multiselect__spinner {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  width: 48px;
+  height: 35px;
+  background: #fff;
+  display: block;
+}
+
+.multiselect__spinner:after,
+.multiselect__spinner:before {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  margin: -8px 0 0 -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  border-color: #41b883 transparent transparent;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: 0 0 0 1px transparent;
+}
+
+.multiselect__spinner:before {
+  animation: a 2.4s cubic-bezier(.41,.26,.2,.62);
+  animation-iteration-count: infinite;
+}
+
+.multiselect__spinner:after {
+  animation: a 2.4s cubic-bezier(.51,.09,.21,.8);
+  animation-iteration-count: infinite;
+}
+
+.multiselect__loading-enter-active,
+.multiselect__loading-leave-active {
+  transition: opacity .4s ease-in-out;
+  opacity: 1;
+}
+
+.multiselect__loading-enter,
+.multiselect__loading-leave-active {
+  opacity: 0;
+}
+
+.multiselect,
+.multiselect__input,
+.multiselect__single {
+  font-family: inherit;
+  font-size: 14px;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+.multiselect {
+  box-sizing: content-box;
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 40px;
+  text-align: left;
+  color: #35495e;
+}
+
+.multiselect * {
+  box-sizing: border-box;
+}
+
+.multiselect:focus {
+  outline: none;
+}
+
+.multiselect--disabled {
+  opacity: .6;
+}
+
+.multiselect--active {
+  z-index: 1;
+}
+
+.multiselect--active:not(.multiselect--above) .multiselect__current,
+.multiselect--active:not(.multiselect--above) .multiselect__input,
+.multiselect--active:not(.multiselect--above) .multiselect__tags {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.multiselect--active .multiselect__select {
+  transform: rotate(180deg);
+}
+
+.multiselect--above.multiselect--active .multiselect__current,
+.multiselect--above.multiselect--active .multiselect__input,
+.multiselect--above.multiselect--active .multiselect__tags {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.multiselect__input,
+.multiselect__single {
+  position: relative;
+  display: inline-block;
+  min-height: 20px;
+  line-height: 20px;
+  border: none;
+  border-radius: 5px;
+  background: #fff;
+  padding: 0 0 0 5px;
+  width: 100%;
+  transition: border .1s ease;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  vertical-align: top;
+}
+
+.multiselect__tag~.multiselect__input,
+.multiselect__tag~.multiselect__single {
+  width: auto;
+}
+
+.multiselect__input:hover,
+.multiselect__single:hover {
+  border-color: #cfcfcf;
+}
+
+.multiselect__input:focus,
+.multiselect__single:focus {
+  border-color: #a8a8a8;
+  outline: none;
+}
+
+.multiselect__single {
+  padding-left: 6px;
+  margin-bottom: 8px;
+}
+
+.multiselect__tags-wrap {
+  display: inline;
+}
+
+.multiselect__tags {
+  min-height: 40px;
+  display: block;
+  padding: 8px 40px 0 8px;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+  background: #fff;
+}
+
+.multiselect__tag {
+  position: relative;
+  display: inline-block;
+  padding: 4px 26px 4px 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  color: #fff;
+  line-height: 1;
+  background: #41b883;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+
+.multiselect__tag-icon {
+  cursor: pointer;
+  margin-left: 7px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-weight: 700;
+  font-style: normal;
+  width: 22px;
+  text-align: center;
+  line-height: 22px;
+  transition: all .2s ease;
+  border-radius: 5px;
+}
+
+.multiselect__tag-icon:after {
+  content: "\D7";
+  color: #266d4d;
+  font-size: 14px;
+}
+
+.multiselect__tag-icon:focus,
+.multiselect__tag-icon:hover {
+  background: #369a6e;
+}
+
+.multiselect__tag-icon:focus:after,
+.multiselect__tag-icon:hover:after {
+  color: #fff;
+}
+
+.multiselect__current {
+  min-height: 40px;
+  overflow: hidden;
+  padding: 8px 12px 0;
+  padding-right: 30px;
+  white-space: nowrap;
+  border-radius: 5px;
+  border: 1px solid #e8e8e8;
+}
+
+.multiselect__current,
+.multiselect__select {
+  line-height: 16px;
+  box-sizing: border-box;
+  display: block;
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.multiselect__select {
+  position: absolute;
+  width: 40px;
+  height: 38px;
+  right: 1px;
+  top: 1px;
+  padding: 4px 8px;
+  text-align: center;
+  transition: transform .2s ease;
+}
+
+.multiselect__select:before {
+  position: relative;
+  right: 0;
+  top: 65%;
+  color: #999;
+  margin-top: 4px;
+  border-style: solid;
+  border-width: 5px 5px 0;
+  border-color: #999 transparent transparent;
+  content: "";
+}
+
+.multiselect__placeholder {
+  color: #adadad;
+  display: inline-block;
+  margin-bottom: 10px;
+  padding-top: 2px;
+}
+
+.multiselect--active .multiselect__placeholder {
+  display: none;
+}
+
+.multiselect__content-wrapper {
+  position: absolute;
+  display: block;
+  background: #fff;
+  width: 100%;
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid #e8e8e8;
+  border-top: none;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  z-index: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.multiselect__content {
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
+  vertical-align: top;
+}
+
+.multiselect--above .multiselect__content-wrapper {
+  bottom: 100%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  border-top: 1px solid #e8e8e8;
+}
+
+.multiselect__content::webkit-scrollbar {
+  display: none;
+}
+
+.multiselect__element {
+  display: block;
+}
+
+.multiselect__option {
+  display: block;
+  padding: 12px;
+  min-height: 40px;
+  line-height: 16px;
+  text-decoration: none;
+  text-transform: none;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.multiselect__option:after {
+  top: 0;
+  right: 0;
+  position: absolute;
+  line-height: 40px;
+  padding-right: 12px;
+  padding-left: 20px;
+}
+
+.multiselect__option--highlight {
+  background: #41b883;
+  outline: none;
+  color: #fff;
+}
+
+.multiselect__option--highlight:after {
+  content: attr(data-select);
+  background: #41b883;
+  color: #fff;
+}
+
+.multiselect__option--selected {
+  background: #f3f3f3;
+  color: #35495e;
+  font-weight: 700;
+}
+
+.multiselect__option--selected:after {
+  content: attr(data-selected);
+  color: silver;
+}
+
+.multiselect__option--selected.multiselect__option--highlight {
+  background: #ff6a6a;
+  color: #fff;
+}
+
+.multiselect__option--selected.multiselect__option--highlight:after {
+  background: #ff6a6a;
+  content: attr(data-deselect);
+  color: #fff;
+}
+
+.multiselect--disabled {
+  background: #ededed;
+  pointer-events: none;
+}
+
+.multiselect--disabled .multiselect__current,
+.multiselect--disabled .multiselect__select,
+.multiselect__option--disabled {
+  background: #ededed;
+  color: #a6a6a6;
+}
+
+.multiselect__option--disabled {
+  cursor: text;
+  pointer-events: none;
+}
+
+.multiselect__option--disabled.multiselect__option--highlight {
+  background: #dedede!important;
+}
+
+.multiselect-enter-active,
+.multiselect-leave-active {
+  transition: all .15s ease;
+}
+
+.multiselect-enter,
+.multiselect-leave-active {
+  opacity: 0;
+}
+
+.multiselect__strong {
+  margin-bottom: 8px;
+  line-height: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+[dir=rtl] .multiselect {
+  text-align: right;
+}
+
+[dir=rtl] .multiselect__select {
+  right: auto;
+  left: 1px;
+}
+
+[dir=rtl] .multiselect__tags {
+  padding: 8px 8px 0 40px;
+}
+
+[dir=rtl] .multiselect__content {
+  text-align: right;
+}
+
+[dir=rtl] .multiselect__option:after {
+  right: auto;
+  left: 0;
+}
+
+[dir=rtl] .multiselect__clear {
+  right: auto;
+  left: 12px;
+}
+
+[dir=rtl] .multiselect__spinner {
+  right: auto;
+  left: 1px;
+}
+
+@keyframes a {
+  0% {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(2turn);
+  }
+}</style><style type="text/css">@font-face {
+  font-family: 'KaTeX_AMS';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_AMS-Regular-3d8245dcb4489694a6a263b05c1cca01.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_AMS-Regular-ac1d46d953d403677171697581a284d2.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_AMS-Regular-c67be87adba7d31c013be127b936233d.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Caligraphic';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Caligraphic-Bold-970d3e76493b82fccf21ad5888ddee77.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Caligraphic-Bold-445f96a387df0d13ded71f27c608516d.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Caligraphic-Bold-3f61a84d76e80396489d32bc9dd8d444.ttf) format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Caligraphic';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Caligraphic-Regular-0ef0f2e356a2e1c457b6585d34edae77.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Caligraphic-Regular-74f6918c7d2b768ffd32048102bc0172.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Caligraphic-Regular-c3bc8fcec0e85a50cabf71e4e8074991.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Fraktur';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Fraktur-Bold-950649ba5e5cfd37cdad74095411d350.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Fraktur-Bold-1aca7ef7f976fb54a207ffc8aa180e38.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Fraktur-Bold-e11e6bf02fc41279a540d3655abf3b07.ttf) format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Fraktur';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Fraktur-Regular-135ccd74931753318f6f52f3fce19018.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Fraktur-Regular-c5b430bfcb3e5423b77401afcdb69b66.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Fraktur-Regular-a9509497466d16e6b7265a223ea39093.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Main';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Main-Bold-82bce349c8ff0927380b5177e9258ad0.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Main-Bold-29d4b276c622ff1d1376d9afcbd2f25a.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Main-Bold-db576c7d5d6eb6ebefc9b334f4140d42.ttf) format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Main';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Main-BoldItalic-13900e552dbf51aead905f897043226c.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Main-BoldItalic-3f3be43bbdd58a4a86c8eddd3d39a26a.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Main-BoldItalic-cec43f729e0e6810c3433f6020ec676e.ttf) format('truetype');
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'KaTeX_Main';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Main-Italic-b488f60f79c9d1f533def644385d8219.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Main-Italic-f8a754484e776e94b6116dfbcb1761a7.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Main-Italic-85b3329fdb41fadfb0fdc01ec5290b2f.ttf) format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'KaTeX_Main';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Main-Regular-999cd6bac6e8118065ac500d4f133c63.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Main-Regular-485696cf1d821baac6ae06c42e09faef.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Main-Regular-f4fe6dca4a5f5520ae0caab31848aae3.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Math';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Math-Italic-7a31741a44e58952cb4b8a763c206fcd.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Math-Italic-8eb56b3ff5b141cd3732a24e65c2b339.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Math-Italic-10740d7488d690a743339650103f1cb3.ttf) format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'KaTeX_SansSerif';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_SansSerif-Bold-0d0f967a34b828083a11bb264e578c32.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_SansSerif-Bold-99bd87431ac7ef8f27591f72d7812509.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_SansSerif-Bold-771a1f955e7ff2106402b58d1e8a1ad2.ttf) format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_SansSerif';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_SansSerif-Italic-b1ac79b9b69c954bbeb8fc02500832e0.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_SansSerif-Italic-9c3f03ec809c6f298d716cbda8260fcb.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_SansSerif-Italic-cb729d47fbd26ff0ae62bb840085e5b5.ttf) format('truetype');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'KaTeX_SansSerif';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_SansSerif-Regular-23f1730fda70ec6ec6aa789979890cba.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_SansSerif-Regular-fc90839714a9e877682309c3daf7493e.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_SansSerif-Regular-43b0cb92c2405f175772931ccd68002e.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Script';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Script-Regular-ae1fad1f4d1c227c9d567da8ea9f988c.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Script-Regular-60febfa114c5e32f0ce73050476aa39f.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Script-Regular-e9169ca7b32608b6235ec9ffff742a71.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Size1';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Size1-Regular-fda0824e8cfb676664ad063c367cfce3.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Size1-Regular-1d6cf6b89f694dc76e13ecc4e8214dd2.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Size1-Regular-f2e296ef7cef0f6f16912e5d171929b2.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Size2';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Size2-Regular-a7a0eb93afb696cb9b4efb87e6cd45a3.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Size2-Regular-f48e83b7bcaa68a86a78e8edfee1a04e.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Size2-Regular-0767ede65042583bcc06f09055f4d7ca.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Size3';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Size3-Regular-397bd6872be7adff4f000c49fa85a9c3.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Size3-Regular-0387ab387ace32f15b43c3a4a39f187f.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Size3-Regular-882f723427a0986846fe786bd8d6f6c7.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Size4';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Size4-Regular-3c14ed11dd8eea981c93bf283193856d.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Size4-Regular-726db3bd435c8a6e45e44741dae67263.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Size4-Regular-27901d5ce93d8971c416d9123fedb911.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KaTeX_Typewriter';
+  src: url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Typewriter-Regular-895baecfbf4ef298fdfe943fb117c15e.woff2) format('woff2'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Typewriter-Regular-696705de367f02534e8abb38b55af067.woff) format('woff'), url(//cdn2.jianshu.io/assets/_/_/_/_/shared/node_modules/katex/dist/fonts/KaTeX_Typewriter-Regular-6374f53e08c02d7b9ec594e2fb0c5fe8.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.katex-display {
+  display: block;
+  margin: 1em 0;
+  text-align: center;
+}
+
+.katex-display > .katex {
+  display: inline-block;
+  text-align: initial;
+}
+
+.katex {
+  font: normal 1.21em KaTeX_Main, Times New Roman, serif;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-indent: 0;
+  text-rendering: auto;
+}
+
+.katex * {
+  -ms-high-contrast-adjust: none !important;
+}
+
+.katex .katex-html {
+  display: inline-block;
+}
+
+.katex .katex-mathml {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+.katex .base {
+  position: relative;
+  display: inline-block;
+}
+
+.katex .strut {
+  display: inline-block;
+}
+
+.katex .textbf {
+  font-weight: bold;
+}
+
+.katex .textit {
+  font-style: italic;
+}
+
+.katex .textrm {
+  font-family: KaTeX_Main;
+}
+
+.katex .textsf {
+  font-family: KaTeX_SansSerif;
+}
+
+.katex .texttt {
+  font-family: KaTeX_Typewriter;
+}
+
+.katex .mathit {
+  font-family: KaTeX_Math;
+  font-style: italic;
+}
+
+.katex .mathrm {
+  font-style: normal;
+}
+
+.katex .mathbf {
+  font-family: KaTeX_Main;
+  font-weight: bold;
+}
+
+.katex .boldsymbol {
+  font-family: KaTeX_Math;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.katex .amsrm {
+  font-family: KaTeX_AMS;
+}
+
+.katex .mathbb {
+  font-family: KaTeX_AMS;
+}
+
+.katex .mathcal {
+  font-family: KaTeX_Caligraphic;
+}
+
+.katex .mathfrak {
+  font-family: KaTeX_Fraktur;
+}
+
+.katex .mathtt {
+  font-family: KaTeX_Typewriter;
+}
+
+.katex .mathscr {
+  font-family: KaTeX_Script;
+}
+
+.katex .mathsf {
+  font-family: KaTeX_SansSerif;
+}
+
+.katex .mainit {
+  font-family: KaTeX_Main;
+  font-style: italic;
+}
+
+.katex .mainrm {
+  font-family: KaTeX_Main;
+  font-style: normal;
+}
+
+.katex .vlist-t {
+  display: inline-table;
+  table-layout: fixed;
+}
+
+.katex .vlist-r {
+  display: table-row;
+}
+
+.katex .vlist {
+  display: table-cell;
+  vertical-align: bottom;
+  position: relative;
+}
+
+.katex .vlist > span {
+  display: block;
+  height: 0;
+  position: relative;
+}
+
+.katex .vlist > span > span {
+  display: inline-block;
+}
+
+.katex .vlist > span > .pstrut {
+  overflow: hidden;
+  width: 0;
+}
+
+.katex .vlist-t2 {
+  margin-right: -2px;
+}
+
+.katex .vlist-s {
+  display: table-cell;
+  vertical-align: bottom;
+  font-size: 1px;
+  width: 2px;
+}
+
+.katex .msupsub {
+  text-align: left;
+}
+
+.katex .mfrac > span > span {
+  text-align: center;
+}
+
+.katex .mfrac .frac-line {
+  display: inline-block;
+  width: 100%;
+}
+
+.katex .mspace {
+  display: inline-block;
+}
+
+.katex .mspace.negativethinspace {
+  margin-left: -0.16667em;
+}
+
+.katex .mspace.muspace {
+  width: 0.055556em;
+}
+
+.katex .mspace.thinspace {
+  width: 0.16667em;
+}
+
+.katex .mspace.negativemediumspace {
+  margin-left: -0.22222em;
+}
+
+.katex .mspace.mediumspace {
+  width: 0.22222em;
+}
+
+.katex .mspace.thickspace {
+  width: 0.27778em;
+}
+
+.katex .mspace.sixmuspace {
+  width: 0.333333em;
+}
+
+.katex .mspace.eightmuspace {
+  width: 0.444444em;
+}
+
+.katex .mspace.enspace {
+  width: 0.5em;
+}
+
+.katex .mspace.twelvemuspace {
+  width: 0.666667em;
+}
+
+.katex .mspace.quad {
+  width: 1em;
+}
+
+.katex .mspace.qquad {
+  width: 2em;
+}
+
+.katex .llap,
+.katex .rlap,
+.katex .clap {
+  width: 0;
+  position: relative;
+}
+
+.katex .llap > .inner,
+.katex .rlap > .inner,
+.katex .clap > .inner {
+  position: absolute;
+}
+
+.katex .llap > .fix,
+.katex .rlap > .fix,
+.katex .clap > .fix {
+  display: inline-block;
+}
+
+.katex .llap > .inner {
+  right: 0;
+}
+
+.katex .rlap > .inner,
+.katex .clap > .inner {
+  left: 0;
+}
+
+.katex .clap > .inner > span {
+  margin-left: -50%;
+  margin-right: 50%;
+}
+
+.katex .rule {
+  display: inline-block;
+  border: solid 0;
+  position: relative;
+}
+
+.katex .overline .overline-line,
+.katex .underline .underline-line {
+  display: inline-block;
+  width: 100%;
+}
+
+.katex .sqrt > .root {
+  margin-left: 0.27777778em;
+  margin-right: -0.55555556em;
+}
+
+.katex .sizing,
+.katex .fontsize-ensurer {
+  display: inline-block;
+}
+
+.katex .sizing.reset-size1.size1,
+.katex .fontsize-ensurer.reset-size1.size1 {
+  font-size: 1em;
+}
+
+.katex .sizing.reset-size1.size2,
+.katex .fontsize-ensurer.reset-size1.size2 {
+  font-size: 1.2em;
+}
+
+.katex .sizing.reset-size1.size3,
+.katex .fontsize-ensurer.reset-size1.size3 {
+  font-size: 1.4em;
+}
+
+.katex .sizing.reset-size1.size4,
+.katex .fontsize-ensurer.reset-size1.size4 {
+  font-size: 1.6em;
+}
+
+.katex .sizing.reset-size1.size5,
+.katex .fontsize-ensurer.reset-size1.size5 {
+  font-size: 1.8em;
+}
+
+.katex .sizing.reset-size1.size6,
+.katex .fontsize-ensurer.reset-size1.size6 {
+  font-size: 2em;
+}
+
+.katex .sizing.reset-size1.size7,
+.katex .fontsize-ensurer.reset-size1.size7 {
+  font-size: 2.4em;
+}
+
+.katex .sizing.reset-size1.size8,
+.katex .fontsize-ensurer.reset-size1.size8 {
+  font-size: 2.88em;
+}
+
+.katex .sizing.reset-size1.size9,
+.katex .fontsize-ensurer.reset-size1.size9 {
+  font-size: 3.456em;
+}
+
+.katex .sizing.reset-size1.size10,
+.katex .fontsize-ensurer.reset-size1.size10 {
+  font-size: 4.148em;
+}
+
+.katex .sizing.reset-size1.size11,
+.katex .fontsize-ensurer.reset-size1.size11 {
+  font-size: 4.976em;
+}
+
+.katex .sizing.reset-size2.size1,
+.katex .fontsize-ensurer.reset-size2.size1 {
+  font-size: 0.83333333em;
+}
+
+.katex .sizing.reset-size2.size2,
+.katex .fontsize-ensurer.reset-size2.size2 {
+  font-size: 1em;
+}
+
+.katex .sizing.reset-size2.size3,
+.katex .fontsize-ensurer.reset-size2.size3 {
+  font-size: 1.16666667em;
+}
+
+.katex .sizing.reset-size2.size4,
+.katex .fontsize-ensurer.reset-size2.size4 {
+  font-size: 1.33333333em;
+}
+
+.katex .sizing.reset-size2.size5,
+.katex .fontsize-ensurer.reset-size2.size5 {
+  font-size: 1.5em;
+}
+
+.katex .sizing.reset-size2.size6,
+.katex .fontsize-ensurer.reset-size2.size6 {
+  font-size: 1.66666667em;
+}
+
+.katex .sizing.reset-size2.size7,
+.katex .fontsize-ensurer.reset-size2.size7 {
+  font-size: 2em;
+}
+
+.katex .sizing.reset-size2.size8,
+.katex .fontsize-ensurer.reset-size2.size8 {
+  font-size: 2.4em;
+}
+
+.katex .sizing.reset-size2.size9,
+.katex .fontsize-ensurer.reset-size2.size9 {
+  font-size: 2.88em;
+}
+
+.katex .sizing.reset-size2.size10,
+.katex .fontsize-ensurer.reset-size2.size10 {
+  font-size: 3.45666667em;
+}
+
+.katex .sizing.reset-size2.size11,
+.katex .fontsize-ensurer.reset-size2.size11 {
+  font-size: 4.14666667em;
+}
+
+.katex .sizing.reset-size3.size1,
+.katex .fontsize-ensurer.reset-size3.size1 {
+  font-size: 0.71428571em;
+}
+
+.katex .sizing.reset-size3.size2,
+.katex .fontsize-ensurer.reset-size3.size2 {
+  font-size: 0.85714286em;
+}
+
+.katex .sizing.reset-size3.size3,
+.katex .fontsize-ensurer.reset-size3.size3 {
+  font-size: 1em;
+}
+
+.katex .sizing.reset-size3.size4,
+.katex .fontsize-ensurer.reset-size3.size4 {
+  font-size: 1.14285714em;
+}
+
+.katex .sizing.reset-size3.size5,
+.katex .fontsize-ensurer.reset-size3.size5 {
+  font-size: 1.28571429em;
+}
+
+.katex .sizing.reset-size3.size6,
+.katex .fontsize-ensurer.reset-size3.size6 {
+  font-size: 1.42857143em;
+}
+
+.katex .sizing.reset-size3.size7,
+.katex .fontsize-ensurer.reset-size3.size7 {
+  font-size: 1.71428571em;
+}
+
+.katex .sizing.reset-size3.size8,
+.katex .fontsize-ensurer.reset-size3.size8 {
+  font-size: 2.05714286em;
+}
+
+.katex .sizing.reset-size3.size9,
+.katex .fontsize-ensurer.reset-size3.size9 {
+  font-size: 2.46857143em;
+}
+
+.katex .sizing.reset-size3.size10,
+.katex .fontsize-ensurer.reset-size3.size10 {
+  font-size: 2.96285714em;
+}
+
+.katex .sizing.reset-size3.size11,
+.katex .fontsize-ensurer.reset-size3.size11 {
+  font-size: 3.55428571em;
+}
+
+.katex .sizing.reset-size4.size1,
+.katex .fontsize-ensurer.reset-size4.size1 {
+  font-size: 0.625em;
+}
+
+.katex .sizing.reset-size4.size2,
+.katex .fontsize-ensurer.reset-size4.size2 {
+  font-size: 0.75em;
+}
+
+.katex .sizing.reset-size4.size3,
+.katex .fontsize-ensurer.reset-size4.size3 {
+  font-size: 0.875em;
+}
+
+.katex .sizing.reset-size4.size4,
+.katex .fontsize-ensurer.reset-size4.size4 {
+  font-size: 1em;
+}
+
+.katex .sizing.reset-size4.size5,
+.katex .fontsize-ensurer.reset-size4.size5 {
+  font-size: 1.125em;
+}
+
+.katex .sizing.reset-size4.size6,
+.katex .fontsize-ensurer.reset-size4.size6 {
+  font-size: 1.25em;
+}
+
+.katex .sizing.reset-size4.size7,
+.katex .fontsize-ensurer.reset-size4.size7 {
+  font-size: 1.5em;
+}
+
+.katex .sizing.reset-size4.size8,
+.katex .fontsize-ensurer.reset-size4.size8 {
+  font-size: 1.8em;
+}
+
+.katex .sizing.reset-size4.size9,
+.katex .fontsize-ensurer.reset-size4.size9 {
+  font-size: 2.16em;
+}
+
+.katex .sizing.reset-size4.size10,
+.katex .fontsize-ensurer.reset-size4.size10 {
+  font-size: 2.5925em;
+}
+
+.katex .sizing.reset-size4.size11,
+.katex .fontsize-ensurer.reset-size4.size11 {
+  font-size: 3.11em;
+}
+
+.katex .sizing.reset-size5.size1,
+.katex .fontsize-ensurer.reset-size5.size1 {
+  font-size: 0.55555556em;
+}
+
+.katex .sizing.reset-size5.size2,
+.katex .fontsize-ensurer.reset-size5.size2 {
+  font-size: 0.66666667em;
+}
+
+.katex .sizing.reset-size5.size3,
+.katex .fontsize-ensurer.reset-size5.size3 {
+  font-size: 0.77777778em;
+}
+
+.katex .sizing.reset-size5.size4,
+.katex .fontsize-ensurer.reset-size5.size4 {
+  font-size: 0.88888889em;
+}
+
+.katex .sizing.reset-size5.size5,
+.katex .fontsize-ensurer.reset-size5.size5 {
+  font-size: 1em;
+}
+
+.katex .sizing.reset-size5.size6,
+.katex .fontsize-ensurer.reset-size5.size6 {
+  font-size: 1.11111111em;
+}
+
+.katex .sizing.reset-size5.size7,
+.katex .fontsize-ensurer.reset-size5.size7 {
+  font-size: 1.33333333em;
+}
+
+.katex .sizing.reset-size5.size8,
+.katex .fontsize-ensurer.reset-size5.size8 {
+  font-size: 1.6em;
+}
+
+.katex .sizing.reset-size5.size9,
+.katex .fontsize-ensurer.reset-size5.size9 {
+  font-size: 1.92em;
+}
+
+.katex .sizing.reset-size5.size10,
+.katex .fontsize-ensurer.reset-size5.size10 {
+  font-size: 2.30444444em;
+}
+
+.katex .sizing.reset-size5.size11,
+.katex .fontsize-ensurer.reset-size5.size11 {
+  font-size: 2.76444444em;
+}
+
+.katex .sizing.reset-size6.size1,
+.katex .fontsize-ensurer.reset-size6.size1 {
+  font-size: 0.5em;
+}
+
+.katex .sizing.reset-size6.size2,
+.katex .fontsize-ensurer.reset-size6.size2 {
+  font-size: 0.6em;
+}
+
+.katex .sizing.reset-size6.size3,
+.katex .fontsize-ensurer.reset-size6.size3 {
+  font-size: 0.7em;
+}
+
+.katex .sizing.reset-size6.size4,
+.katex .fontsize-ensurer.reset-size6.size4 {
+  font-size: 0.8em;
+}
+
+.katex .sizing.reset-size6.size5,
+.katex .fontsize-ensurer.reset-size6.size5 {
+  font-size: 0.9em;
+}
+
+.katex .sizing.reset-size6.size6,
+.katex .fontsize-ensurer.reset-size6.size6 {
+  font-size: 1em;
+}
+
+.katex .sizing.reset-size6.size7,
+.katex .fontsize-ensurer.reset-size6.size7 {
+  font-size: 1.2em;
+}
+
+.katex .sizing.reset-size6.size8,
+.katex .fontsize-ensurer.reset-size6.size8 {
+  font-size: 1.44em;
+}
+
+.katex .sizing.reset-size6.size9,
+.katex .fontsize-ensurer.reset-size6.size9 {
+  font-size: 1.728em;
+}
+
+.katex .sizing.reset-size6.size10,
+.katex .fontsize-ensurer.reset-size6.size10 {
+  font-size: 2.074em;
+}
+
+.katex .sizing.reset-size6.size11,
+.katex .fontsize-ensurer.reset-size6.size11 {
+  font-size: 2.488em;
+}
+
+.katex .sizing.reset-size7.size1,
+.katex .fontsize-ensurer.reset-size7.size1 {
+  font-size: 0.41666667em;
+}
+
+.katex .sizing.reset-size7.size2,
+.katex .fontsize-ensurer.reset-size7.size2 {
+  font-size: 0.5em;
+}
+
+.katex .sizing.reset-size7.size3,
+.katex .fontsize-ensurer.reset-size7.size3 {
+  font-size: 0.58333333em;
+}
+
+.katex .sizing.reset-size7.size4,
+.katex .fontsize-ensurer.reset-size7.size4 {
+  font-size: 0.66666667em;
+}
+
+.katex .sizing.reset-size7.size5,
+.katex .fontsize-ensurer.reset-size7.size5 {
+  font-size: 0.75em;
+}
+
+.katex .sizing.reset-size7.size6,
+.katex .fontsize-ensurer.reset-size7.size6 {
+  font-size: 0.83333333em;
+}
+
+.katex .sizing.reset-size7.size7,
+.katex .fontsize-ensurer.reset-size7.size7 {
+  font-size: 1em;
+}
+
+.katex .sizing.reset-size7.size8,
+.katex .fontsize-ensurer.reset-size7.size8 {
+  font-size: 1.2em;
+}
+
+.katex .sizing.reset-size7.size9,
+.katex .fontsize-ensurer.reset-size7.size9 {
+  font-size: 1.44em;
+}
+
+.katex .sizing.reset-size7.size10,
+.katex .fontsize-ensurer.reset-size7.size10 {
+  font-size: 1.72833333em;
+}
+
+.katex .sizing.reset-size7.size11,
+.katex .fontsize-ensurer.reset-size7.size11 {
+  font-size: 2.07333333em;
+}
+
+.katex .sizing.reset-size8.size1,
+.katex .fontsize-ensurer.reset-size8.size1 {
+  font-size: 0.34722222em;
+}
+
+.katex .sizing.reset-size8.size2,
+.katex .fontsize-ensurer.reset-size8.size2 {
+  font-size: 0.41666667em;
+}
+
+.katex .sizing.reset-size8.size3,
+.katex .fontsize-ensurer.reset-size8.size3 {
+  font-size: 0.48611111em;
+}
+
+.katex .sizing.reset-size8.size4,
+.katex .fontsize-ensurer.reset-size8.size4 {
+  font-size: 0.55555556em;
+}
+
+.katex .sizing.reset-size8.size5,
+.katex .fontsize-ensurer.reset-size8.size5 {
+  font-size: 0.625em;
+}
+
+.katex .sizing.reset-size8.size6,
+.katex .fontsize-ensurer.reset-size8.size6 {
+  font-size: 0.69444444em;
+}
+
+.katex .sizing.reset-size8.size7,
+.katex .fontsize-ensurer.reset-size8.size7 {
+  font-size: 0.83333333em;
+}
+
+.katex .sizing.reset-size8.size8,
+.katex .fontsize-ensurer.reset-size8.size8 {
+  font-size: 1em;
+}
+
+.katex .sizing.reset-size8.size9,
+.katex .fontsize-ensurer.reset-size8.size9 {
+  font-size: 1.2em;
+}
+
+.katex .sizing.reset-size8.size10,
+.katex .fontsize-ensurer.reset-size8.size10 {
+  font-size: 1.44027778em;
+}
+
+.katex .sizing.reset-size8.size11,
+.katex .fontsize-ensurer.reset-size8.size11 {
+  font-size: 1.72777778em;
+}
+
+.katex .sizing.reset-size9.size1,
+.katex .fontsize-ensurer.reset-size9.size1 {
+  font-size: 0.28935185em;
+}
+
+.katex .sizing.reset-size9.size2,
+.katex .fontsize-ensurer.reset-size9.size2 {
+  font-size: 0.34722222em;
+}
+
+.katex .sizing.reset-size9.size3,
+.katex .fontsize-ensurer.reset-size9.size3 {
+  font-size: 0.40509259em;
+}
+
+.katex .sizing.reset-size9.size4,
+.katex .fontsize-ensurer.reset-size9.size4 {
+  font-size: 0.46296296em;
+}
+
+.katex .sizing.reset-size9.size5,
+.katex .fontsize-ensurer.reset-size9.size5 {
+  font-size: 0.52083333em;
+}
+
+.katex .sizing.reset-size9.size6,
+.katex .fontsize-ensurer.reset-size9.size6 {
+  font-size: 0.5787037em;
+}
+
+.katex .sizing.reset-size9.size7,
+.katex .fontsize-ensurer.reset-size9.size7 {
+  font-size: 0.69444444em;
+}
+
+.katex .sizing.reset-size9.size8,
+.katex .fontsize-ensurer.reset-size9.size8 {
+  font-size: 0.83333333em;
+}
+
+.katex .sizing.reset-size9.size9,
+.katex .fontsize-ensurer.reset-size9.size9 {
+  font-size: 1em;
+}
+
+.katex .sizing.reset-size9.size10,
+.katex .fontsize-ensurer.reset-size9.size10 {
+  font-size: 1.20023148em;
+}
+
+.katex .sizing.reset-size9.size11,
+.katex .fontsize-ensurer.reset-size9.size11 {
+  font-size: 1.43981481em;
+}
+
+.katex .sizing.reset-size10.size1,
+.katex .fontsize-ensurer.reset-size10.size1 {
+  font-size: 0.24108004em;
+}
+
+.katex .sizing.reset-size10.size2,
+.katex .fontsize-ensurer.reset-size10.size2 {
+  font-size: 0.28929605em;
+}
+
+.katex .sizing.reset-size10.size3,
+.katex .fontsize-ensurer.reset-size10.size3 {
+  font-size: 0.33751205em;
+}
+
+.katex .sizing.reset-size10.size4,
+.katex .fontsize-ensurer.reset-size10.size4 {
+  font-size: 0.38572806em;
+}
+
+.katex .sizing.reset-size10.size5,
+.katex .fontsize-ensurer.reset-size10.size5 {
+  font-size: 0.43394407em;
+}
+
+.katex .sizing.reset-size10.size6,
+.katex .fontsize-ensurer.reset-size10.size6 {
+  font-size: 0.48216008em;
+}
+
+.katex .sizing.reset-size10.size7,
+.katex .fontsize-ensurer.reset-size10.size7 {
+  font-size: 0.57859209em;
+}
+
+.katex .sizing.reset-size10.size8,
+.katex .fontsize-ensurer.reset-size10.size8 {
+  font-size: 0.69431051em;
+}
+
+.katex .sizing.reset-size10.size9,
+.katex .fontsize-ensurer.reset-size10.size9 {
+  font-size: 0.83317261em;
+}
+
+.katex .sizing.reset-size10.size10,
+.katex .fontsize-ensurer.reset-size10.size10 {
+  font-size: 1em;
+}
+
+.katex .sizing.reset-size10.size11,
+.katex .fontsize-ensurer.reset-size10.size11 {
+  font-size: 1.19961427em;
+}
+
+.katex .sizing.reset-size11.size1,
+.katex .fontsize-ensurer.reset-size11.size1 {
+  font-size: 0.20096463em;
+}
+
+.katex .sizing.reset-size11.size2,
+.katex .fontsize-ensurer.reset-size11.size2 {
+  font-size: 0.24115756em;
+}
+
+.katex .sizing.reset-size11.size3,
+.katex .fontsize-ensurer.reset-size11.size3 {
+  font-size: 0.28135048em;
+}
+
+.katex .sizing.reset-size11.size4,
+.katex .fontsize-ensurer.reset-size11.size4 {
+  font-size: 0.32154341em;
+}
+
+.katex .sizing.reset-size11.size5,
+.katex .fontsize-ensurer.reset-size11.size5 {
+  font-size: 0.36173633em;
+}
+
+.katex .sizing.reset-size11.size6,
+.katex .fontsize-ensurer.reset-size11.size6 {
+  font-size: 0.40192926em;
+}
+
+.katex .sizing.reset-size11.size7,
+.katex .fontsize-ensurer.reset-size11.size7 {
+  font-size: 0.48231511em;
+}
+
+.katex .sizing.reset-size11.size8,
+.katex .fontsize-ensurer.reset-size11.size8 {
+  font-size: 0.57877814em;
+}
+
+.katex .sizing.reset-size11.size9,
+.katex .fontsize-ensurer.reset-size11.size9 {
+  font-size: 0.69453376em;
+}
+
+.katex .sizing.reset-size11.size10,
+.katex .fontsize-ensurer.reset-size11.size10 {
+  font-size: 0.83360129em;
+}
+
+.katex .sizing.reset-size11.size11,
+.katex .fontsize-ensurer.reset-size11.size11 {
+  font-size: 1em;
+}
+
+.katex .delimsizing.size1 {
+  font-family: KaTeX_Size1;
+}
+
+.katex .delimsizing.size2 {
+  font-family: KaTeX_Size2;
+}
+
+.katex .delimsizing.size3 {
+  font-family: KaTeX_Size3;
+}
+
+.katex .delimsizing.size4 {
+  font-family: KaTeX_Size4;
+}
+
+.katex .delimsizing.mult .delim-size1 > span {
+  font-family: KaTeX_Size1;
+}
+
+.katex .delimsizing.mult .delim-size4 > span {
+  font-family: KaTeX_Size4;
+}
+
+.katex .nulldelimiter {
+  display: inline-block;
+  width: 0.12em;
+}
+
+.katex .delimcenter {
+  position: relative;
+}
+
+.katex .op-symbol {
+  position: relative;
+}
+
+.katex .op-symbol.small-op {
+  font-family: KaTeX_Size1;
+}
+
+.katex .op-symbol.large-op {
+  font-family: KaTeX_Size2;
+}
+
+.katex .op-limits > .vlist-t {
+  text-align: center;
+}
+
+.katex .accent > .vlist-t {
+  text-align: center;
+}
+
+.katex .accent .accent-body {
+  width: 0;
+  position: relative;
+}
+
+.katex .overlay {
+  display: block;
+}
+
+.katex .mtable .vertical-separator {
+  display: inline-block;
+  margin: 0 -0.125em;
+  width: 0.25em;
+}
+
+.katex .mtable .arraycolsep {
+  display: inline-block;
+}
+
+.katex .mtable .col-align-c > .vlist-t {
+  text-align: center;
+}
+
+.katex .mtable .col-align-l > .vlist-t {
+  text-align: left;
+}
+
+.katex .mtable .col-align-r > .vlist-t {
+  text-align: right;
+}
+
+.katex .svg-align {
+  text-align: left;
+}
+
+.katex svg {
+  display: block;
+  position: absolute;
+  width: 100%;
+  fill: currentColor;
+  stroke: currentColor;
+  fill-rule: nonzero;
+  fill-opacity: 1;
+  stroke-width: 1;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 4;
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+  stroke-opacity: 1;
+}
+
+.katex svg path {
+  stroke: none;
+}
+
+.katex .vertical-separator svg {
+  width: 0.25em;
+}
+
+.katex .stretchy {
+  width: 100%;
+  display: block;
+}
+
+.katex .stretchy:before,
+.katex .stretchy:after {
+  content: "";
+}
+
+.katex .hide-tail {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.katex .halfarrow-left {
+  position: absolute;
+  left: 0;
+  width: 50.1%;
+  overflow: hidden;
+}
+
+.katex .halfarrow-right {
+  position: absolute;
+  right: 0;
+  width: 50%;
+  overflow: hidden;
+}
+
+.katex .brace-left {
+  position: absolute;
+  left: 0;
+  width: 25.1%;
+  overflow: hidden;
+}
+
+.katex .brace-center {
+  position: absolute;
+  left: 25%;
+  width: 50%;
+  overflow: hidden;
+}
+
+.katex .brace-right {
+  position: absolute;
+  right: 0;
+  width: 25.1%;
+  overflow: hidden;
+}
+
+.katex .x-arrow-pad {
+  padding: 0 0.5em;
+}
+
+.katex .x-arrow,
+.katex .mover,
+.katex .munder {
+  text-align: center;
+}
+
+.katex .boxpad {
+  padding: 0 0.3em 0 0.3em;
+}
+
+.katex .fbox {
+  box-sizing: border-box;
+  border: 0.04em solid black;
+}
+
+.katex .fcolorbox {
+  box-sizing: border-box;
+  border: 0.04em solid;
+}
+
+.katex .cancel-pad {
+  padding: 0 0.2em 0 0.2em;
+}
+
+.katex .mord + .cancel-lap,
+.katex .mbin + .cancel-lap {
+  margin-left: -0.2em;
+}
+
+.katex .cancel-lap + .mord,
+.katex .cancel-lap + .mbin,
+.katex .cancel-lap + .msupsub {
+  margin-left: -0.2em;
+}
+
+.katex .sout {
+  border-bottom-style: solid;
+  border-bottom-width: 0.08em;
+}</style><style type="text/css">
+#free-reward-panel .reward-users-modal main {
+  padding: 0;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.reward-note-modal .v-modal {
+  width: 620px;
+  text-align: center;
+}
+.reward-note-modal .v-modal form {
+    margin: 0 auto 25px auto;
+    padding: 0 40px;
+}
+.reward-note-modal .v-modal .reward-intro {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+.reward-note-modal .v-modal .reward-intro .avatar {
+      cursor: default !important;
+      width: 36px;
+      height: 36px;
+      margin-right: 10px;
+      display: inline-block;
+}
+.reward-note-modal .v-modal .reward-intro .intro {
+      margin-right: 5px;
+      font-weight: bold;
+      vertical-align: middle;
+}
+.reward-note-modal .v-modal .reward-intro i {
+      color: #EA6F5A;
+      vertical-align: middle;
+}
+.reward-note-modal .v-modal .main-inputs {
+    margin: 25px 0;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group {
+      margin: 0 -5px;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group input {
+        display: none;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group input:checked + .option {
+        color: #EA6F5A;
+        border-color: #EA6F5A;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .custom-amount:checked + .option .custom-text {
+        opacity: 0;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .custom-amount:checked + .option .custom-amount-input {
+        opacity: 1;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option {
+        position: relative;
+        margin: 0 5px 15px;
+        width: 156px;
+        height: 56px;
+        line-height: 54px;
+        border: 1px solid #E6E6E6;
+        border-radius: 4px;
+        font-weight: normal;
+        color: #999999;
+        cursor: pointer;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option i {
+          font-size: 16px;
+          vertical-align: middle;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .amount {
+          font-size: 28px;
+          vertical-align: middle;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .piece {
+          font-size: 13px;
+          vertical-align: sub;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input {
+          position: absolute;
+          top: 0;
+          z-index: -1;
+          width: 100%;
+          opacity: 0;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input i {
+            position: absolute;
+            top: 0;
+            left: 10px;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input .piece {
+            position: absolute;
+            top: 4px;
+            right: 10px;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input input {
+            display: block;
+            margin: 0 auto;
+            width: 80px;
+            height: 54px;
+            line-height: 54px;
+            border: none;
+            font-size: 28px;
+            text-align: center;
+            background: transparent;
+            -moz-appearance: textfield;
+}
+.reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input input::-webkit-outer-spin-button, .reward-note-modal .v-modal .main-inputs .amount-group .option .custom-amount-input input::-webkit-inner-spin-button {
+              -webkit-appearance: none !important;
+}
+.reward-note-modal .v-modal .main-inputs .message {
+      padding: 15px 20px;
+      margin-bottom: 0;
+      font-size: 14px;
+      border: 1px solid #E6E6E6;
+      color: #333333;
+      border-radius: 4px;
+      background-color: rgba(180, 180, 180, 0.1);
+}
+.reward-note-modal .v-modal .main-inputs .message textarea {
+        width: 100%;
+        height: 44px;
+        padding: 0;
+        margin: 0;
+        resize: none;
+        background: none !important;
+        border: none !important;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+        -webkit-box-shadow: none;
+                box-shadow: none;
+}
+.reward-note-modal .v-modal .main-inputs .message textarea:focus {
+          outline: none;
+}
+.reward-note-modal .v-modal .reward-info .amount {
+    font-size: 28px;
+    font-weight: bold;
+    color: #EA6F5A;
+}
+.reward-note-modal .v-modal .reward-info .pay-method {
+    font-size: 14px;
+}
+.reward-note-modal .v-modal .reward-info .pay-method a {
+      color: #3194D0;
+}
+.reward-note-modal .v-modal .choose-pay {
+    margin: 0 -5px;
+}
+.reward-note-modal .v-modal .choose-pay input {
+      display: none;
+}
+.reward-note-modal .v-modal .choose-pay input:checked + .option {
+      color: #EA6F5A;
+      border-color: #EA6F5A;
+}
+.reward-note-modal .v-modal .choose-pay .option {
+      margin: 20px 5px 10px;
+      width: 156px;
+      height: 56px;
+      line-height: 54px;
+      text-align: center;
+      border: 1px solid #E6E6E6;
+      border-radius: 4px;
+      cursor: pointer;
+}
+.reward-note-modal .v-modal .choose-pay .option img {
+        height: 30px;
+}
+.reward-note-modal .v-modal .choose-pay .option img.day.alipay, .reward-note-modal .v-modal .choose-pay .option img.night.alipay {
+        min-width: 85px;
+}
+.reward-note-modal .v-modal .choose-pay .option img.day.wechat, .reward-note-modal .v-modal .choose-pay .option img.night.wechat {
+        min-width: 112px;
+}
+.reward-note-modal .v-modal .choose-pay .option img.night {
+        display: none;
+}
+.reward-note-modal .v-modal .choose-pay .tooltip {
+      width: 230px;
+}
+.reward-note-modal .v-modal .modal-footer {
+    padding: 0 15px 20px;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+}
+.reward-note-modal .v-modal .modal-footer .btn {
+      padding: 8px 45px;
+      font-size: 24px;
+}
+.reward-note-modal .v-modal .btn-pay {
+    padding: 8px 25px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #F5A623;
+}
+.weixin-pay, .success-pay {
+  text-align: center;
+}
+.weixin-pay .v-modal, .success-pay .v-modal {
+    width: 350px;
+}
+.weixin-pay .ic-successed, .success-pay .ic-successed {
+    font-size: 60px;
+    color: #3db922;
+}
+.weixin-pay h2, .weixin-pay h3, .success-pay h2, .success-pay h3 {
+    margin-bottom: 20px;
+    color: #333333;
+}
+.weixin-pay h2, .success-pay h2 {
+    margin: 0 0 40px 0;
+    font-size: 24px;
+}
+.weixin-pay .bind-text, .success-pay .bind-text {
+    position: relative;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: #999999;
+}
+.weixin-pay .bind-text:before, .weixin-pay .bind-text:after, .success-pay .bind-text:before, .success-pay .bind-text:after {
+      content: "";
+      border-top: 1px solid #999;
+      display: block;
+      position: absolute;
+      width: 40px;
+      top: 8px;
+}
+.weixin-pay .bind-text:before, .success-pay .bind-text:before {
+      left: 30px;
+}
+.weixin-pay .bind-text:after, .success-pay .bind-text:after {
+      right: 30px;
+}
+.weixin-pay .share-bind, .success-pay .share-bind {
+    display: block;
+    margin-bottom: 30px;
+}
+.weixin-pay .share-bind i, .success-pay .share-bind i {
+      margin-right: 4px;
+      font-size: 22px;
+      vertical-align: middle;
+}
+.weixin-pay .share-bind.wechat i, .success-pay .share-bind.wechat i {
+      color: #00BB29;
+}
+.weixin-pay .share-bind.weibo i, .success-pay .share-bind.weibo i {
+      color: #E05244;
+}
+.weixin-pay .wx-qr-code, .success-pay .wx-qr-code {
+    display: inline-block;
+}
+.weixin-pay .wx-qr-code img, .success-pay .wx-qr-code img {
+      margin: 0 auto;
+      padding: 10px;
+      width: 200px;
+      background-color: #ffffff;
+}
+.weixin-pay .pay-amount, .success-pay .pay-amount {
+    margin: 20px 0;
+    color: #787878;
+}
+.weixin-pay .pay-amount span, .success-pay .pay-amount span {
+      color: #F5A623;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.v-modal-wrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background-color: transparent;
+}
+.v-modal-wrap.modal-leave-active {
+    -webkit-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+}
+.v-modal-wrap.modal-enter-active .v-modal-mask, .v-modal-wrap.modal-leave-active .v-modal-mask {
+    opacity: 0;
+}
+.v-modal-wrap.modal-enter-active .v-modal, .v-modal-wrap.modal-leave-active .v-modal {
+    -webkit-transform: translate(-50%, -70%);
+        -ms-transform: translate(-50%, -70%);
+            transform: translate(-50%, -70%);
+    opacity: 0;
+}
+.v-modal-wrap .v-modal-mask {
+    background-color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    -webkit-transition: opacity 0.3s;
+    -o-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+    opacity: 1;
+}
+.v-modal-wrap .v-modal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+    -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+    transition: opacity 0.3s, -webkit-transform 0.3s;
+    -o-transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s, -webkit-transform 0.3s;
+    opacity: 1;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    overflow: hidden;
+}
+.v-modal-wrap .v-modal > header:before, .v-modal-wrap .v-modal > header:after, .v-modal-wrap .v-modal > main:before, .v-modal-wrap .v-modal > main:after, .v-modal-wrap .v-modal > footer:before, .v-modal-wrap .v-modal > footer:after {
+      content: '';
+      clear: both;
+      display: table;
+}
+.v-modal-wrap .v-modal > header {
+      padding: 20px;
+      border-bottom: 1px solid #F0F0F0;
+}
+.v-modal-wrap .v-modal > header h4 {
+        margin: 0;
+        color: #333;
+        text-align: left;
+}
+.v-modal-wrap .v-modal .close {
+      position: absolute;
+      right: 16px;
+      top: 20px;
+      font-size: 26px;
+      line-height: 20px;
+      color: rgba(0, 0, 0, 0.8);
+}
+.v-modal-wrap .v-modal .close:hover {
+        color: #000000;
+}
+.v-modal-wrap .v-modal > main {
+      padding: 20px 20px 20px 20px;
+      font-size: 15px;
+      color: #333;
+      -webkit-box-flex: 1;
+      -webkit-flex-grow: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1;
+      overflow-x: hidden;
+      overflow-y: auto;
+}
+.v-modal-wrap .v-modal > footer {
+      padding: 20px;
+      background-color: #fff;
+}
+.v-modal-wrap .v-modal > footer button {
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+        border: 0;
+        float: right;
+}
+.v-modal-wrap .v-modal > footer button:focus {
+          outline: 0;
+}
+.v-modal-wrap .v-modal > footer .submit {
+        padding: 4px 12px;
+        border: 1px solid;
+        border-radius: 20px;
+}
+.v-modal-wrap .v-modal > footer .cancel {
+        margin-top: 5px;
+}
+.v-modal-wrap .v-modal > footer .cancel:hover {
+          color: #333333;
+}
+.reader-night-mode .v-modal-wrap .v-modal-mask {
+  background-color: rgba(63, 63, 63, 0.7);
+}
+.reader-night-mode .v-modal-wrap .v-modal {
+  background-color: #3f3f3f;
+}
+.reader-night-mode .v-modal-wrap .v-modal header {
+    border-color: #2F2F2F;
+}
+.reader-night-mode .v-modal-wrap .v-modal header h4 {
+      color: #C8C8C8;
+}
+.reader-night-mode .v-modal-wrap .v-modal .close {
+    color: #C8C8C8;
+}
+.reader-night-mode .v-modal-wrap .v-modal .close:hover {
+      color: #ffffff;
+}
+.reader-night-mode .v-modal-wrap .v-modal main {
+    color: #C8C8C8;
+}
+.reader-night-mode .v-modal-wrap .v-modal footer {
+    background-color: #3f3f3f;
+}
+.reader-night-mode .v-modal-wrap .v-modal footer .cancel:hover {
+      color: #C8C8C8;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.like[data-v-6ddd02c6] {
+  display: inline-block;
+}
+.like .like-group[data-v-6ddd02c6] {
+    position: relative;
+    padding: 13px 0 15px 0;
+    font-size: 0;
+    border: 1px solid #EA6F5A;
+    border-radius: 40px;
+}
+.like .like-group[data-v-6ddd02c6]:hover {
+      background-color: rgba(236, 97, 73, 0.05);
+}
+.like .like-group .btn-like[data-v-6ddd02c6] {
+      display: inline-block;
+      font-size: 19px;
+}
+.like .like-group .btn-like[data-v-6ddd02c6]:before {
+        content: '';
+        position: absolute;
+        left: 12px;
+        top: 2px;
+        width: 50px;
+        height: 50px;
+        background-image: url(//cdn2.jianshu.io/assets/web/like_animation_steps-62a00a7b52377d3069927cdb8e61fd34.png);
+        background-position: left;
+        background-repeat: no-repeat;
+        background-size: 1000px 50px;
+}
+.like .like-group .btn-like a[data-v-6ddd02c6] {
+        position: relative;
+        padding: 18px 30px 18px 55px;
+        color: #EA6F5A;
+}
+.like .like-group .modal-wrap[data-v-6ddd02c6] {
+      font-size: 18px;
+      border-left: 1px solid rgba(236, 97, 73, 0.4);
+      display: inline-block;
+      margin-left: -15px;
+}
+.like .like-group .modal-wrap a[data-v-6ddd02c6] {
+        color: #EA6F5A;
+        padding: 18px 26px 18px 18px;
+}
+.like .like-group.like-animation[data-v-6ddd02c6], .like .like-group.active[data-v-6ddd02c6] {
+      background-color: #EA6F5A;
+}
+.like .like-group.like-animation .btn-like a[data-v-6ddd02c6], .like .like-group.active .btn-like a[data-v-6ddd02c6] {
+        color: white;
+}
+.like .like-group.like-animation .modal-wrap[data-v-6ddd02c6], .like .like-group.active .modal-wrap[data-v-6ddd02c6] {
+        border-left: 1px solid white;
+}
+.like .like-group.like-animation .modal-wrap a[data-v-6ddd02c6], .like .like-group.active .modal-wrap a[data-v-6ddd02c6] {
+          color: white;
+}
+.like .like-group.like-animation .btn-like[data-v-6ddd02c6]:before {
+      -webkit-animation: likeBlast-data-v-6ddd02c6 0.6s 1 steps(19);
+              animation: likeBlast-data-v-6ddd02c6 0.6s 1 steps(19);
+      background-position: right;
+}
+@-webkit-keyframes likeBlast {
+0% {
+    background-position: left;
+}
+100% {
+    background-position: right;
+}
+}
+@keyframes likeBlast-data-v-6ddd02c6 {
+0% {
+    background-position: left;
+}
+100% {
+    background-position: right;
+}
+}
+.like .like-group.active .btn-like[data-v-6ddd02c6]:before {
+      background-position: right;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.main {
+  position: relative;
+  margin: 0 auto;
+  padding: 0 0 30px 0;
+  width: 620px;
+}
+.main .title {
+    padding-left: 8px;
+    border-left: 3px solid #EA6F5A;
+    line-height: 1;
+    font-size: 15px;
+}
+.main .collection-settings {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    font-size: 13px;
+    color: #A0A0A0;
+}
+.main .collection-settings span {
+      padding-left: 4px;
+}
+.main .include-collection {
+    width: 100%;
+    padding-top: 20px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+}
+.main .include-collection .item {
+      display: inline-block;
+      margin: 0 12px 12px 0;
+      min-height: 32px;
+      background-color: white;
+      border: 1px solid #DCDCDC;
+      border-radius: 4px;
+      vertical-align: top;
+      overflow: hidden;
+}
+.main .include-collection .item img {
+        width: 32px;
+        height: 32px;
+}
+.main .include-collection .item .name {
+        display: inline-block;
+        padding: 0 10px;
+        font-size: 14px;
+}
+.main .include-collection .add-collection-wrap {
+      margin: 0 12px 12px 0;
+}
+.main .include-collection .add-collection {
+      padding: 8px 12px;
+      font-size: 14px;
+      border: 1px solid #DCDCDC;
+      border-radius: 4px;
+}
+.main .include-collection .add-collection i {
+        margin-right: 4px;
+        color: #969696;
+}
+.main .recommend-note a {
+    position: relative;
+    margin: 20px 2px 0 0;
+    width: 200px;
+    height: 160px;
+    display: inline-block;
+}
+.main .recommend-note a:after {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 160px;
+      border-radius: 0 0 4px 4px;
+      -webkit-box-shadow: inset 0px -80px 50px -22px rgba(0, 0, 0, 0.6);
+              box-shadow: inset 0px -80px 50px -22px rgba(0, 0, 0, 0.6);
+      top: 0;
+      left: 0;
+      z-index: 1;
+}
+.main .recommend-note .name {
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    right: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #ffffff;
+    z-index: 2;
+}
+.main .recommend-note .author {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 2;
+}
+.main .recommend-note .avatar {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+.main .recommend-note .avatar img {
+      border-radius: 50%;
+}
+.main .recommend-note .author-name {
+    font-size: 12px;
+    color: #ffffff;
+    display: inline-block;
+    vertical-align: -1px;
+}
+.main .show-more {
+    margin: 0 12px 12px 0;
+    font-size: 14px;
+    color: #A0A0A0;
+}
+</style><style type="text/css">
+#featured-comment-list {
+  margin-top: 30px;
+  margin-bottom: -15px;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.pc-bind-phone-modal .modal-content, .pc-bind-phone-modal .modal-body {
+  overflow: visible;
+}
+.pc-bind-phone-modal .dropdown-menu {
+  max-height: 300px;
+  overflow: auto;
+}
+.pc-bind-phone-modal .dropdown-menu .tag {
+    background-color: #efefef;
+    color: #4A4A4A;
+    height: 28px;
+    line-height: 28px;
+    padding-left: 25px;
+    font-size: 12px;
+}
+.reader-night-mode .pc-bind-phone-modal .dropdown-menu .tag {
+  background-color: #2F2F2F;
+  color: #999999;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.tips-card-loading[data-v-f3bf5228], .tips-card[data-v-f3bf5228] {
+  width: 460px;
+  position: relative;
+  left: 0;
+  top: 0;
+  border-radius: 6px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #d9d9d9;
+}
+.tips-card-loading[data-v-f3bf5228] {
+  height: 200px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+}
+.tips-card-loading div[data-v-f3bf5228] {
+    background-color: #EAEAEA;
+}
+.tips-card-loading .avatar[data-v-f3bf5228] {
+    width: 72px !important;
+    height: 72px !important;
+    border-radius: 50%;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+}
+.tips-card-loading .name[data-v-f3bf5228] {
+    width: 120px;
+    height: 20px;
+    position: absolute;
+    left: 110px;
+    top: 31px;
+}
+.tips-card-loading .content[data-v-f3bf5228] {
+    position: absolute;
+    left: 110px;
+    top: 62px;
+    width: 238px;
+    height: 39.2px;
+    background-color: transparent;
+}
+.tips-card-loading .content .text[data-v-f3bf5228], .tips-card-loading .content .text-delay[data-v-f3bf5228] {
+      height: 14px;
+      position: absolute;
+      left: 0;
+      width: 100%;
+}
+.tips-card-loading .content .text[data-v-f3bf5228] {
+      top: 2px;
+      -webkit-animation: loading-data-v-f3bf5228 1s ease-in-out infinite;
+      animation: loading-data-v-f3bf5228 1s ease-in-out infinite;
+}
+.tips-card-loading .content .text-delay[data-v-f3bf5228] {
+      bottom: 3px;
+      -webkit-animation: loading-data-v-f3bf5228 1s ease-in-out -0.5s infinite;
+      animation: loading-data-v-f3bf5228 1s ease-in-out -0.5s infinite;
+}
+@keyframes loading-data-v-f3bf5228 {
+0% {
+    width: 60%;
+}
+50% {
+    width: 100%;
+}
+100% {
+    width: 60%;
+}
+}
+@-webkit-keyframes loading {
+0% {
+    width: 60%;
+}
+50% {
+    width: 100%;
+}
+100% {
+    width: 60%;
+}
+}
+.tips-card-loading .meta[data-v-f3bf5228] {
+    width: 30px;
+    height: 42px;
+    position: absolute;
+    bottom: 20px;
+    background-color: transparent;
+}
+.tips-card-loading .meta.meta-1[data-v-f3bf5228] {
+      left: 30px;
+}
+.tips-card-loading .meta.meta-2[data-v-f3bf5228] {
+      left: 90px;
+}
+.tips-card-loading .meta.meta-3[data-v-f3bf5228] {
+      left: 150px;
+}
+.tips-card-loading .meta .count[data-v-f3bf5228], .tips-card-loading .meta .type[data-v-f3bf5228] {
+      position: absolute;
+}
+.tips-card-loading .meta .count[data-v-f3bf5228] {
+      left: -5px;
+      top: 6px;
+      height: 18px;
+      width: 40px;
+}
+.tips-card-loading .meta .type[data-v-f3bf5228] {
+      left: 1px;
+      bottom: 2px;
+      height: 13px;
+      width: 28px;
+}
+.tips-card-loading .button[data-v-f3bf5228] {
+    position: absolute;
+    bottom: 17px;
+    width: 90px;
+    height: 40px;
+    border-radius: 40px;
+}
+.tips-card-loading .message[data-v-f3bf5228] {
+    right: 120px;
+}
+.tips-card-loading .follow[data-v-f3bf5228] {
+    right: 17px;
+}
+.tips-card[data-v-f3bf5228] {
+  z-index: 10;
+}
+.tips-card .card-content[data-v-f3bf5228] {
+    padding: 20px 20px 0 20px;
+}
+.tips-card .card-content .summary[data-v-f3bf5228] {
+      padding: 8px 0 20px 90px;
+      min-height: 92px;
+      position: relative;
+}
+.tips-card .card-content .summary .avatar[data-v-f3bf5228] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 72px;
+        height: 72px;
+        cursor: pointer;
+        border-radius: 50%;
+        background-color: #EAEAEA;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+}
+.tips-card .card-content .summary .name[data-v-f3bf5228] {
+        height: 26px;
+        margin-right: 3px;
+        margin-bottom: 8px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: row;
+            -ms-flex-direction: row;
+                flex-direction: row;
+        -webkit-box-pack: start;
+        -webkit-justify-content: flex-start;
+            -ms-flex-pack: start;
+                justify-content: flex-start;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+            -ms-flex-align: center;
+                align-items: center;
+}
+.tips-card .card-content .summary .name .nickname[data-v-f3bf5228] {
+          color: #333333;
+          font-size: 19px;
+          font-weight: bold;
+          overflow: hidden;
+          -o-text-overflow: ellipsis;
+             text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: pointer;
+}
+.tips-card .card-content .summary .name .sex[data-v-f3bf5228], .tips-card .card-content .summary .name .badge[data-v-f3bf5228] {
+          -webkit-flex-shrink: 0;
+              -ms-flex-negative: 0;
+                  flex-shrink: 0;
+          display: inline-block;
+}
+.tips-card .card-content .summary .name .sex[data-v-f3bf5228] {
+          font-size: 19px;
+          width: 19px;
+          margin: 0 4px;
+}
+.tips-card .card-content .summary .intro[data-v-f3bf5228] {
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+           text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        margin-bottom: 12px;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #333333;
+}
+.tips-card .card-content .summary .intro.block[data-v-f3bf5228] {
+          color: #999999;
+}
+.tips-card .card-content .summary .list .item[data-v-f3bf5228] {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 13px;
+        color: #999999;
+        cursor: pointer;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+           text-overflow: ellipsis;
+        white-space: nowrap;
+}
+.tips-card .card-content .summary .list .item i[data-v-f3bf5228] {
+          margin-right: 2px;
+}
+.tips-card .card-footer[data-v-f3bf5228] {
+    border-top: 1px solid #F0F0F0;
+    padding: 15px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    overflow: hidden;
+    _zoom: 1;
+}
+.tips-card .card-footer .profile[data-v-f3bf5228] {
+      width: 198px;
+      overflow: hidden;
+      _zoom: 1;
+      float: left;
+}
+.tips-card .card-footer .profile div[data-v-f3bf5228] {
+        float: left;
+        width: 60px;
+        height: 44px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+                flex-direction: column;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+            -ms-flex-pack: center;
+                justify-content: center;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+            -ms-flex-align: center;
+                align-items: center;
+}
+.tips-card .card-footer .profile div span[data-v-f3bf5228] {
+          display: block;
+          width: 100%;
+          text-align: center;
+}
+.tips-card .card-footer .profile div .type[data-v-f3bf5228] {
+          font-size: 13px;
+          color: #999999;
+}
+.tips-card .card-footer .profile div .count[data-v-f3bf5228] {
+          font-size: 18px;
+          color: #333333;
+}
+.tips-card .card-footer .social[data-v-f3bf5228] {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: row;
+          -ms-flex-direction: row;
+              flex-direction: row;
+      -webkit-box-pack: end;
+      -webkit-justify-content: flex-end;
+          -ms-flex-pack: end;
+              justify-content: flex-end;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+          -ms-flex-align: center;
+              align-items: center;
+      float: right;
+      overflow: hidden;
+      _zoom: 1;
+}
+.tips-card .card-footer .social .message[data-v-f3bf5228] {
+        border: 1px solid rgba(59, 194, 29, 0.7);
+        color: #42C02E;
+        margin: 0 10px 0 16px;
+        font-size: 15px;
+        padding: 8px 0;
+        width: 90px;
+        border-radius: 40px;
+        text-align: center;
+        cursor: pointer;
+        float: left;
+        -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+}
+.tips-card .card-footer .social .message[data-v-f3bf5228]:hover {
+          border: 1px solid #42C02E;
+          color: #42C02E;
+          background-color: rgba(59, 194, 29, 0.05);
+}
+.tips-card .card-footer .social .user-follow-button[data-v-f3bf5228] {
+        font-size: 15px;
+        padding: 8px 0;
+        width: 100px;
+}
+.arrow[data-v-f3bf5228] {
+  position: absolute;
+  width: 100%;
+  height: 10px;
+  left: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+.arrow i[data-v-f3bf5228] {
+    position: absolute;
+    left: 50%;
+    margin: 0;
+    margin-left: -10px;
+    border-width: 10px;
+    border-color: transparent;
+    padding: 0;
+}
+.arrow em[data-v-f3bf5228] {
+    display: block;
+    position: absolute;
+    left: -9px;
+    border-width: 9px;
+    border-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+.arrow-type-top[data-v-f3bf5228] {
+  bottom: 1px;
+}
+.arrow-type-top i[data-v-f3bf5228] {
+    border-top-color: #d9d9d9;
+    border-style: solid dashed dashed;
+    top: 0;
+}
+.arrow-type-top em[data-v-f3bf5228] {
+    border-style: solid dashed dashed;
+    border-top-color: #ffffff;
+    top: -10px;
+}
+.arrow-type-bottom[data-v-f3bf5228] {
+  top: 1px;
+}
+.arrow-type-bottom i[data-v-f3bf5228] {
+    border-bottom-color: #d9d9d9;
+    border-style: dashed dashed solid;
+    top: -10px;
+}
+.arrow-type-bottom em[data-v-f3bf5228] {
+    border-style: dashed dashed solid;
+    border-bottom-color: #ffffff;
+    top: -8px;
+}
+.reader-night-mode .tips-card-loading[data-v-f3bf5228] {
+  background-color: #3F3F3F;
+  border-color: #2F2F2F;
+}
+.reader-night-mode .tips-card-loading .avatar[data-v-f3bf5228], .reader-night-mode .tips-card-loading .name[data-v-f3bf5228], .reader-night-mode .tips-card-loading .text[data-v-f3bf5228], .reader-night-mode .tips-card-loading .text-delay[data-v-f3bf5228], .reader-night-mode .tips-card-loading .count[data-v-f3bf5228], .reader-night-mode .tips-card-loading .type[data-v-f3bf5228], .reader-night-mode .tips-card-loading .button[data-v-f3bf5228] {
+    background-color: #545454;
+}
+.reader-night-mode .tips-card[data-v-f3bf5228] {
+  background-color: #3F3F3F;
+  border-color: #2F2F2F;
+}
+.reader-night-mode .tips-card .card-content .summary .name .nickname[data-v-f3bf5228] {
+    color: #C8C8C8;
+}
+.reader-night-mode .tips-card .card-content .summary .name .nickname[data-v-f3bf5228]:hover {
+      color: #ffffff;
+}
+.reader-night-mode .tips-card .card-content .summary .intro[data-v-f3bf5228] {
+    color: #C8C8C8;
+}
+.reader-night-mode .tips-card .card-footer[data-v-f3bf5228] {
+    border-top-color: #2F2F2F;
+}
+.reader-night-mode .tips-card .card-footer .profile div .count[data-v-f3bf5228] {
+      color: #C8C8C8;
+}
+.reader-night-mode .arrow.arrow-type-top em[data-v-f3bf5228] {
+  border-top-color: #3F3F3F;
+}
+.reader-night-mode .arrow.arrow-type-top i[data-v-f3bf5228] {
+  border-top-color: #2F2F2F;
+}
+.reader-night-mode .arrow.arrow-type-bottom em[data-v-f3bf5228] {
+  border-bottom-color: #3F3F3F;
+}
+.reader-night-mode .arrow.arrow-type-bottom i[data-v-f3bf5228] {
+  border-bottom-color: #2F2F2F;
+}
+</style><style type="text/css">
+.v-tooltip-container,
+.v-tooltip-content {
+  display: inline-block;
+}
+.v-tooltip-container {
+  position: relative;
+}
+.v-tooltip-container .v-tooltip-content {
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+.v-tooltip-container .v-tooltip-wrap {
+    position: absolute;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-top {
+      bottom: 100%;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+          -ms-transform: translateX(-50%);
+              transform: translateX(-50%);
+      padding-bottom: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-bottom {
+      top: 100%;
+      left: 50%;
+      -webkit-transform: translateX(-50%);
+          -ms-transform: translateX(-50%);
+              transform: translateX(-50%);
+      padding-top: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-left {
+      top: 50%;
+      right: 100%;
+      -webkit-transform: translateY(-50%);
+          -ms-transform: translateY(-50%);
+              transform: translateY(-50%);
+      padding-right: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-right {
+      top: 50%;
+      left: 100%;
+      -webkit-transform: translateY(-50%);
+          -ms-transform: translateY(-50%);
+              transform: translateY(-50%);
+      padding-left: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-top-start {
+      bottom: 100%;
+      left: 0;
+      padding-bottom: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-top-end {
+      bottom: 100%;
+      right: 0;
+      padding-bottom: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-bottom-start {
+      top: 100%;
+      left: 0;
+      padding-top: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-bottom-end {
+      top: 100%;
+      right: 0;
+      padding-top: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-left-start {
+      top: 0;
+      right: 100%;
+      padding-right: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-left-end {
+      bottom: 0;
+      right: 100%;
+      padding-right: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-right-start {
+      top: 0;
+      left: 100%;
+      padding-left: 10px;
+}
+.v-tooltip-container .v-tooltip-wrap.v-tooltip-wrap-right-end {
+      bottom: 0;
+      left: 100%;
+      padding-left: 10px;
+}
+</style><style type="text/css">
+@charset "UTF-8";
+/*
+ * 变量
+*/
+.like-button[data-v-cdecbe24] {
+  position: relative;
+  padding-left: 23px;
+}
+.like-button[data-v-cdecbe24]:before {
+    content: '';
+    position: absolute;
+    left: -16px;
+    top: -16px;
+    width: 50px;
+    height: 50px;
+    background-image: url(//cdn2.jianshu.io/assets/web/zan_animation_steps-8d65a474b670eb6a022516f4e0b8e9a4.png);
+    background-position: left;
+    background-repeat: no-repeat;
+    background-size: 1050px 50px;
+}
+.like-button[data-v-cdecbe24]:hover:before {
+    background-position: -50px;
+}
+.like-button.zan-animation span[data-v-cdecbe24], .like-button.active span[data-v-cdecbe24] {
+    color: #333333;
+}
+body.reader-night-mode .like-button.zan-animation span[data-v-cdecbe24], body.reader-night-mode .like-button.active span[data-v-cdecbe24] {
+      color: #C8C8C8;
+}
+.like-button.zan-animation[data-v-cdecbe24]:before {
+    -webkit-animation: likeBlast-data-v-cdecbe24 0.6s 1 steps(19);
+            animation: likeBlast-data-v-cdecbe24 0.6s 1 steps(19);
+    background-position: right;
+}
+@-webkit-keyframes likeBlast {
+0% {
+    background-position: -50px;
+}
+100% {
+    background-position: right;
+}
+}
+@keyframes likeBlast-data-v-cdecbe24 {
+0% {
+    background-position: -50px;
+}
+100% {
+    background-position: right;
+}
+}
+.like-button.active[data-v-cdecbe24]:before {
+    background-position: right;
+}
+</style></head>
+
+  <body lang="zh-CN" class="reader-black-font">
+    <!-- 全局顶部导航栏 -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="width-limit">
+    <!-- 左上方 Logo -->
+    <a class="logo" href="https://www.jianshu.com/"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/nav-logo-4c7bbafe27adc892f3046e6978459bac.png" alt="Nav logo"></a>
+
+    <!-- 右上角 -->
+      <!-- 未登录显示登录/注册/写文章 -->
+      <a class="btn write-btn" target="_blank" href="https://www.jianshu.com/writer#/">
+        <i class="iconfont ic-write"></i>写文章
+</a>      <a class="btn sign-up" id="sign_up" href="https://www.jianshu.com/sign_up">注册</a>
+      <a class="btn log-in" href="https://www.jianshu.com/sign_in">登录</a>
+
+    <!-- 如果用户登录，显示下拉菜单 -->
+
+    <div class="style-mode"><a class="style-mode-btn"><i class="iconfont ic-navigation-mode"></i></a> <div class="popover-modal" style="left: 0px; display: none;"><div class="meta"><i class="iconfont ic-navigation-night"></i><span>夜间模式</span></div> <div class="switch day-night-group"><a class="switch-btn">开</a> <a class="switch-btn active">关</a></div> <hr> <div class="switch font-family-group"><a class="switch-btn font-song">宋体</a> <a class="switch-btn font-hei active">黑体</a></div> <div class="switch"><a class="switch-btn active">简</a> <a class="switch-btn">繁</a></div></div></div>
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="nav navbar-nav">
+            <li class="tab ">
+              <a href="https://www.jianshu.com/">
+                <span class="menu-text">首页</span><i class="iconfont ic-navigation-discover menu-icon"></i>
+</a>            </li>
+            <li class="tab ">
+              <a id="web-nav-app-download-btn" class="app-download-btn" href="https://www.jianshu.com/apps?utm_medium=desktop&amp;utm_source=navbar-apps"><span class="menu-text">下载App</span><i class="iconfont ic-navigation-download menu-icon"></i></a>
+            </li>
+          <li class="search">
+            <form target="_blank" action="https://www.jianshu.com/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+              <input type="text" name="q" id="q" value="" autocomplete="off" placeholder="搜索" class="search-input">
+              <a class="search-btn" href="javascript:void(null)"><i class="iconfont ic-search"></i></a>
+</form>          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+    
+<div class="note">
+    <a target="_blank" href="https://www.jianshu.com/apps/redirect?utm_source=side-banner-click" id="web-note-ad-fixed"><span class="close">×</span></a>
+  <div class="post">
+    <div class="article">
+        <h1 class="title">我打赌你一定没搞明白的Activity启动模式</h1>
+
+        <!-- 作者区域 -->
+        <div class="author">
+          <a class="avatar" href="https://www.jianshu.com/u/bd3befbe51d0">
+            <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/c7e4d941108f" alt="96">
+</a>          <div class="info">
+            <span class="name"><a href="https://www.jianshu.com/u/bd3befbe51d0">尹star</a></span>
+            <!-- 关注用户按钮 -->
+            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <!-- 文章数据信息 -->
+            <div class="meta">
+              <!-- 如果文章更新时间大于发布时间，那么使用 tooltip 显示更新时间 -->
+                <span class="publish-time" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="最后编辑于 2017.12.03 06:02">2016.05.31 01:02*</span>
+              <span class="wordage">字数 3371</span>
+            <span class="views-count">阅读 17561</span><span class="comments-count">评论 51</span><span class="likes-count">喜欢 249</span><span class="rewards-count ">赞赏 2</span></div>
+          </div>
+          <!-- 如果是当前作者，加入编辑按钮 -->
+        </div>
+
+
+        <!-- 文章内容 -->
+        <div data-note-content="" class="show-content">
+          <div class="show-content-free">
+            <p>一个应用程序当中通常都会包含很多个Activity，每个Activity都是一个具有特定的功能，并且可以让用户进行操作的组件。另外，Activity之间可以相互启动，当前应用的Activity甚至可以去启动其他应用的Activity。比如你的应用希望去发送一封邮件，你就可以定义一个具有"send"动作的Intent，并且传入一些数据，如对方邮箱地址、邮件内容等。这样，如果另外一个应用程序中的某个Activity声明自己是可以响应这种Intent的，那么这个Activity就会被打开。当邮件发送之后，按下返回键仍然还是会回到你的应用程序当中，这让用户看起来好像刚才那个编写邮件的Activity就是你的应用程序当中的一部分。所以说，即使有很多个Activity分别都是来自于不同应用程序的，Android系统仍然可以将它们无缝地结合到一起。那这一切是怎么实现的呢？这就要讲到本文要介绍的Activity任务栈以及Activity启动模式了。</p>
+<p><strong>任务栈是什么</strong></p>
+<p>任务栈Task，是一种用来放置Activity实例的容器，他是以栈的形式进行盛放，也就是所谓的先进后出，主要有2个基本操作：压栈和出栈，其所存放的Activity是不支持重新排序的，只能根据压栈和出栈操作更改Activity的顺序。</p>
+<p>启动一个Application的时候，系统会为它默认创建一个对应的Task，用来放置根Activity。默认启动Activity会放在同一个Task中，新启动的Activity会被压入启动它的那个Activity的栈中，并且显示它。当用户按下回退键时，这个Activity就会被弹出栈，按下Home键回到桌面，再启动另一个应用，这时候之前那个Task就被移到后台，成为后台任务栈，而刚启动的那个Task就被调到前台，成为前台任务栈，Android系统显示的就是前台任务栈中的Top实例Activity。</p>
+<p><strong>任务栈的作用</strong></p>
+<p>以往基于应用（application）的程序开发中，程序具有明确的边界，一个程序就是一个应用，一个应用为了实现功能可以采用开辟新线程甚至新进程来辅助，但是应用与应用之间不能复用资源和功能。而Android引入了基于组件开发的软件架构，虽然我们开发android程序，仍然使用一个apk工程一个Application的开发形式，但是对于Aplication的开发就用到了Activity、service等四大组件，其中的每一个组件，都是可以被跨应用复用的，这就是android的神奇之处。虽然组件可以跨应用被调用，但是一个组件所在的进程必须是在组件所在的Aplication进程中。由于android强化了组件概念，弱化了Aplication的概念，所以在android程序开发中，A应用的A组件想要使用拍照或录像的功能就可以不用去针对Camera类进行开发，直接调用系统自带的摄像头应用（称其B应用）中的组件（称其B组件）就可以了，但是这就引发了一个新问题，A组件运行在A应用中，B组件运行在B应用中，自然都不在同一个进程中，那么从B组件中返回的时候，如何实现正确返回到A组件呢？Task就是来负责实现这个功能的，它是从用户角度来理解应用而建立的一个抽象概念。因为用户所能看到的组件就是Activity，所以Task可以理解为实现一个功能而负责管理所有用到的Activity实例的栈。</p>
+<p>栈是一个先进后出的线性表，根据Activity在当前栈结构中的位置，来决定该Activity的状态。正常情况下，当一个Activity启动了另一个Activity的时候，新启动的Activity就会置于任务栈的顶端，并处于活动状态，而启动它的Activity虽然成功身退，但依然保留在任务栈中，处于停止状态，当用户按下返回键或者调用finish()方法时，系统会移除顶部Activity，让后面的Activity恢复活动状态。当然，世界不可能一直这么“和谐”，可以给Activity设置一些“特权”，来打破这种“和谐”的模式，这种特权，就是通过在AndroidManifest文件中的属性andorid:launchMode来设置或者通过Intent的flag来设置的，下面就先介绍下Activity的几种启动模式。</p>
+<p><strong>standard</strong></p>
+<p>默认模式，可以不用写配置。在这个模式下，都会默认创建一个新的实例。因此，在这种模式下，可以有多个相同的实例，也允许多个相同Activity叠加。应用场景：绝大多数Activity。</p>
+<div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 480px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 66.67%;"></div>
+<div class="image-view" data-width="720" data-height="480"><img data-original-src="//upload-images.jianshu.io/upload_images/1187237-fac9b677c2be2d98.png" data-original-width="720" data-original-height="480" data-original-format="image/png" data-original-filesize="12434" class="" style="cursor: zoom-in;" src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1187237-fac9b677c2be2d98.png"></div>
+</div>
+<div class="image-caption">standard.png</div>
+</div><br>
+<p>如果以这种方式启动的Activity被跨进程调用，在5.0之前新启动的Activity实例会放入发送Intent的Task的栈的顶部，尽管它们属于不同的程序，这似乎有点费解看起来也不是那么合理，所以在5.0之后，上述情景会创建一个新的Task，新启动的Activity就会放入刚创建的Task中，这样就合理的多了。</p>
+
+<p><strong>singleTop</strong></p>
+<p>栈顶复用模式，如果要开启的activity在任务栈的顶部已经存在，就不会创建新的实例，而是调用 onNewIntent() 方法。避免栈顶的activity被重复的创建。应用场景：在通知栏点击收到的通知，然后需要启动一个Activity，这个Activity就可以用singleTop，否则每次点击都会新建一个Activity。当然实际的开发过程中，测试妹纸没准给你提过这样的bug：某个场景下连续快速点击，启动了两个Activity。如果这个时候待启动的Activity使用 singleTop模式也是可以避免这个Bug的。</p>
+<div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 637px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 88.47%;"></div>
+<div class="image-view" data-width="720" data-height="637"><img data-original-src="//upload-images.jianshu.io/upload_images/1187237-145342f47969fd53.png" data-original-width="720" data-original-height="637" data-original-format="image/png" data-original-filesize="14850" class="" style="cursor: zoom-in;" src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1187237-145342f47969fd53.png"></div>
+</div>
+<div class="image-caption">2(1).png</div>
+</div>
+<p>同standard模式，如果是外部程序启动singleTop的Activity，在Android 5.0之前新创建的Activity会位于调用者的Task中，5.0及以后会放入新的Task中。</p>
+<p><strong>singleTask</strong></p>
+<p>栈内复用模式， activity只会在任务栈里面存在一个实例。如果要激活的activity，在任务栈里面已经存在，就不会创建新的activity，而是复用这个已经存在的activity，调用 onNewIntent() 方法，并且清空这个activity任务栈上面所有的activity。应用场景：大多数App的主页。对于大部分应用，当我们在主界面点击回退按钮的时候都是退出应用，那么当我们第一次进入主界面之后，主界面位于栈底，以后不管我们打开了多少个Activity，只要我们再次回到主界面，都应该使用将主界面Activity上所有的Activity移除的方式来让主界面Activity处于栈顶，而不是往栈顶新加一个主界面Activity的实例，通过这种方式能够保证退出应用时所有的Activity都能报销毁。<br>
+在跨应用Intent传递时，如果系统中不存在singleTask Activity的实例，那么将创建一个新的Task，然后创建SingleTask Activity的实例，将其放入新的Task中。</p>
+<p>1：假如目前有个任务栈T1中的情况是ABC，这个时候ActivityD以singleTask模式请求启动，其所需要的任务栈正是T1，则系统会直接创建D的实例并将其入栈到T1中。</p>
+<div class="image-package">
+<div class="image-container" style="max-width: 375px; max-height: 637px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 169.87%;"></div>
+<div class="image-view" data-width="375" data-height="637"><img data-original-src="//upload-images.jianshu.io/upload_images/1187237-1d92f3aa6f17e815.png" data-original-width="375" data-original-height="637" data-original-format="image/png" data-original-filesize="9216" class="" style="cursor: zoom-in;" src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1187237-1d92f3aa6f17e815.png"></div>
+</div>
+<div class="image-caption">singleTask1.png</div>
+</div>
+<p>2：假如DActivity启动所需要的任务栈为T2,由于T2和D的实例均不存在，那么系统会先创建任务栈T2，然后再创建D的实例并将其入栈到T2中。我们可以通过设置Activity的taskAffinity属性来模拟这一场景。</p>
+<pre class="hljs javascript"><code class="javascript">&lt;activity 
+android:name=<span class="hljs-string">".SingleTaskActivity"</span> 
+android:label=<span class="hljs-string">"singleTask launchMode"</span> 
+android:launchMode=<span class="hljs-string">"singleTask"</span> 
+android:taskAffinity=<span class="hljs-string">""</span>&gt;
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">activity</span>&gt;</span></span>
+</code></pre>
+<div class="image-package">
+<div class="image-container" style="max-width: 375px; max-height: 637px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 169.87%;"></div>
+<div class="image-view" data-width="375" data-height="637"><img data-original-src="//upload-images.jianshu.io/upload_images/1187237-a3fa7ea8a8129ba1.png" data-original-width="375" data-original-height="637" data-original-format="image/png" data-original-filesize="4848" class="" style="cursor: zoom-in;" src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1187237-a3fa7ea8a8129ba1.png"></div>
+</div>
+<div class="image-caption">singleTask2.png</div>
+</div>
+<p>3：如果D所需的任务栈为T3，并且当前任务栈T3的情况为ADBC，根据栈内复用的原则，此时D不会重新创建，系统会把D切换到栈顶并调用其onNewIntent()方法，同时由于singleTask默认具有ClearTop的效果，会导致栈内所有在D上面的Activity全部出栈，于是最终T3的情况为AD。</p>
+<div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 637px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 88.47%;"></div>
+<div class="image-view" data-width="720" data-height="637"><img data-original-src="//upload-images.jianshu.io/upload_images/1187237-bf5d018c93796160.png" data-original-width="720" data-original-height="637" data-original-format="image/png" data-original-filesize="11828" class="" style="cursor: zoom-in;" src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1187237-bf5d018c93796160.png"></div>
+</div>
+<div class="image-caption">singleTask3.png</div>
+</div>
+<p>4：假如目前有两个任务栈，前台任务栈T4的情况为AB,后台任务栈t4里存有CD,假设CD的启动模式均为singleTask，现在由B去启动D,那么整个后台任务都会被切换到前台，这个时候整个栈就变成了ABCD。</p>
+<div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 777px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 111.11%;"></div>
+<div class="image-view" data-width="720" data-height="800"><img data-original-src="//upload-images.jianshu.io/upload_images/1187237-3d3c6c6595b6ad19.png" data-original-width="720" data-original-height="800" data-original-format="image/png" data-original-filesize="24204" class="" style="cursor: zoom-in;" src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1187237-3d3c6c6595b6ad19.png"></div>
+</div>
+<div class="image-caption">singleTask4.png</div>
+</div>
+<p>5:假如上面的其他条件不变，B启动的是C而不是D,那么整个栈的情况就变成了ABC,因为D在C上面，会被清理出栈。</p>
+<div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 777px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 111.11%;"></div>
+<div class="image-view" data-width="720" data-height="800"><img data-original-src="//upload-images.jianshu.io/upload_images/1187237-affd07db6f6fdc0a.png" data-original-width="720" data-original-height="800" data-original-format="image/png" data-original-filesize="23565" class="" style="cursor: zoom-in;" src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1187237-affd07db6f6fdc0a.png"></div>
+</div>
+<div class="image-caption">singleTask5.png</div>
+</div>
+<p><strong>singleInstance</strong></p>
+<p>单一实例模式，整个手机操作系统里面只有一个实例存在。不同的应用去打开这个activity  共享公用的同一个activity。他会运行在自己单独，独立的任务栈里面，并且任务栈里面只有他一个实例存在。应用场景：呼叫来电界面。这种模式的使用情况比较罕见，在Launcher中可能使用。或者你确定你需要使Activity只有一个实例。建议谨慎使用。</p>
+<div class="image-package">
+<div class="image-container" style="max-width: 480px; max-height: 1243px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 177.70999999999998%;"></div>
+<div class="image-view" data-width="480" data-height="853"><img data-original-src="//upload-images.jianshu.io/upload_images/1187237-bcd57ad41b609a07.jpg" data-original-width="480" data-original-height="853" data-original-format="image/jpeg" data-original-filesize="22557" class="" style="cursor: zoom-in;" src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1187237-bcd57ad41b609a07.jpg"></div>
+</div>
+<div class="image-caption">范冰冰.pic.jpg</div>
+</div>
+<p><strong>设置Intent的Flag</strong></p>
+<p>系统提供了两种方式来设置一个Activity的启动模式，除了在AndroidManifest文件中设置以外，还可以通过Intent的Flag来设置一个Activity的启动模式，下面我们在简单介绍下一些Flag。</p>
+<p><strong>FLAG_ACTIVITY_NEW_TASK</strong></p>
+<p>使用一个新的Task来启动一个Activity，但启动的每个Activity都讲在一个新的Task中。该Flag通常使用在从Service中启动Activity的场景，由于Service中并不存在Activity栈，所以使用该Flag来创建一个新的Activity栈，并创建新的Activity实例。</p>
+<p><strong>FLAG_ACTIVITY_SINGLE_TOP</strong></p>
+<p>使用singletop模式启动一个Activity，与指定android：launchMode=“singleTop”效果相同。</p>
+<p><strong>FLAG_ACTIVITY_CLEAR_TOP</strong></p>
+<p>使用SingleTask模式来启动一个Activity，与指定android：launchMode=“singleTask”效果相同。</p>
+<p><strong>FLAG_ACTIVITY_NO_HISTORY</strong></p>
+<p>Activity使用这种模式启动Activity，当该Activity启动其他Activity后，该Activity就消失了，不会保留在Activity栈中。</p>
+<p><strong>LaunchMode与StartActivityForResult</strong></p>
+<p>我们在开发过程中经常会用到StartActivityForResult方法启动一个Activity，然后在onActivityResult()方法中可以接收到上个页面的回传值，但你有可能遇到过拿不到返回值的情况，那有可能是因为Activity的LaunchMode设置为了singleTask。5.0之后，android的LaunchMode与StartActivityForResult的关系发生了一些改变。两个Activity，A和B，现在由A页面跳转到B页面，看一下LaunchMode与StartActivityForResult之间的关系：</p>
+<div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 470px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 44.76%;"></div>
+<div class="image-view" data-width="1050" data-height="470"><img data-original-src="//upload-images.jianshu.io/upload_images/1187237-144638fbf8298061.png" data-original-width="1050" data-original-height="470" data-original-format="image/png" data-original-filesize="34820" class="" style="cursor: zoom-in;" src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1187237-144638fbf8298061.png"></div>
+</div>
+<div class="image-caption">before5.0.png</div>
+</div>
+<div class="image-package">
+<div class="image-container" style="max-width: 700px; max-height: 470px; background-color: transparent;">
+<div class="image-container-fill" style="padding-bottom: 44.76%;"></div>
+<div class="image-view" data-width="1050" data-height="470"><img data-original-src="//upload-images.jianshu.io/upload_images/1187237-864d6df150cf2142.png" data-original-width="1050" data-original-height="470" data-original-format="image/png" data-original-filesize="31445" class="" style="cursor: zoom-in;" src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1187237-864d6df150cf2142.png"></div>
+</div>
+<div class="image-caption">after5.0.png</div>
+</div>
+<p><strong>这是为什么呢？</strong></p>
+<p>这是因为ActivityStackSupervisor类中的startActivityUncheckedLocked方法在5.0中进行了修改。在5.0之前，当启动一个Activity时，系统将首先检查Activity的launchMode，如果为A页面设置为SingleInstance或者B页面设置为singleTask或者singleInstance,则会在LaunchFlags中加入FLAG_ACTIVITY_NEW_TASK标志，而如果含有FLAG_ACTIVITY_NEW_TASK标志的话，onActivityResult将会立即接收到一个cancle的信息，而5.0之后这个方法做了修改，修改之后即便启动的页面设置launchMode为singleTask或singleInstance，onActivityResult依旧可以正常工作，也就是说无论设置哪种启动方式，StartActivityForResult和onActivityResult()这一组合都是有效的。所以如果你目前正好基于5.0做相关开发，不要忘了向下兼容，这里有个坑请注意避让。</p>
+<p><strong>总结</strong></p>
+<p>实际开发过程中如果采用比较合理的Activity启动模式来做好任务栈的管理，可以事半功倍。在launchMode的选择上首先要搞清楚当前的Activity的作用，以及实际使用场景来做出合理选择。关于Activity任务栈的相关知识，短短一篇文章也很难涵盖的全，如果想了解更多相关知识，可以去有心课堂（stay4it.com）看我的视频课程。</p>
+<p>本文参考阅读：</p>
+<p>Android开发艺术探索<br>
+Android内核剖析<br>
+Android群英传<br>
+<a href="https://link.jianshu.com/?t=http://droidyue.com/blog/2015/08/16/dive-into-android-activity-launchmode/" target="_blank" rel="nofollow">http://droidyue.com/blog/2015/08/16/dive-into-android-activity-launchmode/</a><br>
+<a href="https://link.jianshu.com/?t=http://blog.csdn.net/dliyuedong/article/details/47172143" target="_blank" rel="nofollow">http://blog.csdn.net/dliyuedong/article/details/47172143</a></p>
+
+          </div>
+        </div>
+    </div>
+
+    <!-- 如果是付费文章，未购买，则显示购买按钮 -->
+
+    <!-- 连载目录项 -->
+
+    <!-- 如果是付费文章 -->
+      <!-- 如果是付费连载，已购买，且作者允许赞赏，则显示付费信息和赞赏 -->
+        <div id="free-reward-panel" class="support-author"><p>小礼物走一走，来简书关注我</p> <div class="btn btn-pay">赞赏支持</div> <div class="supporter"><ul class="support-list"><li><a target="_blank" href="https://www.jianshu.com/u/2b240968acdc" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/865d13ba-ff91-4ce5-adaf-92dbd8c08157.jpg"></a></li><li><a target="_blank" href="javascript:void(0)" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/wechat-771371d5741b0c32cd805caeb48ad6c0.png"></a></li></ul> <!----></div> <!----> <!----></div>
+
+      <div class="show-foot">
+        <a class="notebook" href="https://www.jianshu.com/nb/2416875">
+          <i class="iconfont ic-search-notebook"></i>
+          <span>Android</span>
+</a>        <div class="copyright" data-toggle="tooltip" data-html="true" data-original-title="转载请联系作者获得授权，并标注“简书作者”。">
+          © 著作权归作者所有
+        </div>
+        <div class="modal-wrap" data-report-note="">
+          <a id="report-modal">举报文章</a>
+        </div>
+      </div>
+
+      <!-- 文章底部作者信息 -->
+        <div class="follow-detail">
+          <div class="info">
+            <a class="avatar" href="https://www.jianshu.com/u/bd3befbe51d0">
+              <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/c7e4d941108f" alt="96">
+</a>            <a class="btn btn-success follow"><i class="iconfont ic-follow"></i><span>关注</span></a>
+            <a class="title" href="https://www.jianshu.com/u/bd3befbe51d0">尹star</a>
+          <p>写了 55822 字，被 2475 人关注，获得了 3594 个喜欢</p></div>
+            <div class="signature">最帅Android程序猿
+网站：http://www.stay4it.com
+github：https://github.com/stayinxing</div>
+        </div>
+
+    <div class="meta-bottom">
+      <div data-v-6ddd02c6="" class="like"><div data-v-6ddd02c6="" class="btn like-group"><div data-v-6ddd02c6="" class="btn-like"><a data-v-6ddd02c6="">喜欢</a></div> <div data-v-6ddd02c6="" class="modal-wrap"><a data-v-6ddd02c6="">249</a></div></div> <!----></div>
+      <div class="share-group">
+        <a class="share-circle" data-action="weixin-share" data-toggle="tooltip" data-original-title="分享到微信">
+          <i class="iconfont ic-wechat"></i>
+        </a>
+        <a class="share-circle" data-action="weibo-share" data-toggle="tooltip" href="javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;&#39;, &#39;推荐 @尹star 的文章《我打赌你一定没搞明白的Activity启动模式》（ 分享自 @简书 ）&#39;,&#39;https://www.jianshu.com/p/2a9fcf3c11e4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));" data-original-title="分享到微博">
+          <i class="iconfont ic-weibo"></i>
+        </a>
+        <a class="share-circle" data-toggle="tooltip" id="longshare" target="_blank" data-original-title="" title="">
+            <div class="qrcode" id="qrcode">
+             <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/download-index-side-qrcode-cb13fc9106a478795f8d10f9f632fccf.png" alt="Download index side qrcode">
+             <p>下载app生成长微博图片</p>
+             </div>
+          <i class="iconfont ic-picture"></i>
+        </a>
+        <a class="share-circle more-share" tabindex="0" data-toggle="popover" data-placement="top" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="
+          &lt;ul class=&quot;share-list&quot;&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;https://www.jianshu.com/p/2a9fcf3c11e4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 尹star 的文章《我打赌你一定没搞明白的Activity启动模式》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-zone&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/2a9fcf3c11e4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 尹star 的文章《我打赌你一定没搞明白的Activity启动模式》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-twitter&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=https://www.jianshu.com/p/2a9fcf3c11e4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-facebook&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/2a9fcf3c11e4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-google&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;https://www.jianshu.com/p/2a9fcf3c11e4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;我打赌你一定没搞明白的Activity启动模式&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-douban&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+          &lt;/ul&gt;
+        " data-original-title="" title="">更多分享</a>
+      </div>
+    </div>
+      <a id="web-note-ad-1" target="_blank" href="https://www.jianshu.com/apps/redirect?utm_source=note-bottom-click"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/web-note-ad-1-c2e1746859dbf03abe49248893c9bea4.png" alt="Web note ad 1"></a>
+    <div><div id="comment-list" class="comment-list"><div><form class="new-comment"><a class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/avatar_default-78d4d1f68984cd6d4379508dd94b4210.png"></a> <div class="sign-container"><a href="https://www.jianshu.com/sign_in?utm_source=desktop&amp;utm_medium=not-signed-in-comment-form" class="btn btn-sign">登录</a> <span>后发表评论</span></div></form> <!----></div> <!----> <div class="comments-placeholder" style="display: none;"><div class="author"><div class="avatar"></div> <div class="info"><div class="name"></div> <div class="meta"></div></div></div> <div class="text"></div> <div class="text animation-delay"></div> <div class="tool-group"><i class="iconfont ic-zan-active"></i><div class="zan"></div> <i class="iconfont ic-list-comments"></i><div class="zan"></div></div></div> <div id="normal-comment-list" class="normal-comment-list"><div><div><div class="top-title"><span>51条评论</span> <a class="author-only">只看作者</a> <a class="close-btn" style="display: none;">关闭评论</a> <div class="pull-right"><a class="active">按时间倒序</a><a class="">按时间正序</a></div></div></div> <!----> <!----> <div class="comments-placeholder" style="display: none;"><div class="author"><div class="avatar"></div> <div class="info"><div class="name"></div> <div class="meta"></div></div></div> <div class="text"></div> <div class="text animation-delay"></div> <div class="tool-group"><i class="iconfont ic-zan-active"></i><div class="zan"></div> <i class="iconfont ic-list-comments"></i><div class="zan"></div></div></div> <div id="comment-21654092" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/33115c73c30a" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/bcad677d-188c-43c6-bc9c-f13cc84cfda3"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/33115c73c30a" target="_blank" class="name">陶陶谁能度</a> <!----> <!----> <div class="meta"><span>22楼 · 2018.03.15 17:26</span></div></div></div> <div class="comment-wrap"><p>Android 5.0之后standard启动模式，跨应用启动还是同一个Task任务栈，并不是新建个任务栈，文章里说的是抄的，假的，希望作者以后验证下，再发表 。。。。</p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-21654092" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-22071707" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/f507c1f70c08" target="_blank">starsight</a>：
+            </div> <!----></div> <span><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0520/2897.html" rel="nofollow" target="_blank">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0520/2897.html</a> 这个链接好像也说的是在不同的任务栈……</span></p> <div class="sub-tool-group"><span>2018.03.26 10:59</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div><div id="comment-23782358" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/33115c73c30a" target="_blank">陶陶谁能度</a>：
+            </div> <!----></div> <span><a href="https://www.jianshu.com/users/f507c1f70c08" class="maleskine-author" target="_blank" data-user-slug="f507c1f70c08">@starsight</a> 是啊， 错误的</span></p> <div class="sub-tool-group"><span>2018.05.10 17:51</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div><div id="comment-18668256" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/08bce83d58d3" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/adbc66f8-2588-4e6c-b66f-bdf8db886dac.jpg"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/08bce83d58d3" target="_blank" class="name">wenzhihao123</a> <!----> <!----> <div class="meta"><span>21楼 · 2017.12.19 09:53</span></div></div></div> <div class="comment-wrap"><p>“我打赌”，这个标题起的吊的一匹~</p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-18668256" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-12581672" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/3a9bb1e9e436" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/3-9a2bcc21a5d89e21dafc73b39dc5f582.jpg"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/3a9bb1e9e436" target="_blank" class="name">tvvbbb</a> <!----> <!----> <div class="meta"><span>20楼 · 2017.07.07 14:30</span></div></div></div> <div class="comment-wrap"><p>我认为还是看官方的文档比较好<br><a href="https://developer.android.com/guide/components/tasks-and-back-stack.html?hl=zh-cn" rel="nofollow" target="_blank">https://developer.android.com/guide/components/tasks-and-back-stack.html?hl=zh-cn</a><br>这个会清晰很多</p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-12581672" class="like-button"><span data-v-cdecbe24="">1人赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-11565562" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/809faa3a593f" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/bc1cff42-f214-4368-a5d4-42bf3a133e0f.png"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/809faa3a593f" target="_blank" class="name">zkxok</a> <!----> <!----> <div class="meta"><span>19楼 · 2017.06.06 22:20</span></div></div></div> <div class="comment-wrap"><p>灰常好，解释了我以前的很多疑惑</p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-11565562" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-10723642" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/d6dbe67eb42d" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/f0a4c847-821b-4e1e-b581-396ff027f5ce"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/d6dbe67eb42d" target="_blank" class="name">转动_230d</a> <!----> <!----> <div class="meta"><span>18楼 · 2017.05.09 15:14</span></div></div></div> <div class="comment-wrap"><p>对于作者能写这么多，我心怀敬意，但是我想问，系统开启任务栈是为了向其里面存放应用，这点我有点疑问，一般我认为一个应用就是一个进程，按照你的意思就是换一句话任务栈里面放进程？我想作者是否在调研调研可好</p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-10723642" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-14269452" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/011f59b2b0a5" target="_blank">love黑眼圈</a>：
+            </div> <!----></div> <span><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/sweat.png" alt=":sweat:" title=":sweat:" class="emoji" width="20" height="20"> 是谁告诉你任务栈是放应用的？</span></p> <div class="sub-tool-group"><span>2017.08.21 15:06</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div><div id="comment-9380682" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/2c24f281b158" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/d665b1d6ba41"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/2c24f281b158" target="_blank" class="name">tangorange</a> <!----> <!----> <div class="meta"><span>17楼 · 2017.03.25 16:36</span></div></div></div> <div class="comment-wrap"><p>“FLAG_ACTIVITY_CLEAR_TOP<br>使用SingleTask模式来启动一个Activity，与指定android：launchMode=“singleTask”效果相同。”<br><br>    写项目的时候正好用到，发现还是有区别的。<br>    如果Task里面有ABCD四个Activity，A在AndroidManifest.xml里配置启动模式为singleTask,从D启动A，会调用A的onNewIntent()方法。<br>    但是，从D启动A，使用FLAG_ACTIVITY_CLEAR_TOP方式，并不会调用A的onNewIntent()方法。</p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-9380682" class="like-button"><span data-v-cdecbe24="">1人赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-15168397" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/05952020bf36" target="_blank">andy_u</a>：
+            </div> <!----></div> <span>对，是有区别的。只设置FLAG_ACTIVITY_CLEAR_TOP时，会销毁Activity重建，并且不会执行onNewIntent()方法。但是，如果同时设置FLAG_ACTIVITY_CLEAR_TOP和FLAG_ACTIVITY_SINGLE_TOP时，与指定"singleTask"效果相同。</span></p> <div class="sub-tool-group"><span>2017.09.15 15:20</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div><div id="comment-6955830" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/0fec8cd6b4bf" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/674048985da3.jpg"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/0fec8cd6b4bf" target="_blank" class="name">天道酬勤1919</a> <!----> <!----> <div class="meta"><span>16楼 · 2017.01.06 14:28</span></div></div></div> <div class="comment-wrap"><p>在第四种情况下,引用的原文"4：假如目前有两个任务栈，前台任务栈T4的情况为AB,后台任务栈t4里存有CD......",前台后台都是T4,这里有些不明白,一个任务栈还能分成两份吗?</p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-6955830" class="like-button"><span data-v-cdecbe24="">1人赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-8943825" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/a0206b5f4526" target="_blank">栗子酱油饼</a>：
+            </div> <!----></div> <span> <a href="https://www.jianshu.com/users/0fec8cd6b4bf" class="maleskine-author" target="_blank" data-user-slug="0fec8cd6b4bf">@天道酬勤1919</a> 楼主原文说的是，T4为前台，t4为后台，一个大写的，一个小写的，两个不同的任务栈。</span></p> <div class="sub-tool-group"><span>2017.03.14 00:54</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div><div id="comment-9276487" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/0fec8cd6b4bf" target="_blank">天道酬勤1919</a>：
+            </div> <!----></div> <span><a href="https://www.jianshu.com/users/a0206b5f4526" class="maleskine-author" target="_blank" data-user-slug="a0206b5f4526">@栗子酱plus</a> 谢谢,这样看来原文就是正确的了!</span></p> <div class="sub-tool-group"><span>2017.03.22 17:27</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div><div id="comment-5263813" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/ea135cb3aa51" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/14-0651acff782e7a18653d7530d6b27661.jpg"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/ea135cb3aa51" target="_blank" class="name">思念叨火车</a> <!----> <!----> <div class="meta"><span>15楼 · 2016.11.01 11:26</span></div></div></div> <div class="comment-wrap"><p>想问一下：如果activity A是以singleInstance打开的，那么在A中打开的其他activity会在哪个任务栈呢？</p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-5263813" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-10050818" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/b23d5bd421e7" target="_blank">志难酬</a>：
+            </div> <!----></div> <span>分情况讨论：<br>1.如果在 Android 4.4 及以下：<br>无论是 startActivity 还是 startActivityForResult 启动其他的 Activity，首先一定不会在 A 所在的 Task 打开 ；并且一定会在要启动那个 Activity taskAffinity 属性指定的 Task 中启动，如果不存在或者存在但是那个 Task 被另一个以 singleInstance 方式打开的 Activity B 占有的话就会创建一个；<br>2.如果在 Android 5.0 及以上：<br>如果是 startActivity 方式启动，那么就和上面一样；如果是以 startActivityForResult 方式启动的话，那么就会在 A 的 Task 中启动</span></p> <div class="sub-tool-group"><span>2017.04.15 18:55</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div><div id="comment-10051028" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/b23d5bd421e7" target="_blank">志难酬</a>：
+            </div> <!----></div> <span>总之，A 的启动情况需要根据 A 的启动模式、启动 A 的 Activity 的启动模式、 A 的 taskAffinity 属性、安卓版本以及当前 Task 是否存在 Activity A 的其他实例等因素综合考虑。这一块要彻底弄清还是要花点时间实践一下的。不同版本导致程序产生不同行为这一点还是挺烦人的。说到这还要提一下，在 Service 中启动一个 Activity 在 Android 7.0 及以上是可以正常运行的，系统貌似会自动帮你添加 FLAG_NEW_TASK 这个 flag，之前的版本得手动添加，否则就会就会报错。</span></p> <div class="sub-tool-group"><span>2017.04.15 19:03</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div><div id="comment-10186967" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/ea135cb3aa51" target="_blank">思念叨火车</a>：
+            </div> <!----></div> <span><a href="https://www.jianshu.com/users/b23d5bd421e7" class="maleskine-author" target="_blank" data-user-slug="b23d5bd421e7">@志难酬</a> thanks<img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/grin.png" alt=":grin:" title=":grin:" class="emoji" width="20" height="20"> </span></p> <div class="sub-tool-group"><span>2017.04.20 11:14</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div><div id="comment-5113938" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/9398e088c29c" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/4eedd4c4f9fc.png"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/9398e088c29c" target="_blank" class="name">最最最最醉人</a> <!----> <!----> <div class="meta"><span>14楼 · 2016.10.26 10:48</span></div></div></div> <div class="comment-wrap"><p>关于singleTask的时候，假如目前有两个任务栈，前台任务栈T4的情况为AB,后台任务栈t4里存有CD,假设CD的启动模式均为singleTask，现在由B去启动D,那么整个后台任务都会被切换到前台，这个时候整个栈就变成了ABCD。 什么时候会出现这样的应用场景呢？</p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-5113938" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-3190243" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/746d985d5e0f" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/b4f9b870-ffe0-4436-a191-a4824f17da7e.jpg"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/746d985d5e0f" target="_blank" class="name">jasonlee3652</a> <!----> <!----> <div class="meta"><span>13楼 · 2016.07.19 20:58</span></div></div></div> <div class="comment-wrap"><p>关于文章的一部分描述是否有误，还是我理解错。你的描述如下:<br><br>在5.0之前新启动的Activity实例会放入发送Intent的Task的栈的顶部，尽管它们属于不同的程序，这似乎有点费解看起来也不是那么合理，所以在5.0之后，上述情景会创建一个新的Task，新启动的Activity就会放入刚创建的Task中...<br><br>我使用模拟器测试，系统是6.0。APP1启动App2中的Activity。得到如下日志:<br>07-19 12:45:57.921 4829-4829/com.example.lxq.myapplication D/MainActivity: Task id:134<br>07-19 12:46:02.679 4829-4829/com.example.lxq.myapplication D/SecondActivity: Task id:134<br>07-19 12:46:23.107 4829-4829/com.example.lxq.myapplication D/ThirdActivity: Task id:134<br>07-19 12:46:26.042 4829-4829/com.example.lxq.myapplication D/FourActivity: Task id:134<br>07-19 12:46:27.628 4415-4415/com.example.lxq.app2 D/SecondActivity: Task id:134<br><br>可以说明App2的Activity还是在App1的栈顶，并没有重写创建新的Task。请问我理解错误还是您描述错了?<br></p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-3190243" class="like-button"><span data-v-cdecbe24="">3人赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-7696225" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/ce5236592dc0" target="_blank">android_cyw</a>：
+            </div> <!----></div> <span>同问</span></p> <div class="sub-tool-group"><span>2017.02.04 17:02</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div><div id="comment-7696882" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/ce5236592dc0" target="_blank">android_cyw</a>：
+            </div> <!----></div> <span>启动外部Activity时设置intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);才会出现新建一个任务栈的情况，不解博主的结论。</span></p> <div class="sub-tool-group"><span>2017.02.04 17:28</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div><div id="comment-15031357" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/fb760368fc97" target="_blank">Adooooo</a>：
+            </div> <!----></div> <span> 应该是描述错了，作者想表达的意思可能是，Activity会在两个不同的Task中，但是并不一定会启动新的Task。<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0520/2897.html" rel="nofollow" target="_blank">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0520/2897.html</a></span></p> <div class="sub-tool-group"><span>2017.09.11 15:39</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <span class="line-warp">
+          还有3条评论，
+          <a>展开查看</a></span> <!----> <!----></div> <!----></div></div><div id="comment-3102294" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/2b240968acdc" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/865d13ba-ff91-4ce5-adaf-92dbd8c08157(1).jpg"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/2b240968acdc" target="_blank" class="name">文淑</a> <!----> <!----> <div class="meta"><span>12楼 · 2016.07.13 14:24</span></div></div></div> <div class="comment-wrap"><p>楼主太感谢了，这个问题一直困扰中我android的LaunchMode与StartActivityForResult的关系，在4.0以及5.0手机上的不同，问了很多人 都不知道。现在终于明了了。。 </p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-3102294" class="like-button"><span data-v-cdecbe24="">1人赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list"><div id="comment-3102300" class="sub-comment"><p><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/bd3befbe51d0" target="_blank">尹star</a>：
+            </div> <!----></div> <span> <a href="https://www.jianshu.com/users/2b240968acdc" class="maleskine-author" target="_blank" data-user-slug="2b240968acdc">@文淑</a> 呵呵</span></p> <div class="sub-tool-group"><span>2016.07.13 14:25</span> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div> <div class="sub-comment more-comment"><a class="add-comment-btn"><i class="iconfont ic-subcomment"></i> <span>添加新评论</span></a> <!----> <!----> <!----></div> <!----></div></div><div id="comment-2855145" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/f0a3fb1abaed" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/dc7c871013a7.jpeg"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/f0a3fb1abaed" target="_blank" class="name">hackware</a> <!----> <!----> <div class="meta"><span>11楼 · 2016.06.23 07:48</span></div></div></div> <div class="comment-wrap"><p>singleTask的4、5根本没讲明白</p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-2855145" class="like-button"><span data-v-cdecbe24="">2人赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-2611015" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/fa9f03a240c6" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/b08edba966b7.JPG"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/fa9f03a240c6" target="_blank" class="name">xiawe_i</a> <!----> <!----> <div class="meta"><span>10楼 · 2016.06.02 09:46</span></div></div></div> <div class="comment-wrap"><p>看完之后，对启动模式又清晰了许多<img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/+1.png" alt=":+1:" title=":+1:" class="emoji" width="20" height="20"></p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-2611015" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-2610353" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/7afe2b12716e" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/a4a87be7361d"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/7afe2b12716e" target="_blank" class="name">雨齐</a> <!----> <!----> <div class="meta"><span>9楼 · 2016.06.02 08:57</span></div></div></div> <div class="comment-wrap"><p>又是标题党</p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-2610353" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div><div id="comment-2610078" class="comment"><div><div class="author"><div data-v-f3bf5228="" class="v-tooltip-container" style="z-index: 0;"><div class="v-tooltip-content"><a href="https://www.jianshu.com/u/545a3c856c5f" target="_blank" class="avatar"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/2c56cf98a737"></a>  </div> <!----></div> <div class="info"><a href="https://www.jianshu.com/u/545a3c856c5f" target="_blank" class="name">545a3c856c5f</a> <!----> <!----> <div class="meta"><span>8楼 · 2016.06.02 08:37</span></div></div></div> <div class="comment-wrap"><p>先不提这文章，单单这标题就狠狠地装了一逼～～</p> <div class="tool-group"><a data-v-cdecbe24="" id="like-button-2610078" class="like-button"><span data-v-cdecbe24="">赞</span></a> <a class=""><i class="iconfont ic-comment"></i> <span>回复</span></a> <!----> <!----></div></div></div> <div class="sub-comment-list hide"><!----> <!----></div></div></div></div> <!----> <div><ul class="pagination"><!---->  <li><a href="javascript:void(null)" class="active">1</a></li> <li><a>2</a></li> <li><a>下一页</a></li></ul></div></div></div>
+  </div>
+
+  <div class="side-tool"><ul><li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="回到顶部" style="display: none;"><a class="function-button"><i class="iconfont ic-backtop"></i></a></li> <!----> <!----> <!----> <li data-placement="left" data-toggle="tooltip" data-container="body" data-original-title="分享文章" id="share"><a tabindex="0" role="button" data-toggle="popover" data-placement="left" data-html="true" data-trigger="focus" href="javascript:void(0);" data-content="&lt;ul class=&#39;share-list&#39; style=&quot;width:220px&quot;&gt;
+                  &lt;li&gt;&lt;a class=&quot;weixin-share&quot;&gt;&lt;i class=&quot;social-icon-sprite social-icon-weixin&quot;&gt;&lt;/i&gt;&lt;span&gt;分享到微信&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void((function(s,d,e,r,l,p,t,z,c){var%20f=&#39;http://v.t.sina.com.cn/share/share.php?appkey=1881139527&#39;,u=z||d.location,p=[&#39;&amp;url=&#39;,e(u),&#39;&amp;title=&#39;,e(t||d.title),&#39;&amp;source=&#39;,e(r),&#39;&amp;sourceUrl=&#39;,e(l),&#39;&amp;content=&#39;,c||&#39;gb2312&#39;,&#39;&amp;pic=&#39;,e(p||&#39;&#39;)].join(&#39;&#39;);function%20a(){if(!window.open([f,p].join(&#39;&#39;),&#39;mb&#39;,[&#39;toolbar=0,status=0,resizable=1,width=440,height=430,left=&#39;,(s.width-440)/2,&#39;,top=&#39;,(s.height-430)/2].join(&#39;&#39;)))u.href=[f,p].join(&#39;&#39;);};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent,&#39;&#39;,&#39;&#39;,&#39;&#39;, &#39;推荐 @尹star 的文章《我打赌你一定没搞明白的Activity启动模式》（ 分享自 @简书 ）&#39;,&#39;https://www.jianshu.com/p/2a9fcf3c11e4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=weibo&#39;,&#39;页面编码gb2312|utf-8默认gb2312&#39;));&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-weibo&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到微博&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=&#39;+e(&#39;https://www.jianshu.com/p/2a9fcf3c11e4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=qzone&#39;)+&#39;&amp;title=&#39;+e(&#39;推荐 尹star 的文章《我打赌你一定没搞明白的Activity启动模式》&#39;),x=function(){if(!window.open(r,&#39;qzone&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-zone&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到QQ空间&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://twitter.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/2a9fcf3c11e4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=twitter&#39;)+&#39;&amp;text=&#39;+e(&#39;推荐 尹star 的文章《我打赌你一定没搞明白的Activity启动模式》（ 分享自 @jianshucom ）&#39;)+&#39;&amp;related=&#39;+e(&#39;jianshucom&#39;),x=function(){if(!window.open(r,&#39;twitter&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=600,height=600&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-twitter&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Twitter&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://www.facebook.com/dialog/share?app_id=483126645039390&amp;display=popup&amp;href=https://www.jianshu.com/p/2a9fcf3c11e4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=facebook&#39;,x=function(){if(!window.open(r,&#39;facebook&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-facebook&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Facebook&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,r=&#39;https://plus.google.com/share?url=&#39;+e(&#39;https://www.jianshu.com/p/2a9fcf3c11e4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=google_plus&#39;),x=function(){if(!window.open(r,&#39;google_plus&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})();&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-google&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到Google+&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                  &lt;li&gt;&lt;a href=&quot;javascript:void(function(){var d=document,e=encodeURIComponent,s1=window.getSelection,s2=d.getSelection,s3=d.selection,s=s1?s1():s2?s2():s3?s3.createRange().text:&#39;&#39;,r=&#39;http://www.douban.com/recommend/?url=&#39;+e(&#39;https://www.jianshu.com/p/2a9fcf3c11e4?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=reader_share&amp;utm_source=douban&#39;)+&#39;&amp;title=&#39;+e(&#39;我打赌你一定没搞明白的Activity启动模式&#39;)+&#39;&amp;sel=&#39;+e(s)+&#39;&amp;v=1&#39;,x=function(){if(!window.open(r,&#39;douban&#39;,&#39;toolbar=0,resizable=1,scrollbars=yes,status=1,width=450,height=330&#39;))location.href=r+&#39;&amp;r=1&#39;};if(/Firefox/.test(navigator.userAgent)){setTimeout(x,0)}else{x()}})()&quot;&gt;&lt;i class=&#39;social-icon-sprite social-icon-douban&#39;&gt;&lt;/i&gt;&lt;span&gt;分享到豆瓣&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;" data-original-title="" title="" class="function-button"><i class="iconfont ic-share"></i></a> <!----></li> <!----></ul></div>
+</div>
+<div class="note-bottom">
+  <div><div class="main"><div class="title">被以下专题收入，发现更多相似内容</div> <!----> <div class="include-collection"><!----> <a href="https://www.jianshu.com/c/5139d555c94d?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1416528891_3612.png"><div class="name">Android...</div></a><a href="https://www.jianshu.com/c/bDHhpK?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/首页投稿.png"><div class="name">首页投稿（暂停...</div></a><a href="https://www.jianshu.com/c/0fa9fcc74b75?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/android.graphics.Bitmap_f6a17b9.jpeg"><div class="name">Android...</div></a><a href="https://www.jianshu.com/c/NEt52a?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/computer_guy.jpg"><div class="name">程序员</div></a><a href="https://www.jianshu.com/c/35155aeb4a7c?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/android.graphics.Bitmap_e108308.jpeg"><div class="name">安卓知识</div></a><a href="https://www.jianshu.com/c/e9892dccd0ca?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1463318266.jpg"><div class="name">将来跳槽用</div></a><a href="https://www.jianshu.com/c/c2955a70fdd6?utm_source=desktop&amp;utm_medium=notes-included-collection" target="_blank" class="item"><img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1462031767.jpg"><div class="name">安卓资源收集</div></a> <a class="show-more">
+        展开更多
+        <i class="iconfont ic-show"></i></a></div></div> <!----> <!----></div>
+  <div data-vcomp="recommended-notes" data-note-id="4176698"></div>
+  <!-- 相关文章 -->
+  <div class="seo-recommended-notes">
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="https://www.jianshu.com/p/c1386015856a?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">Activity的任务栈Task以及启动模式与Intent的Flag详解</a>
+          <p class="description">什么是任务栈(Task) 官方文档是这么解释的 任务是指在执行特定作业时与用户交互的一系列 Activity。 这些 Activity 按照各自的打开顺序排列在堆栈（即“返回栈”）中。 其实就是以栈的结构(先进后出)将依次打开的activity记录. 为什么要用任务栈 为了...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/145e6297cb26?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/ff4d6fa643f1" alt="48">
+            </div>
+            <span class="name">phoenixsky</span>
+</a>        </div>
+
+        <div class="note have-img">
+          <a class="cover" target="_blank" href="https://www.jianshu.com/p/c3f24f3104dd?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/1996162-c3d8b0870add7202.png" alt="240">
+</a>          <a class="title" target="_blank" href="https://www.jianshu.com/p/c3f24f3104dd?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">Android拾萃- Activity的生命周期和启动模式</a>
+          <p class="description">一、概述 Activity 作为与用户交互的一个窗口，是使用非常频繁的一个基本组件。Android系统是通过Activity栈来管理Activity的，而Activity则是通过哦生命周期来进行自己的创建、活动与销毁等。所以掌握Activity生命周期很有必要。 二、金字塔...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/c703d690cf32?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/779bf901-f9c4-4887-adaf-6fdcb78c04bf.jpg" alt="48">
+            </div>
+            <span class="name">三也视界</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="https://www.jianshu.com/p/ebb2a6fb3d46?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">Activity、Task、应用和进程</a>
+          <p class="description">个人总结： 一个应用程序只有一个任务栈(Stack)； 一个应用程序可以有多个Task（一个Task表现于回退栈，按返回键可以推出最上面的Activity） 只有SingleInstance会新建一个Task,而不在当前回退栈里面；在SingleInstance模式的Act...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/f23dd311ac27?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/2445bc4fee19.png" alt="48">
+            </div>
+            <span class="name">画十</span>
+</a>        </div>
+
+        <div class="note have-img">
+          <a class="cover" target="_blank" href="https://www.jianshu.com/p/0586d51dcfc5?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/4956878-cab5dbdf2f875923.png" alt="240">
+</a>          <a class="title" target="_blank" href="https://www.jianshu.com/p/0586d51dcfc5?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">标准Activity启动模式讲解</a>
+          <p class="description">任务栈是什么任务栈Task，是一种用来放置Activity实例的容器，他是以栈的形式进行盛放，也就是所谓的先进后出，主要有2个基本操作：压栈和出栈，其所存放的Activity是不支持重新排序的，只能根据压栈和出栈操作更改Activity的顺序。启动一个Application...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/13afd3486770?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/9a516038-a805-4f7c-bbd4-af74ed0cade5.jpg" alt="48">
+            </div>
+            <span class="name">Jason_andy</span>
+</a>        </div>
+
+        <div class="note have-img">
+          <a class="cover" target="_blank" href="https://www.jianshu.com/p/dfed9b0a5c1b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/6389671-7e26f9be0bfb5bc6.jpg" alt="240">
+</a>          <a class="title" target="_blank" href="https://www.jianshu.com/p/dfed9b0a5c1b?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">秋天的色彩</a>
+          <p class="description">早上醒来睁开眼睛，习惯性的看看阳台外面，没有象往常一样，清晨的阳光映照在蔚蓝的天空，把对面像城堡一样的建筑物染成金色。 我抬起头，戴上眼镜仔细看，灰蒙蒙的天空，厚厚的云层，对面新建的古色古香的高楼显得更加古朴，一丝丝凉风吹来，手臂上冒出了一些细小的鸡皮圪塔，秋天来了。 洗浴...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/b0e721909b2e?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/44d0b47d-a7ae-4671-9a24-8d7733c6b4b8.jpg" alt="48">
+            </div>
+            <span class="name">随性自在的杜姐</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="https://www.jianshu.com/p/91f43f452101?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">美乐家日志20161227</a>
+          <p class="description">因为弟媳妇生小孩，今天老家里来了一堆来看望的亲戚，我的任务就是当司机做三陪，忙了整整一天，没有时间分享美乐家。明天需要努力补上。我虽然没有时间分享，但是王洪海却十分努力，每天学习，每天调整自己的名单，计划好第二天的邀约名单，并努力完成计划。今天也有小突破，他的朋友答应办会员...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/bdfb15a98946?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/7415e2a8f8a5.jpg" alt="48">
+            </div>
+            <span class="name">余丽</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="https://www.jianshu.com/p/428dcd709c6a?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">游荡连云港</a>
+          <p class="description">刚到连云港，给我的感觉比较接近北方。由于大学同学的原因，一直知道这是一个靠海的城市，真到了却没有离海很近的感觉。 下午入住酒店后，第一时间奔赴超市寻找特产。新鲜的海鲜是来不及吃了，看看有什么易携带的特产吧。在苏果超市问了半天，找到虾酱蟹酱。怀着寻宝的心态，在当地人的指导下，...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/25c017b3c9a6?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/85df3745-10d5-4bcb-87f9-d998f49810e5.jpg" alt="48">
+            </div>
+            <span class="name">章凝</span>
+</a>        </div>
+
+        <div class="note ">
+                    <a class="title" target="_blank" href="https://www.jianshu.com/p/35c57da8d428?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">反省錄</a>
+          <p class="description">晨起，做結構力學試題兩道，與人電話溝通檢測鑑定技術一例。午睡。夜，與杜、鄭、黃小聚，談天至九點。歸，讀蔣介石日記若干。 余自西歷二〇一五年來，以運動促進心理之開放，差有成效，然以此社交而致浪費時間許多，復因之以酗酒，使氣鬧事，過矣。自二十九歲始，非公事及家人之間，不飲酒。 ...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/aa0729e7464d?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/b8f45418-1028-49b1-8757-5996c6fefa42.jpg" alt="48">
+            </div>
+            <span class="name">從簡齋筆記</span>
+</a>        </div>
+
+        <div class="note have-img">
+          <a class="cover" target="_blank" href="https://www.jianshu.com/p/faa07071047c?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/7632349-2c2dbf3a78f179f1.jpg" alt="240">
+</a>          <a class="title" target="_blank" href="https://www.jianshu.com/p/faa07071047c?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation">红楼梦中的领导和12位美女</a>
+          <p class="description">如珠链般串起大观园女儿的，除了“富贵闲人”宝玉，还有荣宁二府的大家长──贾母。儿孙满堂、享尽荣华富贵的老祖母笑呵呵地出现在无数的欢宴庆典、看戏听曲、游园赏花中，都是众星捧月的主角。贾母又是朝廷诰封称君的贵族命妇、官太太，尊称为史太君。 “阿房宫三百里，住不下金陵一个史”，贾...</p>
+          <a class="author" target="_blank" href="https://www.jianshu.com/u/6c1900539698?utm_campaign=maleskine&amp;utm_content=user&amp;utm_medium=seo_notes&amp;utm_source=recommendation">
+            <div class="avatar">
+              <img src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/6b45326e-be5a-4a94-a7a0-8c9c4dcf943d.jpg" alt="48">
+            </div>
+            <span class="name">zphone</span>
+</a>        </div>
+  </div>
+</div>
+
+    <script type="application/json" data-name="page-data">{"user_signed_in":false,"locale":"zh-CN","os":"mac","read_mode":"day","read_font":"font2","note_show":{"is_author":false,"is_following_author":false,"is_liked_note":false,"follow_state":0,"uuid":"02be0832-e4f4-4ff4-8300-48df00b61855"},"note":{"id":4176698,"slug":"2a9fcf3c11e4","user_id":1187237,"notebook_id":2416875,"commentable":true,"likes_count":249,"views_count":17561,"public_wordage":3371,"comments_count":51,"featured_comments_count":0,"total_rewards_count":2,"is_author":false,"paid_type":"free","paid":false,"paid_content_accessible":false,"author":{"nickname":"尹star","total_wordage":55822,"followers_count":2475,"total_likes_count":3594}}}</script>
+    
+    <script src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/babel-polyfill-e9c9b9785eb2c39c58e4.js" crossorigin="anonymous"></script>
+    <script src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/web-base-101dc0d8b4ed018d85d8.js" crossorigin="anonymous"></script>
+<script src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/web-ce06a7e26adb362dc9df.js" crossorigin="anonymous"></script>
+    
+    <script src="./我打赌你一定没搞明白的Activity启动模式 - 简书_files/entry-30f3e70f59f62b93fe6b.js" crossorigin="anonymous"></script>
+    <script>
+  (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      if (curProtocol === 'https') {
+          bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+      }
+      else {
+          bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+      }
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+  })();
+</script>
+
+  
+
+<!----><!----></body></html>
