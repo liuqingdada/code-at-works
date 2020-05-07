@@ -184,7 +184,7 @@ android中的dp、px、dip相关概念:
 
     2.ViewRoot：
     ViewRoot是连接 WindowsManager 和 DecorView 的桥梁对应于ViewRootImpl。
-    View的绘制流程就是从 ViewRootImpl 的 performTraversala（）方法开始的，包含三大流程：
+    View的绘制流程就是从 ViewRootImpl 的 performTraversals（）方法开始的，包含三大流程：
     1、Measure（）：［ 测量流程］
     2、Layout（）：［布局流程］
     3、Draw（）：［绘制流程］
