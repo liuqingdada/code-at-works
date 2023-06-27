@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)https://blog.csdn.net/duanyanggang/article/details/127355670 -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <link rel="canonical" href="https://blog.csdn.net/duanyanggang/article/details/127355670">
+    
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="report" content="{&quot;spm&quot;:&quot;1001.2101&quot;,&quot;extra&quot;:{&quot;titAb&quot;:&quot;t_new&quot;,&quot;tsab&quot;:&quot;t_1&quot;,&quot;tag&quot;:&quot;t_2&quot;},&quot;pid&quot;:&quot;blog&quot;}">
+    <meta name="referrer" content="always">
+    <meta http-equiv="Cache-Control" content="no-siteapp"><link rel="alternate" media="handheld" href="https://blog.csdn.net/duanyanggang/article/details/127355670#">
+    <meta name="shenma-site-verification" content="5a59773ab8077d4a62bf469ab966a63b_1497598848">
+    <meta name="applicable-device" content="pc">
+    <link href="https://g.csdnimg.cn/static/logo/favicon32.ico" rel="shortcut icon" type="image/x-icon">
+    <title>手机功耗分析-bugreport介绍_bugreport分析-CSDN博客</title>
+    <script>
+      (function(){ 
+        var el = document.createElement("script"); 
+        el.src = "https://s3a.pstatp.com/toutiao/push.js?1abfa13dfe74d72d41d83c86d240de427e7cac50c51ead53b2e79d40c7952a23ed7716d05b4a0f683a653eab3e214672511de2457e74e99286eb2c33f4428830"; 
+        el.id = "ttzz"; 
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(el, s);
+      })(window)
+    </script>
+        <meta name="keywords" content="bugreport分析">
+        <meta name="csdn-baidu-search" content="{&quot;autorun&quot;:true,&quot;install&quot;:true,&quot;keyword&quot;:&quot;bugreport分析&quot;}">
+    <meta name="description" content="功耗分析工具-bugreport介绍">
+        <link rel="stylesheet" type="text/css" href="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/detail_enter-f964f931ad.min.css">
+    <style>
+        #content_views pre{
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none; 
+            user-select: none; 
+        }
+        #content_views pre code{
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none; 
+            user-select: none; 
+        }
+    </style>
+    <script type="application/ld+json">{"@context":"https://ziyuan.baidu.com/contexts/cambrian.jsonld","@id":"https://blog.csdn.net/duanyanggang/article/details/127355670","appid":"1638831770136827","pubDate":"2022-10-17T00:03:56","title":"手机功耗分析-bugreport介绍_bugreport分析-CSDN博客","upDate":"2022-10-17T00:34:48"}</script>
+        <link rel="stylesheet" type="text/css" href="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/skin3-template-762f7595fd.min.css">
+    <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var isCorporate = false;//注释删除enterprise
+        var username =  "duanyanggang";
+        var skinImg = "white";
+        var blog_address = "https://blog.csdn.net/duanyanggang";
+        var currentUserName = "";
+        var isOwner = false;
+        var loginUrl = "http://passport.csdn.net/account/login?from=https://blog.csdn.net/duanyanggang/article/details/127355670";
+        var blogUrl = "https://blog.csdn.net/";
+        var avatar = "https://profile-avatar.csdnimg.cn/default.jpg!1";
+        var articleTitle = "手机功耗分析-bugreport介绍";
+        var articleDesc = "功耗分析工具-bugreport介绍";
+        var articleTitles = "手机功耗分析-bugreport介绍_bugreport分析-CSDN博客";
+        var nickName = "duanyanggang";
+        var articleDetailUrl = "https://blog.csdn.net/duanyanggang/article/details/127355670";
+        if(window.location.host.split('.').length == 3) {
+            blog_address = blogUrl + username;
+        }
+        var skinStatus = "White";
+        var blogStaticHost = "https://csdnimg.cn/release/blogv2/"
+        var mallTestStyle = "control"
+    </script>
+    <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/saved_resource" type="text/javascript"></script>
+    <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/report.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/sandalstrap.min.css">
+    <style>
+        .MathJax, .MathJax_Message, .MathJax_Preview{
+            display: none
+        }
+    </style>
+    <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/ds.js"></script>
+</head>
+  <body class="nodata " style="">
+        <script>
+            var toolbarSearchExt = '{"landingWord":["bugreport分析"],"queryWord":"","tag":["驱动开发","1024程序员节"],"title":"手机功耗分析-bugreport介绍"}';
+        </script>
+    <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/csdn-toolbar.js" type="text/javascript"></script>
+    <script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+    </script>
+
+    <link rel="stylesheet" href="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/blog_code-01256533b5.min.css">
+    <link rel="stylesheet" href="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/chart-3456820cac.css">
+    <link rel="stylesheet" href="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/swiper.css">
+    <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/swiper.js" async=""></script>
+    <script>
+      var articleId = 127355670;
+      var commentscount = 0;
+      var curentUrl = "https://blog.csdn.net/duanyanggang/article/details/127355670";
+      var myUrl = "https://my.csdn.net/";
+        var highlight = ["1024程序员节","report","bug","分析","功耗","手机","驱动","介绍","开发"];//高亮数组
+        var isRecommendModule = true;
+          var isBaiduPre = true;
+          var baiduCount = 2;
+          var setBaiduJsCount = 10;
+      var share_card_url = "https://app-blog.csdn.net/share?article_id=127355670&username=duanyanggang"
+      var articleType = 1;
+      var baiduKey = "bugreport分析";
+      var userNewReport = true;
+      var copyPopSwitch = true;
+      var needInsertBaidu = true;
+      var recommendRegularDomainArr = ["blog.csdn.net/.+/article/details/","download.csdn.net/download/","edu.csdn.net/course/detail/","ask.csdn.net/questions/","bbs.csdn.net/topics/","www.csdn.net/gather_.+/"]
+      var codeStyle = "";
+      var baiduSearchType = "baidulandingword";
+      var sharData = "{\"hot\":[{\"id\":1,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/a5f4260710904e538002a6ab337939b3.png\"},{\"id\":2,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/188b37199a2c4b74b1d9ffc39e0d52de.png\"},{\"id\":3,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/14ded358b631444581edd98a256bc5af.png\"},{\"id\":4,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/1470f23a770444d986ad551b9c33c5be.png\"},{\"id\":5,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/c329f5181dc74f6c9bd28c982bb9f91d.png\"},{\"id\":6,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/ccd8a3305e81460f9c505c95b432a65f.png\"},{\"id\":7,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/bc89d8283389440d97fc4d30e30f45e1.png\"},{\"id\":8,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/452d485b4a654f5592390550d2445edf.png\"},{\"id\":9,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/f8b9939db2ed474a8f43a643015fc8b7.png\"},{\"id\":10,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/6de8864187ab4ed3b1db0856369c36ff.png\"},{\"id\":11,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/673cc3470ff74072acba958dc0c46e2d.png\"},{\"id\":12,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/930c119760ac4491804db80f9c6d4e3f.png\"},{\"id\":13,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/15e6befb05a24233bc2b65e96aa8d972.png\"},{\"id\":14,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/2075fd6822184b95a41e214de4daec13.png\"},{\"id\":15,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/859b1552db244eb6891a809263a5c657.png\"},{\"id\":16,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/0be2f920f1f74290a98921974a9613fd.png\"},{\"id\":17,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/2e97e00b43f14afab494ea55ef3f4a6e.png\"},{\"id\":18,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/ff4ab252f46e444686f5135d6ebbfec0.png\"},{\"id\":19,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/ae029bbe99564e79911657912d36524f.png\"},{\"id\":20,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/b3ece39963de440388728e9e7b9bf427.png\"},{\"id\":21,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/6f14651a99ba486e926d63b6fa692997.png\"},{\"id\":22,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/83ceddf050084875a341e32dcceca721.png\"},{\"id\":23,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/b90368b8fd5d4c6c8c79a707d877cf7c.png\"},{\"id\":24,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/aeffae14ecf14e079b2616528c9a393b.png\"},{\"id\":25,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/c5a06b5a13d44d16bed868fc3384897a.png\"},{\"id\":26,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/08b697658b844b318cea3b119e9541ef.png\"},{\"id\":27,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/68ccb0b8d09346ac961d2b5c1a8c77bf.png\"},{\"id\":28,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/a2227a247e37418cbe0ea972ba6a859b.png\"},{\"id\":29,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/3a42825fede748f9993e5bb844ad350d.png\"},{\"id\":30,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/8882abc1dd484224b636966ea38555c3.png\"},{\"id\":31,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/4f6a5f636a3e444d83cf8cc06d87a159.png\"},{\"id\":32,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/1953ef79c56b4407b78d7181bdff11c3.png\"},{\"id\":33,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/c04a2a4f772948ed85b5b0380ed36287.png\"},{\"id\":34,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/5b4fecd05091405ea04d8c0f53e9f2c7.png\"},{\"id\":35,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/b89f576d700344e280d6ceb2a66c2420.png\"},{\"id\":36,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/1c65780e11804bbd9971ebadb3d78bcf.png\"},{\"id\":37,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/d590db2055f345db9706eb68a7ec151a.png\"},{\"id\":38,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/fe602f80700b4f6fb3c4a9e4c135510e.png\"},{\"id\":39,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/39ff2fcd31e04feba301a071976a0ba7.png\"},{\"id\":40,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/f9b61b3d113f436b828631837f89fb39.png\"},{\"id\":41,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/df1aca5f610c4ad48cd16da88c9c8499.png\"},{\"id\":42,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/d7acf73a1e6b41399a77a85040e10961.png\"},{\"id\":43,\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/b7f1b63542524b97962ff649ab4e7e23.png\"}],\"vip\":[{\"id\":1,\"vipUrl\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220920101150.png\",\"url\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220920101154.png\"},{\"id\":2,\"vipUrl\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220920101204.png\",\"url\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220920101208.png\"},{\"id\":3,\"vipUrl\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220920101211.png\",\"url\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220920101215.png\"},{\"id\":4,\"vipUrl\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220920101218.png\",\"url\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220920101220.png\"},{\"id\":5,\"vipUrl\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220920101223.png\",\"url\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220920101226.png\"},{\"id\":6,\"vipUrl\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220922100635.png\",\"url\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220922100639.png\"},{\"id\":7,\"vipUrl\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220922100642.png\",\"url\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220922100644.png\"},{\"id\":8,\"vipUrl\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220922100647.png\",\"url\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220922100649.png\"},{\"id\":9,\"vipUrl\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220922100652.png\",\"url\":\"https:\\/\\/img-home.csdnimg.cn\\/images\\/20220922100655.png\"},{\"id\":10,\"vipUrl\":\"https:\\/\\/img-blog.csdnimg.cn\\/55de67481fde4b04b97ad78f11fe369a.png\",\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/bb2418fb537e4d78b10d8765ccd810c5.png\"},{\"id\":11,\"vipUrl\":\"https:\\/\\/img-blog.csdnimg.cn\\/579c713394584d128104ef1044023954.png\",\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/f420d9fbcf5548079d31b5e809b6d6cd.png\"},{\"id\":12,\"vipUrl\":\"https:\\/\\/img-blog.csdnimg.cn\\/75b7f3155ba642f5a4cc16b7baf44122.png\",\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/a9030f5877be401f8b340b80b0d91e64.png\"},{\"id\":13,\"vipUrl\":\"https:\\/\\/img-blog.csdnimg.cn\\/0903d33cafa54934be3780aa54ae958d.png\",\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/2cd8c8929f5a42fca5da2a0aeb456203.png\"},{\"id\":14,\"vipUrl\":\"https:\\/\\/img-blog.csdnimg.cn\\/949fd7c22884439fbfc3c0e9c3b8dee7.png\",\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/dafbea9bd9eb4f3b962b48dc41657f89.png\"},{\"id\":15,\"vipUrl\":\"https:\\/\\/img-blog.csdnimg.cn\\/4119cfddd71d4e6a8a27a18dbb74d90e.png\",\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/c56310c8b6384d9e85388e4e342ce508.png\"},{\"id\":16,\"vipUrl\":\"https:\\/\\/img-blog.csdnimg.cn\\/121575274da142bcbbbbc2e8243dd411.png\",\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/5013993de06542f881018bb9abe2edf7.png\"},{\"id\":17,\"vipUrl\":\"https:\\/\\/img-blog.csdnimg.cn\\/4d97aa6dd4fe4f09a6bef5bdf8a6abcd.png\",\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/76f23877b6ad4066ad45ce8e31b4b977.png\"},{\"id\":18,\"vipUrl\":\"https:\\/\\/img-blog.csdnimg.cn\\/fdb619daf21b4c829de63b9ebc78859d.png\",\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/a1abe5d27a5441f599adfe662f510243.png\"},{\"id\":19,\"vipUrl\":\"https:\\/\\/img-blog.csdnimg.cn\\/676b7707bb11410f8f56bc0ed2b2345c.png\",\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/7ac5b467fbf24e1d8c2de3f3332c4f54.png\"},{\"id\":20,\"vipUrl\":\"https:\\/\\/img-blog.csdnimg.cn\\/0becb8cc227e4723b765bdd69a20fd4a.png\",\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/fdec85b26091486b9a89d0b8d45c3749.png\"},{\"id\":21,\"vipUrl\":\"https:\\/\\/img-blog.csdnimg.cn\\/1a6c06235ad44941b38c54cbc25a370c.png\",\"url\":\"https:\\/\\/img-blog.csdnimg.cn\\/410a06cda2d44b0c84578f88275caf70.png\"}],\"map\":{\"hot\":\"热门\",\"vip\":\"VIP\"}}";
+      
+      var canRead = true;
+      var blogMoveHomeArticle = false;
+      var showPcWindowAd = false;
+      var showHeadWord = true;
+      var showSearchText = "";
+      var linkPage = true;
+      var articleSource = 1;
+      var articleReport = '{"spm":"1001.2101","extra":{"titAb":"t_new","tsab":"t_1","tag":"t_2"},"pid":"blog"}';
+      var isShowToQuestion = false;
+        var baiduSearchChannel = 'pc_relevant'
+        var baiduSearchIdentification = '.235^v36^pc_relevant_default_base3'
+        var distRequestId = '1685081905555_71907'
+        var initRewardObject = {
+          giver: currentUserName,
+          anchor: username,
+          articleId: articleId,
+          sign: ''
+        }
+        var isLikeStatus = false;
+        var isUnLikeStatus = false;
+        var studyLearnWord = "";
+        var isCurrentUserVip = false;
+        var contentViewsHeight = 0;
+        var contentViewsCount = 0;
+        var contentViewsCountLimit = 5;
+        var isShowConcision = false;
+      var isCookieConcision = false
+      var isHasDirectoryModel = false
+      var isShowSideModel = false
+      var isShowDirectoryModel = true
+      function getCookieConcision(sName){
+        var allCookie = document.cookie.split("; ");
+        for (var i=0; i < allCookie.length; i++){
+          var aCrumb = allCookie[i].split("=");
+          if (sName == aCrumb[0])
+            return aCrumb[1];
+        }
+        return null;
+      }
+      if (getCookieConcision('blog_details_concision') && getCookieConcision('blog_details_concision') == 0){
+        isCookieConcision = true
+        isShowSideModel = true
+        isShowDirectoryModel = false
+      }
+    </script>
+        <div class="main_father clearfix d-flex justify-content-center " style="height:100%;">
+          <div class="container clearfix " id="mainBox">
+          <script>
+          if (!isCookieConcision) {
+            $('.main_father').removeClass('mainfather-concision')
+            $('.main_father .container').removeClass('container-concision')
+          }
+          </script>
+          <main>
+<script type="text/javascript">
+    function getQueryString(name) {   
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象  
+      var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+      if( r != null ) return decodeURIComponent( r[2] ); return '';   
+    }
+    function stripscript(s){ 
+      var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？%]") 
+      var rs = ""; 
+      for (var i = 0; i < s.length; i++) { 
+        rs = rs+s.substr(i, 1).replace(pattern, ''); 
+      } 
+      return rs;
+    }
+    var blogHotWords = stripscript(getQueryString('utm_term')).length > 1 ? stripscript(getQueryString('utm_term')) : ''
+</script>
+<div class="blog-content-box">
+        <div class="article-header-box">
+        <div class="article-header">
+            <div class="article-title-box">
+                <h1 class="title-article" id="articleContentId">手机功耗分析-bugreport介绍</h1>
+            </div>
+            <div class="article-info-box">
+                <div class="article-bar-top">
+                    <img class="article-type-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/original.png" alt="">
+                    <div class="bar-content">
+                    <a class="follow-nickName " href="https://blog.csdn.net/duanyanggang" target="_blank" rel="noopener" title="duanyanggang">duanyanggang</a>
+                    <img class="article-time-img article-heard-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newUpTime2.png" alt="">
+                    <span class="time">已于&nbsp;2022-10-24 23:07:25&nbsp;修改</span>
+                    <img class="article-read-img article-heard-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/articleReadEyes2.png" alt="">
+                    <span class="read-count">1615</span>
+                    <a id="blog_detail_zk_collection" class="un-collection" data-report-click="{&quot;mod&quot;:&quot;popu_823&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4232&quot;,&quot;ab&quot;:&quot;new&quot;}">
+                        <img class="article-collect-img article-heard-img un-collect-status isdefault" style="display:inline-block" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/tobarCollect2.png" alt="">
+                        <img class="article-collect-img article-heard-img collect-status isactive" style="display:none" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/tobarCollectionActive2.png" alt="">
+                        <span class="name">收藏</span>
+                        <span class="get-collection">
+                            9
+                        </span>
+                    </a>
+                    </div>
+                </div>
+                <div class="blog-tags-box">
+                    <div class="tags-box artic-tag-box">
+                            <span class="label">分类专栏：</span>
+                                <a class="tag-link" href="https://blog.csdn.net/duanyanggang/category_12057206.html" target="_blank" rel="noopener">功耗</a>
+                            <span class="label">文章标签：</span>
+                                <a data-report-click="{&quot;mod&quot;:&quot;popu_626&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4223&quot;,&quot;strategy&quot;:&quot;驱动开发&quot;,&quot;ab&quot;:&quot;new&quot;,&quot;extra&quot;:&quot;{\&quot;searchword\&quot;:\&quot;驱动开发\&quot;}&quot;}" class="tag-link" href="https://so.csdn.net/so/search/s.do?q=%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91&amp;t=all&amp;o=vip&amp;s=&amp;l=&amp;f=&amp;viparticle=" target="_blank" rel="noopener">驱动开发</a>
+                                <a data-report-click="{&quot;mod&quot;:&quot;popu_626&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4223&quot;,&quot;strategy&quot;:&quot;1024程序员节&quot;,&quot;ab&quot;:&quot;new&quot;,&quot;extra&quot;:&quot;{\&quot;searchword\&quot;:\&quot;1024程序员节\&quot;}&quot;}" class="tag-link" href="https://so.csdn.net/so/search/s.do?q=1024%E7%A8%8B%E5%BA%8F%E5%91%98%E8%8A%82&amp;t=all&amp;o=vip&amp;s=&amp;l=&amp;f=&amp;viparticle=" target="_blank" rel="noopener">1024程序员节</a>
+                    </div>
+                </div>
+                <div class="up-time"><span>于&nbsp;2022-10-17 00:34:48&nbsp;首次发布</span></div>
+                <div class="slide-content-box">
+                    <div class="article-copyright">
+                        <div class="creativecommons">
+                            版权声明：本文为博主原创文章，遵循<a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener"> CC 4.0 BY-SA </a>版权协议，转载请附上原文出处链接和本声明。
+                        </div>
+                        <div class="article-source-link">
+                            本文链接：<a href="https://blog.csdn.net/duanyanggang/article/details/127355670" target="_blank">https://blog.csdn.net/duanyanggang/article/details/127355670</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="operating">
+                    <a class="href-article-edit slide-toggle">版权</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="blogHuaweiyunAdvert"></div>
+        <div id="blogColumnPayAdvert">
+            <div class="column-group">
+                <div class="column-group-item column-group0 column-group-item-one">
+                    <div class="item-l">
+                        <a class="item-target" href="https://blog.csdn.net/duanyanggang/category_12057206.html" target="_blank" title="功耗" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.6332&quot;}" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.6332&quot;}">
+                            <img class="item-target" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/20201014180756918.png" alt="">
+                            <span class="title item-target">
+                                <span>
+                                <span class="tit">功耗</span>
+                                    <span class="dec">专栏收录该内容</span>
+                                </span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="item-m">
+                        <span>5 篇文章</span>
+                        <span>1 订阅</span>
+                    </div>
+                    <div class="item-r">
+                            <a class="item-target article-column-bt articleColumnFreeBt" data-id="12057206">订阅专栏</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/kdoc_html_views-1a98987dfd.css">
+        <link rel="stylesheet" href="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/ck_htmledit_views-25cebea3f9.css">
+                <div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                    </svg>
+                    <h2><a id="bugreport_0"></a>bugreport</h2> 
+<p>bugreport图片如下<br> <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/df70e501c6b847b6a129fe1c8713a2e6.png" alt="在这里插入图片描述"><br> <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/b37198a2c1874abc8333f0414e5eaaa3.png" alt="在这里插入图片描述"></p> 
+<p>bugreport一般用来分析功耗问题（休眠待机，后台待机，游戏，视频，相机场景等），下面一一介绍各项代表的意义<br> CPU running: CPU运行状态，休眠 或者 唤醒<br> Kernel only uptime: 只有内核运行的时间<br> Userspace wakelock:记录Android中PowerManagerService的wake_lock模块的工作时间(有任务需要唤醒CPU时，就会开启 Userspace wakelock)<br> Top app: 当前手机运行的app及前台app<br> Screen: 屏是否被电量，用于判断是否处于休眠态<br> Activity Manager Proc:活跃的用户进程<br> Doze:是否进入doze模式(doze模式还分light和full，light模式进入一段时间后进入full模式)<br> Phone call: 是否有打电话事件<br> GPS: 是否有gps调度事件<br> JobScheduler: 调度事件，如下载或上传等调度<br> SyncManager: 同步事件，如计步器<br> Phone scanning: 手机是否在扫描移动信号网络<br> Phone state: 手机电话状态，in（有数据网络）/out（无数据网络）/off(飞行模式)三种<br> Network connectivity: 数据网络连接类型， 有TYPE_MOBILE和TYPE_WIFI和TYPE_NONE<br> Mobile network type: 网络信号类型:比如ILT,OOS,NONE等<br> Mobile radio active: 表明手机是否有信号，空白表明手机无信号。移动蜂窝信号<br> Mobile signal strength: 手机信号强度，有great/good/moderate/poor/none五种<br> Wifi full lock: 持有Wifi full lock的事件<br> Wifi supplicant: 是否有wifi请求<br> Wifi radio: 是否正在通过wifi传输数据<br> Wifi signal strength: wifi信号强度（great\good\moderate\poor）<br> Wifi on: 是否开启wifi<br> Wifi running:wifi组件是否在工作<br> Health:电池健康状态的信息<br> Audio: 是否有使用音频<br> Video: 是否有播放视频<br> Foreground process: 前台进程<br> Temperature: 手机电池温度。<br> Battery level: 可以看出电量的变化，并且有电量变化曲线<br> Plugged: 是否有插充电器或者usb<br> Crashes(Logcat): 某个时间点出现crash的应用<br> Logcat misc:是否在导日志</p> 
+<h2><a id="system_Stats___History_Stats___App_Stats_40"></a>system Stats History Stats App Stats</h2> 
+<p>如下图片<br> <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/4d68c27837f9469588e0cc7fc322a94b.png" alt="在这里插入图片描述"><br> system Stats<br> System Stats主要有Duration/Realtime，Metric，Device’s Power Estimates，Userspace Wakelocks，SyncManager Syncs，Mobile Radio Activity Per App，Mobile Traffic Per App，WiFi Scan Activity Per App，WiFi Full Lock Activity Per App，Kernel Wakesources，Kernel Wakeup Reasons， App Wakeup Alarms，GPS Use By App这些小类型，这些都是描述系统相关的特性。</p> 
+<p>History Stats 图片如下选项<br> <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/4a216515fc9d47c0b39d259e09bf54d0.png" alt="在这里插入图片描述"><br> ConnectionSummary 代表移动数据连接类型以及每种类型连接时间长度<br> WakeupReasonSummary代表唤醒源有哪些，一共唤醒了多少次，以及唤醒分布等<br> 如下图（图中依次列出了唤醒源，以及唤醒时间点）<br> <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/510ff9f5cae943b6b07e7340c886771c.png" alt="在这里插入图片描述"><br> firstwakelockaftersuspend代表深度休眠状态下第一次持锁的线程<br> ForegroundProcessSummary代表当前系统的前台进程<br> Phonestatesummary代表手机进入过的模式，有信号，无信号，飞行模式<br> schedulejobsummary代表异步调用的相关服务的统计<br> wifisupplicantsummary代表wifi请求的统计<br> PhoneSignalStrengthSummary代表移动数据信号强度的统计<br> WifiSignalStrengthSummary代表wiif信号强度的统计<br> TopapplicationSummary代表手机最上层app运行的统计<br> DozemodeSummary代表Doze模式的统计，包括关闭，light, full</p> 
+<p>App Stats<br> App Stats主要包括app包名，版本号，UID，耗电量，在前台运行的时长，使用震动器的时长，使用多少个wakeup alarm，网络信息，Wakelocks信息，Service信息，进程信息，Scheduled Job等</p>
+                </div>
+                <link href="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/markdown_views-98b95bb57c.css" rel="stylesheet">
+                <link href="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/style-c216769e99.css" rel="stylesheet">
+        </div>
+        <div id="treeSkill"></div>
+    </article>
+<script>
+  $(function() {
+    setTimeout(function () {
+      var mathcodeList = document.querySelectorAll('.htmledit_views img.mathcode');
+      if (mathcodeList.length > 0) {
+        for (let i = 0; i < mathcodeList.length; i++) {
+          if (mathcodeList[i].naturalWidth === 0 || mathcodeList[i].naturalHeight === 0) {
+            var alt = mathcodeList[i].alt;
+            alt = '\\(' + alt + '\\)';
+            var curSpan = $('<span class="img-codecogs"></span>');
+            curSpan.text(alt);
+            $(mathcodeList[i]).before(curSpan);
+            $(mathcodeList[i]).remove();
+          }
+        }
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+      }
+    }, 1000)
+  });
+</script>
+</div>
+    <div class="more-toolbox-new" id="toolBarBox">
+      <div class="left-toolbox">
+        <div class="toolbox-left">
+            <div class="profile-box">
+              <a class="profile-href" target="_blank" href="https://blog.csdn.net/duanyanggang"><img class="profile-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/default.jpg!1">
+                <span class="profile-name">
+                  duanyanggang
+                </span>
+              </a>
+            </div>
+            <div class="profile-attend">
+                <div class="profile-subscribe-box">
+                  <div class="profile-subscribe-cont">
+                    <img class="subscribe-img-close" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/20221212101536.png" alt="">
+                    <div class="profile-subscribe-box-head">
+                      <span>微信</span>扫码订阅
+                    </div>
+                    <img class="subscribe-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/20230210031213.png" alt="">
+                    <div class="profile-subscribe-box-text">
+                      UP更新不错过~
+                    </div>
+                  </div>
+                </div>
+                <a class="tool-attend tool-bt-button tool-bt-attend" href="javascript:;" data-report-view="{&quot;mod&quot;:&quot;1592215036_002&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4232&quot;,&quot;extend1&quot;:&quot;关注&quot;}">关注</a>
+              <a class="tool-item-follow active-animation" style="display:none;">关注</a>
+            </div>
+        </div>
+        <div class="toolbox-middle">
+          <ul class="toolbox-list">
+            <li class="tool-item tool-item-size tool-active is-like" id="is-like">
+              <a class="tool-item-href">
+                <img style="display:none;" id="is-like-imgactive-animation-like" class="animation-dom active-animation" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/tobarThumbUpactive.png" alt="">
+                <img class="isactive" style="display:none" id="is-like-imgactive" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newHeart2021Active.png" alt="">
+                <img class="isdefault" style="display:block" id="is-like-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newHeart2021Black.png" alt="">
+                <span id="spanCount" class="count ">
+                    1
+                </span>
+              </a>
+              <div class="tool-hover-tip"><span class="text space">点赞</span></div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-unlike" id="is-unlike">
+              <a class="tool-item-href">
+                <img class="isactive" style="margin-right:0px;display:none" id="is-unlike-imgactive" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newUnHeart2021Active.png" alt="">
+                <img class="isdefault" style="margin-right:0px;display:block" id="is-unlike-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newUnHeart2021Black.png" alt="">
+                <span id="unlikeCount" class="count "></span>
+              </a>
+              <div class="tool-hover-tip"><span class="text space">踩</span></div>
+            </li>
+            <li class="tool-item tool-item-size tool-active is-collection ">
+              <a class="tool-item-href" href="javascript:;" data-report-click="{&quot;mod&quot;:&quot;popu_824&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4130&quot;,&quot;ab&quot;:&quot;new&quot;}">
+                <img style="display:none" id="is-collection-img-collection" class="animation-dom active-animation" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/tobarCollectionActive.png" alt="">
+                <img class="isdefault" id="is-collection-img" style="display:block" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newCollectBlack.png" alt="">
+                <img class="isactive" id="is-collection-imgactive" style="display:none" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newCollectActive.png" alt="">
+                <span class="count get-collection " id="get-collection">
+                    9
+                </span>
+              </a>
+              <div class="tool-hover-tip collect">
+                <div class="collect-operate-box">
+                  <span class="collect-text" id="is-collection">
+                    收藏
+                  </span>
+                </div>
+              </div>
+              <div class="tool-active-list">
+                <div class="text">
+                  觉得还不错?
+                  <span class="collect-text" id="tool-active-list-collection">
+                    一键收藏
+                  </span>
+                 <img id="tool-active-list-close" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/collectionCloseWhite.png" alt="">
+                </div>
+              </div>
+            </li>
+                <li class="tool-item tool-item-size tool-active tool-item-reward">
+                  <a class="tool-item-href" href="javascript:;" data-report-click="{&quot;mod&quot;:&quot;popu_830&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4237&quot;,&quot;dest&quot;:&quot;&quot;,&quot;ab&quot;:&quot;new&quot;}">
+                    <img class="isdefault reward-bt" id="rewardBtNew" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newRewardBlack.png" alt="打赏">
+                    <span class="count"></span>
+                  </a>
+                  <div class="tool-hover-tip"><span class="text space">打赏</span></div>
+                </li>
+          <li class="tool-item tool-item-size tool-active tool-item-comment">
+            <div class="guide-rr-first">
+              <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/guideRedReward01.png" alt="">
+              <button class="btn-guide-known">知道了</button>
+            </div>
+              <a class="tool-item-href" href="https://blog.csdn.net/duanyanggang/article/details/127355670#commentBox" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.7009&quot;}">
+              <img class="isdefault" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newComment2021Black.png" alt="">
+              <span class="count">
+                    0
+              </span>
+            </a>
+            <div class="tool-hover-tip"><span class="text space">评论</span></div>
+          </li>
+          <li class="tool-item tool-item-bar">
+          </li>
+          <li class="tool-item tool-item-size tool-active tool-QRcode" data-type="article" id="tool-share">
+            <a class="tool-item-href" href="javascript:;" data-report-click="{&quot;mod&quot;:&quot;1582594662_002&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4129&quot;,&quot;ab&quot;:&quot;new&quot;}">
+              <img class="isdefault" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newShareBlack.png" alt="">
+            </a>
+              <div class="QRcode" id="tool-QRcode">
+            <div class="share-bg-icon icon1" id="shareBgIcon"></div>
+              <div class="share-bg-box">
+                <div class="share-content">
+                  <img class="share-avatar" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/default.jpg!1" alt="">
+                  <div class="share-tit">
+                    手机功耗分析-bugreport介绍
+                  </div>
+                  <div class="share-dec">
+                    功耗分析工具-bugreport介绍
+                  </div>
+                  <a id="copyPosterUrl" class="url" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.7493&quot;}" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.7493&quot;}">复制链接</a>
+                </div>
+                <div class="share-code">
+                  <div class="share-code-box" id="shareCode"></div>
+                  <div class="share-code-text">扫一扫</div>
+                </div>
+              </div>
+                <div class="share-code-type">
+                </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="toolbox-right">
+            <div class="tool-directory">
+                <a class="bt-columnlist-show" data-id="12057206" data-free="true" data-subscribe="false" data-title="功耗" data-img="https://img-blog.csdnimg.cn/20201014180756918.png?x-oss-process=image/resize,m_fixed,h_64,w_64" data-url="https://blog.csdn.net/duanyanggang/category_12057206.html" data-sum="5" data-people="1" data-price="0" data-oldprice="0" data-join="false" data-studyvip="false" data-studysubscribe="false" data-report-view="{&quot;spm&quot;:&quot;1001.2101.3001.6334&quot;,&quot;extend1&quot;:&quot;专栏目录&quot;}" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.6334&quot;,&quot;extend1&quot;:&quot;专栏目录&quot;}">专栏目录</a>
+          </div>
+</div>
+</div>
+</div>
+<script type="text/javascript" crossorigin="" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/qrcode-7c90a92189.min.js"></script>
+<script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/saved_resource(1)" type="text/javascript"></script>
+<script type="text/javascript" crossorigin="" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/csdn-login-box.js"></script>
+<script type="text/javascript" crossorigin="" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/collection-box.js"></script>                <div class="first-recommend-box recommend-box ">
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/orgst/9322863" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6661.1&quot;,&quot;mod&quot;:&quot;popu_871&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant_t0.none-task-download-2~default~CTRLIST~Paid-1-9322863-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;1&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Paid&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/orgst/9322863&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/orgst/9322863" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6661.1&quot;,&quot;mod&quot;:&quot;popu_871&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant_t0.none-task-download-2~default~CTRLIST~Paid-1-9322863-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;1&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Paid&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/orgst/9322863&quot;}" data-report-query="spm=1001.2101.3001.6661.1&amp;utm_medium=distribute.pc_relevant_t0.none-task-download-2%7Edefault%7ECTRLIST%7EPaid-1-9322863-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-download-2%7Edefault%7ECTRLIST%7EPaid-1-9322863-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1">check <em>bug</em><em>report</em>自动<em>分析</em><em>bug</em><em>report</em>工具</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">12-03</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/orgst/9322863" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6661.1&quot;,&quot;mod&quot;:&quot;popu_871&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant_t0.none-task-download-2~default~CTRLIST~Paid-1-9322863-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;1&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Paid&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/orgst/9322863&quot;}" data-report-query="spm=1001.2101.3001.6661.1&amp;utm_medium=distribute.pc_relevant_t0.none-task-download-2%7Edefault%7ECTRLIST%7EPaid-1-9322863-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant_t0.none-task-download-2%7Edefault%7ECTRLIST%7EPaid-1-9322863-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">自动<em>分析</em><em>bug</em><em>report</em>的工具，github开源项目</div>
+			</a>
+		</div>
+	</div>
+</div>
+                </div>
+              <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/pc_wap_commontools-ad67eb7a7a.min.js" type="text/javascript" async=""></script>
+                <div class="second-recommend-box recommend-box ">
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/wjky2014/article/details/129359754" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.1&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-129359754-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;1&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/wjky2014/article/details/129359754&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/wjky2014/article/details/129359754" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.1&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-129359754-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;1&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/wjky2014/article/details/129359754&quot;}" data-report-query="spm=1001.2101.3001.6650.1&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-129359754-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-129359754-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1"><em>手机</em><em>功耗</em>续航<em>分析</em>利器 Chk<em>Bug</em><em>Report</em></div>
+					<div class="tag">最新发布</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/wjky2014" target="_blank"><span class="blog-title">程序员Android</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">03-06</span>
+					<span class="info-block read"><img class="read-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					149
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/wjky2014/article/details/129359754" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.1&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-1-129359754-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;1&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/wjky2014/article/details/129359754&quot;}" data-report-query="spm=1001.2101.3001.6650.1&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-129359754-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-129359754-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">和你一起终身学习，这里是程序员Android经典好文推荐，通过阅读本文，您将收获以下知识点:一、Chk<em>Bug</em><em>Report</em> 概述二、Chk<em>Bug</em><em>Report</em> 获取方法三、Chk<em>Bug</em><em>Report</em> 使用方法四、Chk<em>Bug</em><em>Report</em> 使用详细说明一、Chk<em>Bug</em><em>Report</em> 概述Chk<em>Bug</em><em>Report</em> 工具的目的是<em>分析</em>处理<em>手机</em>上生成的<em>bug</em><em>report</em>，并且为<em>开发</em>者提取尽可能多的有用数据。ChkB...</div>
+			</a>
+		</div>
+	</div>
+</div>
+                </div>
+<a id="commentBox" name="commentBox"></a>
+<div id="pcCommentBox" class="comment-box comment-box-new2 unlogin-comment-box-new" style="display:none">
+    <div class="unlogin-comment-model">
+        <span class="unlogin-comment-tit">参与评论</span>
+      <span class="unlogin-comment-text">您还未登录，请先</span>
+      <span class="unlogin-comment-bt">登录</span>
+      <span class="unlogin-comment-text">后发表或查看评论</span>
+    </div>
+</div>              <div class="recommend-box insert-baidu-box recommend-box-style ">
+                <div class="recommend-item-box no-index" style="display:none"></div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/weixin_45243288/article/details/127654918" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.2&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-2-127654918-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;2&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/weixin_45243288/article/details/127654918&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/weixin_45243288/article/details/127654918" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.2&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-2-127654918-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;2&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/weixin_45243288/article/details/127654918&quot;}" data-report-query="spm=1001.2101.3001.6650.2&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-127654918-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-127654918-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1">移动端测试——日志<em>分析</em></div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/weixin_45243288" target="_blank"><span class="blog-title">weixin_45243288的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">11-02</span>
+					<span class="info-block read"><img class="read-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					659
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/weixin_45243288/article/details/127654918" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.2&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-2-127654918-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;2&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/weixin_45243288/article/details/127654918&quot;}" data-report-query="spm=1001.2101.3001.6650.2&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-127654918-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-2-127654918-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">App测试</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/boyStray/article/details/77871003" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.3&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3-77871003-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;3&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/boyStray/article/details/77871003&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/boyStray/article/details/77871003" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.3&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3-77871003-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;3&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/boyStray/article/details/77871003&quot;}" data-report-query="spm=1001.2101.3001.6650.3&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3-77871003-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3-77871003-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1">通过battery-historian<em>分析</em>wakelock对CPU和电池续航能力的影响</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/boyStray" target="_blank"><span class="blog-title">boyStray的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">09-06</span>
+					<span class="info-block read"><img class="read-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					1321
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/boyStray/article/details/77871003" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.3&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3-77871003-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;3&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/boyStray/article/details/77871003&quot;}" data-report-query="spm=1001.2101.3001.6650.3&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3-77871003-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-3-77871003-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">Android为了节省电量，会在用户无操作一段时间之后进入休眠状态。Wake Lock是一种锁的机制，只要有人拿着这个锁，系统就无法进入休眠。一些App为了能在后台持续做事情，就会持有一个WakeLock，那么<em>手机</em>就不会进入休眠状态，App要做的事情能做了，但是也更加耗电。
+
+
+我使用百度地图android sdk<em>开发</em>了一个app，可以在户外徒步过程中，定位当前的GPS位置。锁屏后会进cpu</div>
+			</a>
+		</div>
+	</div>
+</div>
+		<dl id="recommend-item-box-tow" class="recommend-item-box type_blog clearfix">
+			
+		</dl>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/tongfei8591/article/details/20554323" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.4&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-4-20554323-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;4&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/tongfei8591/article/details/20554323&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/tongfei8591/article/details/20554323" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.4&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-4-20554323-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;4&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/tongfei8591/article/details/20554323&quot;}" data-report-query="spm=1001.2101.3001.6650.4&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-4-20554323-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-4-20554323-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1"><em>bug</em><em>report</em><em>分析</em>方法</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/tongfei8591" target="_blank"><span class="blog-title">陌陌的专栏</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">03-05</span>
+					<span class="info-block read"><img class="read-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					5664
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/tongfei8591/article/details/20554323" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.4&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-4-20554323-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;4&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/tongfei8591/article/details/20554323&quot;}" data-report-query="spm=1001.2101.3001.6650.4&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-4-20554323-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-4-20554323-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">转载自：【Sundy系列】网上绝无仅有的Log<em>分析</em>教程及例子！
+
+这次打算通过一个例子，深入解析一下log的<em>分析</em>方法以及Handler对象,Android多线程及MediaPlayer状态<em>分析</em> 。先在此占位，边写边发 。特别注意，本文的内容全部是原创，经验所得 。特别是Log<em>分析</em>方法，网上搜了一下，没有Log的<em>分析</em>方法文章，特此贡献一下，希望对程序员有帮助。特别声明一下， 本文章的Word版本</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_25815655/article/details/122717852" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.5&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-5-122717852-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;5&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/qq_25815655/article/details/122717852&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_25815655/article/details/122717852" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.5&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-5-122717852-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;5&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/qq_25815655/article/details/122717852&quot;}" data-report-query="spm=1001.2101.3001.6650.5&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-5-122717852-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-5-122717852-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1"><em>Bug</em><em>Report</em> <em>分析</em>利器 Chk<em>Bug</em><em>Report</em></div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_25815655" target="_blank"><span class="blog-title">qq_25815655的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">01-27</span>
+					<span class="info-block read"><img class="read-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					2047
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_25815655/article/details/122717852" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.5&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-5-122717852-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;5&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/qq_25815655/article/details/122717852&quot;}" data-report-query="spm=1001.2101.3001.6650.5&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-5-122717852-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-5-122717852-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">和你一起终身学习，这里是程序员 Android
+
+本篇文章主要<em>介绍</em> Android <em>开发</em>中的部分知识点，通过阅读本篇文章，您将收获以下内容:
+
+
+一、Chk<em>Bug</em><em>Report</em> 概述
+二、Chk<em>Bug</em><em>Report</em> 获取方法
+三、Chk<em>Bug</em><em>Report</em> 使用方法
+四、Chk<em>Bug</em><em>Report</em> 使用详细说明
+
+
+一、Chk<em>Bug</em><em>Report</em> 概述
+
+Chk<em>Bug</em><em>Report</em> 工具的目的是<em>分析</em>处理<em>手机</em>上生成的<em>bug</em><em>report</em>，并且为<em>开发</em>者提取尽可能多的有用数据。
+
+Chk<em>Bug</em><em>Report</em> 解析 <em>bug</em>repo</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/qq_18983205/article/details/81123773" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.6&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-6-81123773-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;6&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/qq_18983205/article/details/81123773&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/qq_18983205/article/details/81123773" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.6&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-6-81123773-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;6&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/qq_18983205/article/details/81123773&quot;}" data-report-query="spm=1001.2101.3001.6650.6&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-6-81123773-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-6-81123773-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1">（七）电量<em>分析</em> —— 优化耗电</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/qq_18983205" target="_blank"><span class="blog-title">孤独灬啸月</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">08-06</span>
+					<span class="info-block read"><img class="read-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					2361
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/qq_18983205/article/details/81123773" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.6&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-6-81123773-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;6&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/qq_18983205/article/details/81123773&quot;}" data-report-query="spm=1001.2101.3001.6650.6&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-6-81123773-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-6-81123773-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">版权声明：本文为博主原创文章，未经博主允许不得转载。  
+  本文纯个人学习笔记，由于水平有限，难免有所出错，有发现的可以交流一下。
+
+
+
+
+一、耗电量
+
+<em>手机</em>各个硬件模块的耗电量是不一样的，有些模块非常耗电比如移动蜂窝网络、GPS，而有些模块则相对显得耗电量小很多。
+
+
+
+电量测试
+
+电量测试就是测试移动设备电量消耗快慢的一种测试方法。一般用平均电流来衡量电量消耗速度。平均电流越小，说明设...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/u012014531/article/details/120284384" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.7&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-7-120284384-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;7&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/u012014531/article/details/120284384&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/u012014531/article/details/120284384" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.7&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-7-120284384-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;7&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/u012014531/article/details/120284384&quot;}" data-report-query="spm=1001.2101.3001.6650.7&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-7-120284384-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-7-120284384-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1">Android耗电量 - <em>bug</em><em>report</em>&amp;Battery Historian</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/u012014531" target="_blank"><span class="blog-title">u012014531的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">09-14</span>
+					<span class="info-block read"><img class="read-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					456
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/u012014531/article/details/120284384" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.7&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-7-120284384-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;7&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/u012014531/article/details/120284384&quot;}" data-report-query="spm=1001.2101.3001.6650.7&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-7-120284384-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-7-120284384-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">随着Mobile App应用的不断演进，我们已经不能满足于仅仅实现功能，同时还要追求更高的质量和性能，因此耗电量、CPU占有率等性能问题显得越来越重要。而以耗电量来举例，其性能问题是与硬件离不开的，即要排查识别高耗能硬件，通过软件的方式，来排查，是哪些操作或者代码使得硬件在疯狂耗能，并定位问题后进行解决。关于Android App耗电量问题的定位方式有很多种方法，具体<em>介绍</em>见这里，本文主要讲解其中最为常用的一种方式，即通过 <em>Bug</em><em>report</em> 和 Battery Historian <em>分析</em>。
+
+一. 生成<em>bug</em></div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/duanyanggang/article/details/122823797" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.8&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-8-122823797-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;8&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/122823797&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/duanyanggang/article/details/122823797" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.8&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-8-122823797-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;8&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/122823797&quot;}" data-report-query="spm=1001.2101.3001.6650.8&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-8-122823797-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-8-122823797-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1"><em>手机</em><em>功耗</em>基础<em>介绍</em></div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/duanyanggang" target="_blank"><span class="blog-title">duanyanggang的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">02-08</span>
+					<span class="info-block read"><img class="read-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					8539
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/duanyanggang/article/details/122823797" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.8&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-8-122823797-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;8&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/122823797&quot;}" data-report-query="spm=1001.2101.3001.6650.8&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-8-122823797-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-8-122823797-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1"><em>手机</em><em>功耗</em>基础<em>介绍</em></div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://crazymo.blog.csdn.net/article/details/128362270" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.9&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-9-128362270-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;9&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://crazymo.blog.csdn.net/article/details/128362270&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://crazymo.blog.csdn.net/article/details/128362270" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.9&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-9-128362270-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;9&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://crazymo.blog.csdn.net/article/details/128362270&quot;}" data-report-query="spm=1001.2101.3001.6650.9&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-9-128362270-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-9-128362270-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1">Android 进阶——性能优化之电量优化全攻略及实战小结（二）</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/CrazyMo_" target="_blank"><span class="blog-title">最美不过，心中有梦，身旁有你！</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">12-19</span>
+					<span class="info-block read"><img class="read-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					708
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://crazymo.blog.csdn.net/article/details/128362270" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.9&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-9-128362270-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;9&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://crazymo.blog.csdn.net/article/details/128362270&quot;}" data-report-query="spm=1001.2101.3001.6650.9&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-9-128362270-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-9-128362270-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">性能优化之电量优化全攻略及实战小结</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/qq_39553536/9904562" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.10&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~CTRLIST~Rate-10-9904562-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;10&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/qq_39553536/9904562&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/qq_39553536/9904562" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.10&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~CTRLIST~Rate-10-9904562-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;10&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/qq_39553536/9904562&quot;}" data-report-query="spm=1001.2101.3001.6650.10&amp;utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7ERate-10-9904562-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7ERate-10-9904562-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1"><em>Bug</em> <em>Report</em></div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">07-20</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/qq_39553536/9904562" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.10&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~CTRLIST~Rate-10-9904562-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;10&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/qq_39553536/9904562&quot;}" data-report-query="spm=1001.2101.3001.6650.10&amp;utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7ERate-10-9904562-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7ERate-10-9904562-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1"><em>bug</em><em>report</em></div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/weixin_38689055/18958682" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.11&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~CTRLIST~default-11-18958682-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;11&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~default&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/weixin_38689055/18958682&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/weixin_38689055/18958682" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.11&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~CTRLIST~default-11-18958682-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;11&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~default&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/weixin_38689055/18958682&quot;}" data-report-query="spm=1001.2101.3001.6650.11&amp;utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7Edefault-11-18958682-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7Edefault-11-18958682-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1">超大规模集成电路中低<em>功耗</em>设计与<em>分析</em>-综合文档</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">05-22</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/weixin_38689055/18958682" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.11&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~CTRLIST~default-11-18958682-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;11&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~default&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/weixin_38689055/18958682&quot;}" data-report-query="spm=1001.2101.3001.6650.11&amp;utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7Edefault-11-18958682-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7Edefault-11-18958682-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">超大规模集成电路中低<em>功耗</em>设计与<em>分析</em></div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/weixin_38643307/16058290" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.12&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~CTRLIST~Rate-12-16058290-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;12&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/weixin_38643307/16058290&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/weixin_38643307/16058290" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.12&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~CTRLIST~Rate-12-16058290-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;12&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/weixin_38643307/16058290&quot;}" data-report-query="spm=1001.2101.3001.6650.12&amp;utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7ERate-12-16058290-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7ERate-12-16058290-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1"><em>Bug</em><em>report</em>之后</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">03-23</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/weixin_38643307/16058290" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.12&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~CTRLIST~Rate-12-16058290-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;12&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/weixin_38643307/16058290&quot;}" data-report-query="spm=1001.2101.3001.6650.12&amp;utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7ERate-12-16058290-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7ECTRLIST%7ERate-12-16058290-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">摘要：我们刻板地制造些<em>bug</em>报告然后期望它们会象飞镖一样返回，这样我们就可以检查看看<em>bug</em>是否被修复。在这个星期的专栏里，DannyR.Faught分享了他从近来经历中提取出来的一些想法，那可能会使你在归档<em>bug</em>报告之后成为一个优秀的客户代言人。	　　摘要：我们刻板地制造些<em>bug</em>报告然后期望它们会象飞镖一样返回，这样我们就可以检查看看<em>bug</em>是否被修复。在这个星期的专栏里，DannyR.Faught分享了他从近来经历中提取出来的一些想法，那可能会使你在归档<em>bug</em>报告之后成为一个优秀的客户代言人。	　　在<em>bug</em>返回之前	　　你所在团队中的人可能会给<em>bug</em>报告添加些意见，以作为正在进行中的关于怎样处</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/sobeysongwei/4772618" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.13&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~BlogCommendFromBaidu~Rate-13-4772618-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;13&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/sobeysongwei/4772618&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/sobeysongwei/4772618" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.13&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~BlogCommendFromBaidu~Rate-13-4772618-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;13&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/sobeysongwei/4772618&quot;}" data-report-query="spm=1001.2101.3001.6650.13&amp;utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7EBlogCommendFromBaidu%7ERate-13-4772618-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7EBlogCommendFromBaidu%7ERate-13-4772618-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1"><em>bug</em><em>report</em>文件</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">11-16</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/sobeysongwei/4772618" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.13&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~BlogCommendFromBaidu~Rate-13-4772618-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;13&quot;,&quot;strategy&quot;:&quot;2~default~BlogCommendFromBaidu~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/sobeysongwei/4772618&quot;}" data-report-query="spm=1001.2101.3001.6650.13&amp;utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7EBlogCommendFromBaidu%7ERate-13-4772618-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7EBlogCommendFromBaidu%7ERate-13-4772618-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1"><em>bug</em><em>report</em>文件</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/weixin_38624315/18952583" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.14&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~OPENSEARCH~Rate-14-18952583-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;14&quot;,&quot;strategy&quot;:&quot;2~default~OPENSEARCH~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/weixin_38624315/18952583&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/weixin_38624315/18952583" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.14&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~OPENSEARCH~Rate-14-18952583-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;14&quot;,&quot;strategy&quot;:&quot;2~default~OPENSEARCH~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/weixin_38624315/18952583&quot;}" data-report-query="spm=1001.2101.3001.6650.14&amp;utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7EOPENSEARCH%7ERate-14-18952583-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7EOPENSEARCH%7ERate-14-18952583-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1">开关稳压电源调整管的<em>功耗</em><em>分析</em>-综合文档</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">05-22</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/weixin_38624315/18952583" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.14&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~OPENSEARCH~Rate-14-18952583-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;14&quot;,&quot;strategy&quot;:&quot;2~default~OPENSEARCH~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/weixin_38624315/18952583&quot;}" data-report-query="spm=1001.2101.3001.6650.14&amp;utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7EOPENSEARCH%7ERate-14-18952583-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7EOPENSEARCH%7ERate-14-18952583-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">开关稳压电源调整管的<em>功耗</em><em>分析</em></div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/Baniel01/article/details/51954142" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.15&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-15-51954142-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;15&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/Baniel01/article/details/51954142&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/Baniel01/article/details/51954142" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.15&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-15-51954142-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;15&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/Baniel01/article/details/51954142&quot;}" data-report-query="spm=1001.2101.3001.6650.15&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-15-51954142-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-15-51954142-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1">Android adb <em>bug</em><em>report</em>工具<em>分析</em>和使用</div>
+					<div class="tag">热门推荐</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/Baniel01" target="_blank"><span class="blog-title">Android Fans</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">07-19</span>
+					<span class="info-block read"><img class="read-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					7万+
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/Baniel01/article/details/51954142" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.15&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-15-51954142-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;15&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/Baniel01/article/details/51954142&quot;}" data-report-query="spm=1001.2101.3001.6650.15&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-15-51954142-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-15-51954142-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1"><em>bug</em><em>report</em>是什么，怎么用？Android系统想要成为一个功能完备，生态繁荣的操作系统，那就必须提供完整的应用<em>开发</em>环境。而在应用<em>开发</em>中，app程序的调试<em>分析</em>是日常生产中进程会进行的工作。Android为了方便<em>开发</em>人员<em>分析</em>整个系统平台和某个app在运行一段时间之内的所有信息，专门<em>开发</em>了<em>bug</em><em>report</em>工具。这个工具使用起来十分简单，只要在终端执行（linux或者win）：adb <em>bug</em>repo</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_blog clearfix" data-url="https://blog.csdn.net/weixin_39638708/article/details/117530052" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.16&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-16-117530052-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;16&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/weixin_39638708/article/details/117530052&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://blog.csdn.net/weixin_39638708/article/details/117530052" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.16&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-16-117530052-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;16&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/weixin_39638708/article/details/117530052&quot;}" data-report-query="spm=1001.2101.3001.6650.16&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-16-117530052-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-16-117530052-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1">android <em>bug</em><em>report</em><em>分析</em>,<em>Bug</em><em>report</em>日志<em>分析</em></div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info">
+					<a href="https://blog.csdn.net/weixin_39638708" target="_blank"><span class="blog-title">weixin_39638708的博客</span></a>
+				</div>
+				<div class="info display-flex">
+					<span class="info-block time">05-26</span>
+					<span class="info-block read"><img class="read-img" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					2725
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://blog.csdn.net/weixin_39638708/article/details/117530052" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.16&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-16-117530052-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;16&quot;,&quot;strategy&quot;:&quot;2~default~CTRLIST~Rate&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/weixin_39638708/article/details/117530052&quot;}" data-report-query="spm=1001.2101.3001.6650.16&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-16-117530052-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-16-117530052-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">一、<em>Bug</em><em>report</em>文章<em>Bug</em><em>report</em>源码篇(一)从源码角度阐释了<em>Bug</em><em>report</em>，那么本文则是从实战角度来说说，如何看懂<em>bug</em><em>report</em>，对于通过<em>bug</em><em>report</em>获取到内容往往非常长，这里简单划分为19部分，先整体上简单说说每部分log的title信息。1. 系统build相关信息系统build信息：dumpstate: dateBuild: getprop ro.build.dis...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_download clearfix" data-url="https://download.csdn.net/download/zmlovelx/19058846" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.17&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~OPENSEARCH~Rate-17-19058846-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;17&quot;,&quot;strategy&quot;:&quot;2~default~OPENSEARCH~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/zmlovelx/19058846&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://download.csdn.net/download/zmlovelx/19058846" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.17&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~OPENSEARCH~Rate-17-19058846-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;17&quot;,&quot;strategy&quot;:&quot;2~default~OPENSEARCH~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/zmlovelx/19058846&quot;}" data-report-query="spm=1001.2101.3001.6650.17&amp;utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7EOPENSEARCH%7ERate-17-19058846-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7EOPENSEARCH%7ERate-17-19058846-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1">安卓<em>手机</em><em>功耗</em><em>分析</em>工具battery-historian离线资源</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">05-25</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://download.csdn.net/download/zmlovelx/19058846" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.17&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-download-2~default~OPENSEARCH~Rate-17-19058846-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;17&quot;,&quot;strategy&quot;:&quot;2~default~OPENSEARCH~Rate&quot;,&quot;dest&quot;:&quot;https://download.csdn.net/download/zmlovelx/19058846&quot;}" data-report-query="spm=1001.2101.3001.6650.17&amp;utm_medium=distribute.pc_relevant.none-task-download-2%7Edefault%7EOPENSEARCH%7ERate-17-19058846-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-download-2%7Edefault%7EOPENSEARCH%7ERate-17-19058846-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">battery-historian电池<em>功耗</em><em>分析</em>工作在浏览器中访问时，无法出现submit按键，出现后无法正常提交出页面，就需要一些额外的离线资源， historian-optimized.js放在battery-historian/compiled/下，third_party下的cdn...</div>
+			</a>
+		</div>
+	</div>
+</div>
+<div class="recommend-item-box type_chatgpt clearfix" data-url="https://wenku.csdn.net/answer/63e3d8bab43dc14a7652b449" data-report-view="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.18&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-chatgpt-2~default~OPENSEARCH~Position-18-513c10ec53134d9e9229cecde811d30b-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;18&quot;,&quot;strategy&quot;:&quot;2~default~OPENSEARCH~Position&quot;,&quot;dest&quot;:&quot;https://wenku.csdn.net/answer/63e3d8bab43dc14a7652b449&quot;}">
+	<div class="content-box">
+		<div class="content-blog display-flex">
+			<div class="title-box">
+				<a href="https://wenku.csdn.net/answer/63e3d8bab43dc14a7652b449" class="tit" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.18&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-chatgpt-2~default~OPENSEARCH~Position-18-513c10ec53134d9e9229cecde811d30b-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;18&quot;,&quot;strategy&quot;:&quot;2~default~OPENSEARCH~Position&quot;,&quot;dest&quot;:&quot;https://wenku.csdn.net/answer/63e3d8bab43dc14a7652b449&quot;}" data-report-query="spm=1001.2101.3001.6650.18&amp;utm_medium=distribute.pc_relevant.none-task-chatgpt-2%7Edefault%7EOPENSEARCH%7EPosition-18-513c10ec53134d9e9229cecde811d30b-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-chatgpt-2%7Edefault%7EOPENSEARCH%7EPosition-18-513c10ec53134d9e9229cecde811d30b-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+					<div class="left ellipsis-online ellipsis-online-1">写出一条<em>手机</em><em>功耗</em>测试用例</div>
+				</a>
+			</div>
+			<div class="info-box display-flex">
+				<div class="info display-flex">
+					<span class="info-block">02-09</span>
+				</div>
+			</div>
+		</div>
+		<div class="desc-box">
+			<a href="https://wenku.csdn.net/answer/63e3d8bab43dc14a7652b449" target="_blank" data-report-click="{&quot;ab&quot;:&quot;new&quot;,&quot;spm&quot;:&quot;1001.2101.3001.6650.18&quot;,&quot;mod&quot;:&quot;popu_387&quot;,&quot;extra&quot;:&quot;{\&quot;highlightScore\&quot;:0.0,\&quot;utm_medium\&quot;:\&quot;distribute.pc_relevant.none-task-chatgpt-2~default~OPENSEARCH~Position-18-513c10ec53134d9e9229cecde811d30b-blog-127355670.235^v36^pc_relevant_default_base3\&quot;,\&quot;dist_request_id\&quot;:\&quot;1685081905555_71907\&quot;}&quot;,&quot;dist_request_id&quot;:&quot;1685081905555_71907&quot;,&quot;ab_strategy&quot;:&quot;increase_t0_download_v2&quot;,&quot;index&quot;:&quot;18&quot;,&quot;strategy&quot;:&quot;2~default~OPENSEARCH~Position&quot;,&quot;dest&quot;:&quot;https://wenku.csdn.net/answer/63e3d8bab43dc14a7652b449&quot;}" data-report-query="spm=1001.2101.3001.6650.18&amp;utm_medium=distribute.pc_relevant.none-task-chatgpt-2%7Edefault%7EOPENSEARCH%7EPosition-18-513c10ec53134d9e9229cecde811d30b-blog-127355670.235%5Ev36%5Epc_relevant_default_base3&amp;depth_1-utm_source=distribute.pc_relevant.none-task-chatgpt-2%7Edefault%7EOPENSEARCH%7EPosition-18-513c10ec53134d9e9229cecde811d30b-blog-127355670.235%5Ev36%5Epc_relevant_default_base3">
+				<div class="desc ellipsis-online ellipsis-online-1">
+一条<em>手机</em><em>功耗</em>测试用例应该包括：1. 测试<em>手机</em>的电池容量；2. 测试<em>手机</em>在不同状态下（关机、待机、使用）的<em>功耗</em>；3. 测试<em>手机</em>在各种应用程序（如浏览器、游戏、音乐播放器）的<em>功耗</em>；4. 测试<em>手机</em>在不同网络状态（Wi-Fi、4G、3G）的<em>功耗</em>；5. 测试<em>手机</em>在不同温度环境下的<em>功耗</em>。</div>
+			</a>
+		</div>
+	</div>
+</div>
+              </div>
+<div id="recommendNps" class="recommend-nps-box common-nps-box">
+  <h3 class="aside-title">“相关推荐”对你有帮助么？</h3>
+  <div class="aside-content">
+      <ul class="newnps-list">
+          <li class="newnps-item" data-type="非常没帮助">
+              <div class="newnps-img-box">
+                  <img class="newnps-img active" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeel1.png" alt="">
+                  <img class="newnps-img default" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeelGrey1.png" alt="">
+              </div>
+              <div class="newnps-text">非常没帮助</div>
+          </li>
+          <li class="newnps-item" data-type="没帮助">
+              <div class="newnps-img-box">
+                  <img class="newnps-img active" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeel2.png" alt="">
+                  <img class="newnps-img default" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeelGrey2.png" alt="">
+              </div>
+              <div class="newnps-text">没帮助</div>
+          </li>
+          <li class="newnps-item" data-type="一般">
+              <div class="newnps-img-box">
+                  <img class="newnps-img active" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeel3.png" alt="">
+                  <img class="newnps-img default" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeelGrey3.png" alt="">
+              </div>
+              <div class="newnps-text">一般</div>
+          </li>
+          <li class="newnps-item" data-type="有帮助">
+              <div class="newnps-img-box">
+                  <img class="newnps-img active" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeel4.png" alt="">
+                  <img class="newnps-img default" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeelGrey4.png" alt="">
+              </div>
+              <div class="newnps-text">有帮助</div>
+          </li>
+          <li class="newnps-item" data-type="非常有帮助">
+              <div class="newnps-img-box">
+                  <img class="newnps-img active" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeel5.png" alt="">
+                  <img class="newnps-img default" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeelGrey5.png" alt="">
+              </div>
+              <div class="newnps-text">非常有帮助</div>
+          </li>
+      </ul>
+      <div class="newnps-form-box">
+      <div class="newnps-form">
+          <input type="text" placeholder="请输入建议或反馈后点击提交" class="newnps-input">
+          <span class="newnps-btn">提交</span>
+      </div>
+      </div>
+  </div>
+</div><div class="blog-footer-bottom" style="margin-top:10px;"></div>
+<script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/csdn-footer.js" data-isfootertrack="false" type="text/javascript"></script>
+<script type="text/javascript">
+    window.csdn.csdnFooter.options = {
+        el: '.blog-footer-bottom',
+        type: 2
+    }
+</script>          </main>
+<aside class="blog_container_aside">
+<div id="asideProfile" class="aside-box">
+    <div class="profile-intro d-flex">
+        <div class="avatar-box d-flex justify-content-center flex-column">
+            <a href="https://blog.csdn.net/duanyanggang" target="_blank" data-report-click="{&quot;mod&quot;:&quot;popu_379&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4121&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang&quot;,&quot;ab&quot;:&quot;new&quot;}">
+                <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/default.jpg!1" class="avatar_pic">
+            </a>
+        </div>
+        <div class="user-info d-flex flex-column profile-intro-name-box">
+            <div class="profile-intro-name-boxTop">
+                <a href="https://blog.csdn.net/duanyanggang" target="_blank" class="" id="uid" title="duanyanggang" data-report-click="{&quot;mod&quot;:&quot;popu_379&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4122&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang&quot;,&quot;ab&quot;:&quot;new&quot;}">
+                    <span class="name " username="duanyanggang">duanyanggang</span>
+                </a>
+                <span>
+                </span>
+                <span class="flag expert-blog">
+                <span class="bubble">CSDN认证博客专家</span>
+                </span>
+                <span class="flag company-blog">
+                <span class="bubble">CSDN认证企业博客</span>
+                </span>
+            </div>
+            <div class="profile-intro-name-boxFooter">
+                <span class="personal-home-page personal-home-years" title="已加入 CSDN 4年">码龄4年</span>
+                    <span class="personal-home-page">
+                    <a class="personal-home-certification" href="https://i.csdn.net/#/uc/profile?utm_source=14998968" target="_blank" title="暂无认证">
+                    <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/nocErtification.png" alt="">
+                    暂无认证
+                    </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="6">
+            <a href="https://blog.csdn.net/duanyanggang" data-report-click="{&quot;mod&quot;:&quot;1598321000_001&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4310&quot;}" data-report-query="t=1">  
+                <dt><span class="count">6</span></dt>
+                <dd class="font">原创</dd>
+            </a>
+        </dl>
+        <dl class="text-center" data-report-click="{&quot;mod&quot;:&quot;1598321000_002&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4311&quot;}" title="508961">
+            <a href="https://blog.csdn.net/rank/list/weekly" target="_blank">
+                <dt><span class="count">50万+</span></dt>
+                <dd class="font">周排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" title="183469">
+            <a href="https://blog.csdn.net/rank/list/total" data-report-click="{&quot;mod&quot;:&quot;1598321000_003&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4312&quot;}" target="_blank">
+                <dt><span class="count">18万+</span></dt>
+                <dd class="font">总排名</dd>
+            </a>
+        </dl>
+        <dl class="text-center" style="min-width:58px" title="13633">  
+            <dt><span class="count">1万+</span></dt>
+            <dd>访问</dd>
+        </dl>
+        <dl class="text-center" title="1级,点击查看等级说明">
+            <dt><a href="https://blog.csdn.net/blogdevteam/article/details/103478461" target="_blank">
+                <img class="level" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/blog1.png">
+            </a>
+            </dt>
+            <dd>等级</dd>
+        </dl>
+    </div>
+    <div class="item-rank"></div>
+    <div class="data-info d-flex item-tiling">
+        <dl class="text-center" title="72">
+            <dt><span class="count">72</span></dt>
+            <dd>积分</dd>
+        </dl>
+         <dl class="text-center" id="fanBox" title="18">
+            <dt><span class="count" id="fan">18</span></dt>
+            <dd>粉丝</dd>
+        </dl>
+        <dl class="text-center" title="10">
+            <dt><span class="count">10</span></dt>
+            <dd>获赞</dd>
+        </dl>
+        <dl class="text-center" title="4">
+            <dt><span class="count">4</span></dt>
+            <dd>评论</dd>
+        </dl>
+        <dl class="text-center" title="101">
+            <dt><span class="count">101</span></dt>
+            <dd>收藏</dd>
+        </dl>
+    </div>
+    <div class="aside-box-footer" data-report-view="{&quot;spm&quot;:&quot;3001.4296&quot;}">
+        <div class="badge-box d-flex">
+            <div class="badge d-flex">
+                <div class="icon-badge" title="新秀勋章">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click="{&quot;spm&quot;:&quot;3001.4296&quot;}" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/xinxiu@240.png" alt="新秀勋章">
+                    </div>
+                </div>
+                <div class="icon-badge" title="分享精英">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click="{&quot;spm&quot;:&quot;3001.4296&quot;}" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/fenxiangjingying@240.png" alt="分享精英">
+                    </div>
+                </div>
+                <div class="icon-badge" title="创作能手">
+                    <div class="mouse-box">
+                        <img class="medal-img" data-report-click="{&quot;spm&quot;:&quot;3001.4296&quot;}" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/qixiebiaobing4@240.png" alt="创作能手">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-intro-name-boxOpration">
+        <div class="opt-letter-watch-box">
+        <a class="bt-button personal-letter" href="https://im.csdn.net/chat/duanyanggang" target="_blank" rel="noopener">私信</a>
+        </div>
+        <div class="opt-letter-watch-box"> 
+            <a class="personal-watch bt-button" id="btnAttent">关注</a>  
+        </div>
+    </div>
+</div>
+ <div id="asideSearchArticle" class="aside-box">
+	<div class="aside-content search-comter">
+    <div class="aside-search aside-search-blog">         
+        <input type="text" class="input-serch-blog" name="" autocomplete="off" value="" id="search-blog-words" placeholder="搜博主文章">
+        <a class="btn-search-blog" data-report-click="{&quot;spm&quot;:&quot;1001.2101.3001.9182&quot;}">
+                    <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/csdn-sou.png">
+        </a>
+    </div>
+    </div>
+</div>
+
+
+<div id="asideHotArticle" class="aside-box">
+	<h3 class="aside-title">热门文章</h3>
+	<div class="aside-content">
+		<ul class="hotArticle-list">
+			<li>
+				<a href="https://blog.csdn.net/duanyanggang/article/details/122823797" target="_blank" data-report-click="{&quot;mod&quot;:&quot;popu_541&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4139&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/122823797&quot;,&quot;ab&quot;:&quot;new&quot;}">
+				手机功耗基础介绍
+					<img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					<span class="read">8535</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/duanyanggang/article/details/126925407" target="_blank" data-report-click="{&quot;mod&quot;:&quot;popu_541&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4139&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/126925407&quot;,&quot;ab&quot;:&quot;new&quot;}">
+				手机功耗优化——相机，屏，指纹，usb，三方应用等模块功耗
+					<img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					<span class="read">1706</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/duanyanggang/article/details/127355670" target="_blank" data-report-click="{&quot;mod&quot;:&quot;popu_541&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4139&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/127355670&quot;,&quot;ab&quot;:&quot;new&quot;}">
+				手机功耗分析-bugreport介绍
+					<img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					<span class="read">1613</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/duanyanggang/article/details/126913250" target="_blank" data-report-click="{&quot;mod&quot;:&quot;popu_541&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4139&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/126913250&quot;,&quot;ab&quot;:&quot;new&quot;}">
+				联想平板功耗模块经验分享
+					<img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					<span class="read">453</span>
+                </a>
+			</li>
+			<li>
+				<a href="https://blog.csdn.net/duanyanggang/article/details/127543640" target="_blank" data-report-click="{&quot;mod&quot;:&quot;popu_541&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4139&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/127543640&quot;,&quot;ab&quot;:&quot;new&quot;}">
+				展锐平台-通过脚本分析CPU,GPU,DDR功耗差异
+					<img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/readCountWhite.png" alt="">
+					<span class="read">333</span>
+                </a>
+			</li>
+		</ul>
+	</div>
+</div>
+<div id="asideCategory" class="aside-box ">
+    <h3 class="aside-title">分类专栏</h3>
+    <div class="aside-content">
+        <ul>
+            <li>
+                <a class="clearfix special-column-name" target="_blank" href="https://blog.csdn.net/duanyanggang/category_12057206.html" data-report-click="{&quot;mod&quot;:&quot;popu_537&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4137&quot;,&quot;strategy&quot;:&quot;pc付费专栏左侧入口&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/category_12057206.html&quot;,&quot;ab&quot;:&quot;new&quot;}">
+                    <div class="special-column-bar "></div>
+                    <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/20201014180756918.png" alt="" onerror="this.src=&#39;https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64&#39;">
+                    <span class="title oneline">
+                        功耗
+                    </span>
+                </a>
+                <span class="special-column-num">5篇</span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="asideNewComments" class="aside-box">
+    <h3 class="aside-title">最新评论</h3>
+    <div class="aside-content">
+        <ul class="newcomment-list">
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/duanyanggang/article/details/122823797#comments_25476035" data-report-click="{&quot;mod&quot;:&quot;popu_542&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4231&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/122823797#comments_25476035&quot;,&quot;ab&quot;:&quot;new&quot;}" data-report-view="{&quot;mod&quot;:&quot;popu_542&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4231&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/122823797#comments_25476035&quot;,&quot;ab&quot;:&quot;new&quot;}">手机功耗基础介绍</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/duanyanggang" class="user-name" target="_blank">duanyanggang: </a>
+                    <span class="code-comments">这个需要设计硬件的时候在各路电源预留输入电压接口，通过power monitor电流测量可以看到如果对某个焊点输入电压后电流有下降代表这里有耗电的情况</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/duanyanggang/article/details/122823797#comments_24485535" data-report-click="{&quot;mod&quot;:&quot;popu_542&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4231&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/122823797#comments_24485535&quot;,&quot;ab&quot;:&quot;new&quot;}" data-report-view="{&quot;mod&quot;:&quot;popu_542&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4231&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/122823797#comments_24485535&quot;,&quot;ab&quot;:&quot;new&quot;}">手机功耗基础介绍</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/qq_43009770" class="user-name" target="_blank">fbhurd: </a>
+                    <span class="code-comments">大佬，请教一下：
+“电流分解，分解各路buck 到LDO路的供电是否存在漏电情况，这个需要硬件进行灌电流测试”
+这里说的灌电流，是个什么样的方法，怎样通过这种方法来判断buck到ldo存在漏电？</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/duanyanggang/article/details/122823797#comments_22721792" data-report-click="{&quot;mod&quot;:&quot;popu_542&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4231&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/122823797#comments_22721792&quot;,&quot;ab&quot;:&quot;new&quot;}" data-report-view="{&quot;mod&quot;:&quot;popu_542&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4231&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/122823797#comments_22721792&quot;,&quot;ab&quot;:&quot;new&quot;}">手机功耗基础介绍</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/duanyanggang" class="user-name" target="_blank">duanyanggang: </a>
+                    <span class="code-comments">可以可以，后面补充</span>
+                </p>
+            </li>
+            <li>
+                <a class="title text-truncate" target="_blank" href="https://blog.csdn.net/duanyanggang/article/details/122823797#comments_22550983" data-report-click="{&quot;mod&quot;:&quot;popu_542&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4231&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/122823797#comments_22550983&quot;,&quot;ab&quot;:&quot;new&quot;}" data-report-view="{&quot;mod&quot;:&quot;popu_542&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4231&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/122823797#comments_22550983&quot;,&quot;ab&quot;:&quot;new&quot;}">手机功耗基础介绍</a>
+                <p class="comment ellipsis">
+                    <a href="https://blog.csdn.net/weixin_46845330" class="user-name" target="_blank">weixin_46845330: </a>
+                    <span class="code-comments">大佬，能不能更深入的测一下手机各个部分元器件的功耗？比如相机，屏幕等硬件的功耗。还有就是CPU/GPU在不同APP场景下的平均功耗，能不能也分析一下？</span>
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="asideNewNps" class="aside-box common-nps-box">
+    <h3 class="aside-title">您愿意向朋友推荐“博客详情页”吗？</h3>
+    <div class="aside-content">
+        <ul class="newnps-list">
+            <li class="newnps-item" data-type="强烈不推荐">
+                <div class="newnps-img-box">
+                    <img class="newnps-img active" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeel1.png" alt="">
+                    <img class="newnps-img default" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeelGrey1.png" alt="">
+                </div>
+                <div class="newnps-text">强烈不推荐</div>
+            </li>
+            <li class="newnps-item" data-type="不推荐">
+                <div class="newnps-img-box">
+                    <img class="newnps-img active" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeel2.png" alt="">
+                    <img class="newnps-img default" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeelGrey2.png" alt="">
+                </div>
+                <div class="newnps-text">不推荐</div>
+            </li>
+            <li class="newnps-item" data-type="一般般">
+                <div class="newnps-img-box">
+                    <img class="newnps-img active" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeel3.png" alt="">
+                    <img class="newnps-img default" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeelGrey3.png" alt="">
+                </div>
+                <div class="newnps-text">一般般</div>
+            </li>
+            <li class="newnps-item" data-type="推荐">
+                <div class="newnps-img-box">
+                    <img class="newnps-img active" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeel4.png" alt="">
+                    <img class="newnps-img default" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeelGrey4.png" alt="">
+                </div>
+                <div class="newnps-text">推荐</div>
+            </li>
+            <li class="newnps-item" data-type="强烈推荐">
+                <div class="newnps-img-box">
+                    <img class="newnps-img active" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeel5.png" alt="">
+                    <img class="newnps-img default" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/npsFeelGrey5.png" alt="">
+                </div>
+                <div class="newnps-text">强烈推荐</div>
+            </li>
+        </ul>
+        <div class="newnps-form-box">
+        <div class="newnps-form">
+            <input type="text" placeholder="请输入建议或反馈后点击提交" class="newnps-input">
+            <span class="newnps-btn">提交</span>
+        </div>
+        </div>
+    </div>
+</div>
+<div id="asideArchive" class="aside-box" style="display:block!important; width:300px;">
+    <h3 class="aside-title">最新文章</h3>
+    <div class="aside-content">
+        <ul class="inf_list clearfix">
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/duanyanggang/article/details/127543640" target="_blank" data-report-click="{&quot;mod&quot;:&quot;popu_382&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4136&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/127543640&quot;,&quot;ab&quot;:&quot;new&quot;}" data-report-view="{&quot;mod&quot;:&quot;popu_382&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/127543640&quot;,&quot;ab&quot;:&quot;new&quot;}">展锐平台-通过脚本分析CPU,GPU,DDR功耗差异</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/duanyanggang/article/details/127418451" target="_blank" data-report-click="{&quot;mod&quot;:&quot;popu_382&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4136&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/127418451&quot;,&quot;ab&quot;:&quot;new&quot;}" data-report-view="{&quot;mod&quot;:&quot;popu_382&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/127418451&quot;,&quot;ab&quot;:&quot;new&quot;}">手机终端EPA日志基础介绍</a>
+            </li>
+            <li class="clearfix">
+            <a href="https://blog.csdn.net/duanyanggang/article/details/126925407" target="_blank" data-report-click="{&quot;mod&quot;:&quot;popu_382&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4136&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/126925407&quot;,&quot;ab&quot;:&quot;new&quot;}" data-report-view="{&quot;mod&quot;:&quot;popu_382&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/article/details/126925407&quot;,&quot;ab&quot;:&quot;new&quot;}">手机功耗优化——相机，屏，指纹，usb，三方应用等模块功耗</a>
+            </li>
+        </ul>
+        <div class="archive-bar"></div>
+        <div class="archive-box">
+                <div class="archive-list-item"><a href="https://blog.csdn.net/duanyanggang?type=blog&amp;year=2022&amp;month=10" target="_blank" data-report-click="{&quot;mod&quot;:&quot;popu_538&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4138&quot;,&quot;ab&quot;:&quot;new&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang?type=blog&amp;year=2022&amp;month=10&quot;}"><span class="year">2022年</span><span class="num">6篇</span></a></div>
+        </div>
+    </div>
+</div>
+    <!-- 详情页显示目录 -->
+<!--文章目录-->
+<div id="asidedirectory" class="aside-box">
+    <div class="groupfile" id="directory">
+        <h3 class="aside-title">目录</h3>
+        <div class="align-items-stretch group_item">
+            <div class="pos-box">
+            <div class="scroll-box">
+                <div class="toc-box"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aside>
+<script>
+	$("a.flexible-btn").click(function(){
+		$(this).parents('div.aside-box').removeClass('flexible-box');
+		$(this).parents("p.text-center").remove();
+	})
+</script>
+<script type="text/javascript" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/user-tooltip.js"></script>
+<script type="text/javascript" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/user-medal.js"></script>        </div>
+<div class="recommend-right align-items-stretch clearfix" id="rightAside" data-type="recommend">
+    <aside class="recommend-right_aside">
+        <div id="recommend-right">
+                                <div class="programmer1Box">
+                        <div style="position: relative; width: 100%; height: 400px;  display: flex; justify-content: center; align-items: center; flex-direction: column; background: #fafafa; -webkit-font-smoothing: auto;">  <p style="font-size: 16px; color: rgba(0,0,0,.4);">    CSDN已关闭此广告  </p>   <a target="_blank" href="https://plugin.csdn.net/?utm_source=Homepage-banner-X&amp;p=530&amp;c=1026338" style="margin-top: 8px; color: #4ea1db; cursor: pointer; font-size: 15px; text-decoration: underline !important;">    用CSDN插件，永无广告，立即体验  </a></div>
+                    </div>
+            <div class="flex-column aside-box groupfile" id="groupfile">
+                <div class="groupfile-div">
+                <h3 class="aside-title">目录</h3>
+                <div class="align-items-stretch group_item">
+                    <div class="pos-box">
+                        <div class="scroll-box">
+                            <div class="toc-box"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="aside-box kind_person d-flex flex-column">
+                    <h3 class="aside-title">分类专栏</h3>
+                    <div class="align-items-stretch kindof_item" id="kind_person_column">
+                        <div class="aside-content">
+                            <ul>
+                                <li>
+                                    <a class="clearfix special-column-name" target="_blank" href="https://blog.csdn.net/duanyanggang/category_12057206.html" data-report-click="{&quot;mod&quot;:&quot;popu_537&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4137&quot;,&quot;strategy&quot;:&quot;pc付费专栏左侧入口&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang/category_12057206.html&quot;,&quot;ab&quot;:&quot;new&quot;}">
+                                        <div class="special-column-bar "></div>
+                                        <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/20201014180756918.png" alt="" onerror="this.src=&#39;https://img-blog.csdnimg.cn/20201014180756922.png?x-oss-process=image/resize,m_fixed,h_64,w_64&#39;">
+                                        <span class="">
+                                            功耗
+                                        </span>
+                                    </a>
+                                    <span class="special-column-num">5篇</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<div class="recommend-right1  align-items-stretch clearfix" id="rightAsideConcision" data-type="recommend">
+    <aside class="recommend-right_aside">
+        <div id="recommend-right-concision">
+            <div class="flex-column aside-box groupfile" id="groupfileConcision">
+                <div class="groupfile-div1">
+                <h3 class="aside-title">目录</h3>
+                <div class="align-items-stretch group_item">
+                    <div class="pos-box">
+                        <div class="scroll-box">
+                            <div class="toc-box"></div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+      </div>
+      <div class="mask-dark"></div>
+        <script type="text/javascript">
+        var timert = setInterval(function() {
+          sideToolbar = $(".csdn-side-toolbar");
+          if (sideToolbar.length > 0) {
+            sideToolbar.css('cssText', 'bottom:64px !important;')
+            clearInterval(timert);
+          }
+        }, 200);
+        </script>
+      <div class="skin-boxshadow"></div>
+      <div class="directory-boxshadow"></div>
+<div class="comment-side-box-shadow comment-side-tit-close" id="commentSideBoxshadow">
+<div class="comment-side-content">
+	<div class="comment-side-tit">
+		<span class="comment-side-tit-count">评论</span>	
+	<img class="comment-side-tit-close" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/closeBt.png"></div>
+	<div id="pcCommentSideBox" class="comment-box comment-box-new2 unlogin-comment-box-new" style="display:none">
+	</div>
+	<div id="pcFlodCommentSideBox" class="pc-flodcomment-sidebox">
+		<div class="comment-fold-tit"><span id="lookUnFlodComment" class="back"><img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/commentArrowLeftWhite.png" alt=""></span>被折叠的&nbsp;<span class="count"></span>&nbsp;条评论
+		 <a href="https://blogdev.blog.csdn.net/article/details/122245662" class="tip" target="_blank">为什么被折叠?</a>
+		 <a href="https://bbs.csdn.net/forums/FreeZone" class="park" target="_blank">
+		 <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/iconPark.png">到【灌水乐园】发言</a>                                
+		</div>
+		<div class="comment-fold-content"></div>
+		<div id="lookBadComment" class="look-bad-comment side-look-comment">
+			<a class="look-more-comment">查看更多评论<img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/commentArrowDownWhite.png" alt=""></a>
+		</div>
+	</div>
+</div>
+<div class="comment-rewarddialog-box">
+  <div class="form-box">
+    <div class="title-box">
+      添加红包
+      <a class="btn-form-close"></a>
+    </div>
+    <form id="commentRewardForm">
+      <div class="ipt-box">
+        <label for="txtName">祝福语</label>
+        <div class="ipt-btn-box">
+          <input type="text" name="name" id="txtName" autocomplete="off" maxlength="50">
+          <a class="btn-ipt btn-random"></a>
+        </div>
+        <p class="notice">请填写红包祝福语或标题</p>
+      </div>
+      <div class="ipt-box">
+        <label for="txtSendAmount">红包数量</label>
+        <div class="ipt-txt-box">
+          <input type="text" name="sendAmount" maxlength="4" id="txtSendAmount" placeholder="请填写红包数量(最小10个)" autocomplete="off">
+          <span class="after-txt">个</span>
+        </div>
+        <p class="notice">红包个数最小为10个</p>
+      </div>
+      <div class="ipt-box">
+        <label for="txtMoney">红包总金额</label>
+        <div class="ipt-txt-box error">
+          <input type="text" name="money" maxlength="5" id="txtMoney" placeholder="请填写总金额(最低5元)" autocomplete="off">
+          <span class="after-txt">元</span>
+        </div>
+        <p class="notice">红包金额最低5元</p>
+      </div>
+      <div class="balance-info-box">
+        <label>余额支付</label>
+        <div class="balance-info">
+          当前余额<span class="balance">3.43</span>元
+          <a href="https://i.csdn.net/#/wallet/balance/recharge" class="link-charge" target="_blank">前往充值 &gt;</a>
+        </div>
+      </div>
+      <div class="opt-box">
+        <div class="pay-info">
+          需支付：<span class="price">10.00</span>元
+        </div>
+        <button type="button" class="ml-auto btn-cancel">取消</button>
+        <button type="button" class="ml8 btn-submit" disabled="true">确定</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="rr-guide-box">
+  <div class="rr-first-box">
+    <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/guideRedReward02.png" alt="">
+    <button class="btn-guide-known next">下一步</button>
+  </div>
+  <div class="rr-second-box">
+    <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/guideRedReward03.png" alt="">
+    <button class="btn-guide-known known">知道了</button>
+  </div>
+</div>
+</div>
+
+<div class="redEnvolope" id="redEnvolope">
+  <div class="env-box">
+    <div class="env-container">
+      <div class="pre-open" id="preOpen">
+        <div class="top">
+          <header>
+            <img class="clearTpaErr" :src="redpacketAuthor.avatar" alt="">
+            <div class="author">成就一亿技术人!</div>
+          </header>
+          <div class="bot-icon"></div>
+        </div>
+        <footer>
+          <div class="red-openbtn open-start"></div>
+          <div class="tip">
+            领取后你会自动成为博主和红包主的粉丝
+            <a class="rule" target="_blank">规则</a>
+          </div>
+        </footer>
+      </div>
+      <div class="opened" id="opened">
+        <div class="bot-icon">
+          <header>
+            <a class="creatorUrl" href="https://blog.csdn.net/duanyanggang/article/details/127355670" target="_blank">
+              <img class="clearTpaErr" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/1_hope_wisdom" alt="">
+            </a>
+            <div class="author">
+              <div class="tt">hope_wisdom</div> 发出的红包
+            </div>
+          </header>
+        </div>
+        <div class="receive-box">
+          <header></header>
+          <div class="receive-list">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="close-btn"></div>
+  </div>
+</div>
+<div id="rewardNew" class="reward-popupbox-new">
+	<p class="rewad-title">打赏作者<span class="reward-close"><img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/closeBt.png"></span></p>
+	<dl class="profile-box">
+		<dd>
+		<a href="https://blog.csdn.net/duanyanggang" data-report-click="{&quot;mod&quot;:&quot;popu_379&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/duanyanggang&quot;,&quot;ab&quot;:&quot;new&quot;}">
+			<img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/default.jpg!1" class="avatar_pic">
+		</a>
+		</dd>
+		<dt>
+			<p class="blog-name">duanyanggang</p>
+			<p class="blog-discript">你的鼓励将是我创作的最大动力</p>
+		</dt>
+	</dl>
+	<div class="reward-box-new">
+			<div class="reward-content"><div class="reward-right"></div></div>
+	</div>
+	<div class="money-box">
+				<span class="choose-money choosed" data-id="2">¥2</span>
+				<span class="choose-money " data-id="4">¥4</span>
+				<span class="choose-money " data-id="6">¥6</span>
+				<span class="choose-money " data-id="10">¥10</span>
+				<span class="choose-money " data-id="20">¥20</span>
+				<input id="customizeMoney" class="customize-money" name="" type="" value="" placeholder="自定义">
+				<div class="customize-tip">输入1-500的整数</div>
+	</div>
+	<div class="pay-box">
+		<div class="pay-type-blance pay-type active" data-type="blance">
+			<img class="unchoose" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newUnChoose.png" alt="">
+			<img class="choose" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newChoose.png" alt="">
+			<span class="pay-type-name">余额支付</span>
+			<span class="pay-type-num">(余额：-- )</span>
+		</div>
+		<div class="pay-type-money pay-type" data-type="money">
+			<img class="unchoose" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newUnChoose.png" alt="">
+			<img class="choose" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newChoose.png" alt="">
+			<span class="pay-type-name">扫码支付</span>
+		</div>
+	</div>
+	<div class="sure-box">
+		<div class="sure-box-money">
+			<div class="code-box">
+				<div class="code-num-box">
+					<span class="code-name">扫码支付：</span><span class="code-num">¥2</span>
+				</div>
+				<div class="code-img-box">
+					<div class="renovate">
+					<img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/pay-time-out.png">
+					<span>获取中</span>
+					</div>
+				</div>
+				<div class="code-pay-box">
+					<img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newWeiXin.png" alt="">
+					<img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/newZhiFuBao.png" alt="">
+					<span>扫码支付</span>
+				</div>
+			</div>
+		</div>
+		<div class="sure-box-blance">
+			<p class="tip">您的余额不足，请更换扫码支付或<a target="_blank" data-report-click="{&quot;mod&quot;:&quot;1597646289_003&quot;,&quot;spm&quot;:&quot;1001.2101.3001.4302&quot;}" href="https://i.csdn.net/#/wallet/balance/recharge?utm_source=RewardVip" class="go-invest">充值</a></p>
+			<p class="is-have-money"><a class="reward-sure">打赏作者</a></p>
+		</div>
+	</div>
+</div>
+      <div class="pay-code">
+      <div class="pay-money">实付<span class="pay-money-span" data-nowprice="" data-oldprice="">元</span></div>
+      <div class="content-blance"><a class="blance-bt" href="javascript:;">使用余额支付</a></div>
+      <div class="content-code">
+        <div id="payCode" data-id="">
+          <div class="renovate">
+            <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/pay-time-out.png">
+            <span>点击重新获取</span>
+          </div>
+        </div>
+        <div class="pay-style"><span><img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/weixin.png"></span><span><img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/zhifubao.png"></span><span><img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/jingdong.png"></span><span class="text">扫码支付</span></div>
+      </div>
+      <div class="bt-close">
+        <svg t="1567152543821" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10924" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12">
+          <defs>
+            <style type="text/css"></style>
+          </defs>
+          <path d="M512 438.378667L806.506667 143.893333a52.032 52.032 0 1 1 73.6 73.621334L585.621333 512l294.485334 294.485333a52.074667 52.074667 0 0 1-73.6 73.642667L512 585.621333 217.514667 880.128a52.053333 52.053333 0 1 1-73.621334-73.642667L438.378667 512 143.893333 217.514667a52.053333 52.053333 0 1 1 73.621334-73.621334L512 438.378667z" fill="" p-id="10925"></path>
+        </svg>
+      </div>
+      <div class="pay-balance">
+        <input type="radio" class="pay-code-radio" data-type="details">
+        <span class="span">钱包余额</span>
+          <span class="balance" style="color:#FC5531;font-size:14px;">0</span>
+          <div class="pay-code-tile">
+            <img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/pay-help.png" alt="">
+            <div class="pay-code-content">
+              <div class="span">
+                <p class="title">抵扣说明：</p>
+                <p> 1.余额是钱包充值的虚拟货币，按照1:1的比例进行支付金额的抵扣。<br> 2.余额无法直接购买下载，可以购买VIP、C币套餐、付费专栏及课程。</p>
+              </div>
+            </div>
+          </div>
+      </div>
+      <a class="pay-balance-con" href="https://i.csdn.net/#/wallet/balance/recharge" target="_blank"><img src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/recharge.png" alt=""><span>余额充值</span></a>
+    </div>
+    <div style="display:none;">
+      <img src="https://blog.csdn.net/duanyanggang/article/details/127355670" onerror="setTimeout(function(){if(!/(csdn.net|iteye.com|baiducontent.com|googleusercontent.com|360webcache.com|sogoucdn.com|bingj.com|baidu.com)$/.test(window.location.hostname)){window.location.href=&quot;\x68\x74\x74\x70\x73\x3a\x2f\x2f\x77\x77\x77\x2e\x63\x73\x64\x6e\x2e\x6e\x65\x74&quot;}},3000);">
+    </div>
+      <div class="keyword-dec-box" id="keywordDecBox"></div>
+  
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/axios-83fa28cedf.min.js" type="text/javascript"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/pc_wap_highlight-8defd55d6e.min.js" type="text/javascript"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/pc_wap_common-be82269d23.min.js" type="text/javascript"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/edit_copy_code-2d3931414f.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/atom-one-light.css">
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/user-accusation.js" type="text/javascript"></script>
+  <script>
+    // 全局声明
+    if (window.csdn === undefined) {
+      window.csdn = {};
+    }
+    window.csdn.sideToolbar = {
+      options: {
+        report: {
+          isShow: true,
+        },
+        qr: {
+          isShow: false,
+        },
+        guide: {
+          isShow: true
+        }
+      }
+    }
+    $(function() {
+      $(document).on('click', "a.option-box[data-type='report']", function() {
+        window.csdn.loginBox.key({
+          biz: 'blog',
+          subBiz: 'other_service',
+          cb: function() {
+            window.csdn.feedback({
+              "type": 'blog',
+              "rtype": 'article',
+              "rid": articleId,
+              "reportedName": username,
+              "submitOptions": {
+                "title": articleTitle,
+                "contentUrl": articleDetailUrl
+              },
+              "callback": function() {
+                showToast({
+                  text: "感谢您的举报，我们会尽快审核！",
+                  bottom: '10%',
+                  zindex: 9000,
+                  speed: 500,
+                  time: 1500
+                })
+              }
+            })
+          }
+        })
+      });
+    })
+  </script>
+    <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/baidu-search.js" type="text/javascript"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/qrcode.js"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/qrcode.min.js"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/user-ordercart.js" type="text/javascript"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/user-ordertip.js" type="text/javascript"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/order-payment.js" type="text/javascript"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/common-346b634517.min.js" type="text/javascript"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/detail-ba7136b579.min.js" type="text/javascript"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/column-3911b0dc26.min.js" type="text/javascript"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/side-toolbar.js" type="text/javascript"></script>
+  <script src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/copyright.js" type="text/javascript"></script>
+  <script>
+    $(".MathJax").remove();
+    if ($('div.markdown_views pre.prettyprint code.hljs').length > 0) {
+      $('div.markdown_views')[0].className = 'markdown_views';
+    }
+  </script>
+  <script type="text/javascript" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/MathJax.js"></script>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      "HTML-CSS": {
+        linebreaks: { automatic: true, width: "94%container" },
+        imageFont: null
+      },
+      tex2jax: {
+      preview: "none",
+      ignoreClass:"title-article"
+      },
+      mml2jax: {
+      preview: 'none'
+      }
+    });
+  </script>
+<script type="text/javascript" crossorigin="" src="./手机功耗分析-bugreport介绍_bugreport分析-CSDN博客_files/csdn-login-box.js"></script></body></html>
