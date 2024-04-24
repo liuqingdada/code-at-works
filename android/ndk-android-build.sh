@@ -5,6 +5,7 @@ export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
 
 for arch in "${ARCHS[@]}"; do
   OUTPUT_DIR=../libs/$arch
+  rm -rf "$OUTPUT_DIR"
   mkdir -p "$OUTPUT_DIR"
   export ARCH="${arch}"
   # 根据不同架构设置 NDK 工具链和标志
@@ -40,11 +41,24 @@ for arch in "${ARCHS[@]}"; do
   export STRIP="$TOOLCHAIN/bin/llvm-strip"
 
 
+
   # 配置，编译，安装
-  ./configure --host=$TARGET_HOST --prefix="$(pwd)/$OUTPUT_DIR" --disable-tcl --enable-static --enable-shared
+  PREFIX="$(pwd)/$OUTPUT_DIR"
+  ./configure --host=$TARGET_HOST --prefix="$PREFIX" \
+    --disable-tcl \
+    --enable-static=yes \
+    --enable-shared=yes \
+    --disable-readline \
+    --disable-dynamic-extensions \
+    CFLAGS="-DSQLITE_OMIT_LOAD_EXTENSION -DSQLITE_OMIT_PROGRESS_CALLBACK -Os -g0 -flto" \
+    LDFLAGS="-Wl,-s"  # -s 选项告诉链接器剥离符号
+
   make clean
   make -j8
   make install
+
+  "$STRIP" --strip-unneeded "$PREFIX/lib/libsqlite3.so"
+
 
 done
 
