@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARCHS=("arm64-v8a" "armeabi-v7a")
+ARCHS=("arm64-v8a")
 export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
 
 for arch in "${ARCHS[@]}"; do
@@ -9,8 +9,11 @@ for arch in "${ARCHS[@]}"; do
   mkdir -p "$OUTPUT_DIR"
   export ARCH="${arch}"
   # 根据不同架构设置 NDK 工具链和标志
+  export CFLAGS="-DSQLITE_OMIT_LOAD_EXTENSION -DSQLITE_OMIT_PROGRESS_CALLBACK -Os -g0 -flto"
+  export LDFLAGS="-Wl,-s"  # -s 选项告诉链接器剥离符号
   case $arch in
       "arm64-v8a")
+          export LDFLAGS="-Wl,-s,-z,max-page-size=16384"
           TARGET_HOST=aarch64-linux-android
           ;;
       "armeabi-v7a")
@@ -20,6 +23,7 @@ for arch in "${ARCHS[@]}"; do
           TARGET_HOST=i686-linux-android
           ;;
       "x86_64")
+          export LDFLAGS="-Wl,-s,-z,max-page-size=16384"
           TARGET_HOST=x86_64-linux-android
           ;;
       *)
@@ -49,9 +53,7 @@ for arch in "${ARCHS[@]}"; do
     --enable-static=yes \
     --enable-shared=yes \
     --disable-readline \
-    --disable-dynamic-extensions \
-    CFLAGS="-DSQLITE_OMIT_LOAD_EXTENSION -DSQLITE_OMIT_PROGRESS_CALLBACK -Os -g0 -flto" \
-    LDFLAGS="-Wl,-s"  # -s 选项告诉链接器剥离符号
+    --disable-dynamic-extensions
 
   make clean
   make -j8

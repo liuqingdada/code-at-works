@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARCHS=("ohos-arm64-v8a" "ohos-armeabi-v7a" "ohos-x86_64")
+ARCHS=("ohos-arm64-v8a")
 export OHOS_NDK_HOME=$OHOS_HOME/native
 
 for arch in "${ARCHS[@]}"; do
@@ -12,9 +12,11 @@ for arch in "${ARCHS[@]}"; do
   case $arch in
       "ohos-arm64-v8a")
           TARGET_HOST=aarch64-unknown-linux-ohos
+          CLANG_SUFIX=--target=aarch64-linux-ohos
           ;;
       "ohos-armeabi-v7a")
           TARGET_HOST=armv7-unknown-linux-ohos
+          CLANG_SUFIX=--target=arm-linux-ohos
           ;;
       "ohos-x86_64")
           TARGET_HOST=x86_64-unknown-linux-ohos
@@ -26,36 +28,43 @@ for arch in "${ARCHS[@]}"; do
   esac
 
 
-  TOOLCHAIN="$OHOS_NDK_HOME/llvm"
+  TOOLCHAIN="$OH_NDK_TOOLCHAIN"
   #SYSROOT=$OHOS_NDK_HOME/sysroot
 
   export AR="$TOOLCHAIN/bin/llvm-ar"
   export AS="$TOOLCHAIN/bin/llvm-as"
-  export CC="$TOOLCHAIN/bin/$TARGET_HOST-clang"
-  export CXX="$TOOLCHAIN/bin/$TARGET_HOST-clang++"
+  export CC="$TOOLCHAIN/bin/$TARGET_HOST-clang $CLANG_SUFIX"
+  export CXX="$TOOLCHAIN/bin/$TARGET_HOST-clang++ $CLANG_SUFIX"
   export LD="$TOOLCHAIN/bin/ld.lld"
   export RANLIB="$TOOLCHAIN/bin/llvm-ranlib"
   export STRIP="$TOOLCHAIN/bin/llvm-strip"
 
-
+  PREFIX="$(pwd)/$OUTPUT_DIR"
 
   # 配置，编译，安装
-  PREFIX="$(pwd)/$OUTPUT_DIR"
-  ./configure --host=$TARGET_HOST --prefix="$PREFIX" \
-    --disable-tcl \
-    --enable-static=yes \
-    --enable-shared=yes \
-    --disable-readline \
-    --disable-dynamic-extensions \
-    CFLAGS="-DSQLITE_OMIT_LOAD_EXTENSION -DSQLITE_OMIT_PROGRESS_CALLBACK -Os -g0 -flto" \
-    LDFLAGS="-Wl,-s"  # -s 选项告诉链接器剥离符号
+  case $arch in
+      "ohos-arm64-v8a")
+          # -fPIC
+          ./Configure linux-aarch64 --prefix="$PREFIX" -Wl,-s,-z,max-page-size=16384
+          ;;
+      "ohos-armeabi-v7a")
+          ./Configure linux-armv4 --prefix="$PREFIX"
+          ;;
+      "ohos-x86_64")
+          ;;
+      *)
+          echo "Unsupported architecture: $arch"
+          exit 1
+          ;;
+  esac
+
 
   make clean
   make -j8
   make install
 
-  "$STRIP" --strip-unneeded "$PREFIX/lib/libsqlite3.so"
-
+  "$STRIP" --strip-unneeded "$PREFIX/lib/libcrypto.so"
+  "$STRIP" --strip-unneeded "$PREFIX/lib/libssl.so"
 
 done
 
