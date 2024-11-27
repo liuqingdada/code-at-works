@@ -45,7 +45,7 @@ for arch in "${ARCHS[@]}"; do
   case $arch in
       "ohos-arm64-v8a")
           # -fPIC
-          ./Configure linux-aarch64 --prefix="$PREFIX" -Wl,-s,-z,max-page-size=16384
+          ./Configure ohos-aarch64 --prefix="$PREFIX" -Wl,-s,-z,max-page-size=16384
           ;;
       "ohos-armeabi-v7a")
           ./Configure linux-armv4 --prefix="$PREFIX"

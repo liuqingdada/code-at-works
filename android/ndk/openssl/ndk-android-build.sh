@@ -4,14 +4,14 @@ ARCHS=("arm64-v8a")
 export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
 export ANDROID_NDK_ROOT=$ANDROID_NDK_HOME
 
+API_LEVEL=21
+TOOLCHAIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64"
+export PATH=$TOOLCHAIN/bin:$PATH
+
 for arch in "${ARCHS[@]}"; do
   OUTPUT_DIR=../libs/$arch
   rm -rf "$OUTPUT_DIR"
   mkdir -p "$OUTPUT_DIR"
-
-  API_LEVEL=21
-  TOOLCHAIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64"
-  export PATH=$TOOLCHAIN/bin:$PATH
 
   # 配置，编译，安装
   PREFIX="$(pwd)/$OUTPUT_DIR"
@@ -38,8 +38,8 @@ for arch in "${ARCHS[@]}"; do
   make -j8
   make install
 
-  "$STRIP" --strip-unneeded "$PREFIX/lib/libcrypto.so"
-  "$STRIP" --strip-unneeded "$PREFIX/lib/libssl.so"
+  llvm-strip --strip-unneeded "$PREFIX/lib/libcrypto.so"
+  llvm-strip --strip-unneeded "$PREFIX/lib/libssl.so"
 
 
 done
