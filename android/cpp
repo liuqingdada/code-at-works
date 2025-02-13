@@ -1,0 +1,28 @@
+
+strings ./libuv.so |grep uv_queue_work
+
+readelf -d libuhome_sdk.so
+
+readelf -Ws libuhome_sdk.so |grep uv_queue_work
+
+readelf --debug-dump=info librust_uplus.so | grep storage
+
+$ANDROID_HOME/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/llvm-readelf -S ./librust_uplus.so |grep debug
+
+$OH_NDK_TOOLCHAIN/bin/llvm-readelf -dW ../entry/libs/arm64-v8a/librust_uplus.so
+
+readelf -a libhello.so |grep hello
+
+readelf -Ss apk-signed/lib/arm64-v8a/libDexHelper.so
+readelf -s apk-signed/lib/arm64-v8a/libDexHelper.so
+readelf -S apk-signed/lib/arm64-v8a/libDexHelper.so
+
+brew info patchelf
+brew install patchelf
+patchelf --print-rpath ./libsqlite3.so.0.8.6
+patchelf --print-rpath ./sqlite3
+
+patchelf --add-needed ./libuv.so libuhome_sdk.so
+
+
+
