@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ARCHS=("arm64-v8a")
+ARCHS=("arm64-v8a" "armeabi-v7a")
 export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
 export ANDROID_NDK_ROOT=$ANDROID_NDK_HOME
 
@@ -19,12 +19,14 @@ for arch in "${ARCHS[@]}"; do
   case $arch in
       "arm64-v8a")
           ./Configure android-arm64 \
+            enable-fips \
             -D__ANDROID_API__=$API_LEVEL \
             --prefix="$PREFIX" \
             -Wl,-s,-z,max-page-size=16384
           ;;
       "armeabi-v7a")
           ./Configure android-arm -march=armv7-a \
+            enable-fips \
             -D__ANDROID_API__=$API_LEVEL \
             --prefix="$PREFIX"
           ;;

@@ -31,12 +31,12 @@ for ((i = 0; i < ${#ARCHS[@]}; i++)); do
         export CROSS_COMPILE="${DEVELOPER}/Toolchains/XcodeDefault.xctoolchain/usr/bin/"
         export CROSS_TOP="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
         export CROSS_SDK="${PLATFORM}${SDKVERSION}.sdk"
-        ./Configure ios64-cross no-async no-shared no-tests --prefix="$BUILD_DIR" || { echo "Configure failed"; exit 1; }
+        ./Configure ios64-cross no-async no-shared enable-fips no-tests --prefix="$BUILD_DIR" || { echo "Configure failed"; exit 1; }
     else
         unset CROSS_COMPILE
         unset CROSS_TOP
         unset CROSS_SDK
-        ./Configure iossimulator-x86_64-xcrun no-shared no-shared no-tests --prefix="$BUILD_DIR" || { echo "Configure failed"; exit 1; }
+        ./Configure iossimulator-x86_64-xcrun no-shared no-shared enable-fips no-tests --prefix="$BUILD_DIR" || { echo "Configure failed"; exit 1; }
     fi
 
     make clean

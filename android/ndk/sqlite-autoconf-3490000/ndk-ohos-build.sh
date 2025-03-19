@@ -4,23 +4,23 @@ ARCHS=("ohos-arm64-v8a")
 export OHOS_NDK_HOME=$OHOS_HOME/native
 
 for arch in "${ARCHS[@]}"; do
-  OUTPUT_DIR=../libs/$arch
+  OUTPUT_DIR=../libs/sqlite/$arch
   rm -rf "$OUTPUT_DIR"
   mkdir -p "$OUTPUT_DIR"
   export ARCH="${arch}"
   # 根据不同架构设置 NDK 工具链和标志
   export CFLAGS="-DSQLITE_OMIT_LOAD_EXTENSION -DSQLITE_OMIT_PROGRESS_CALLBACK -Os -g0 -flto"
-  export LDFLAGS="-Wl,-s"  # -s 选项告诉链接器剥离符号
+  # export LDFLAGS="-Wl,-s"  # -s 选项告诉链接器剥离符号
   case $arch in
       "ohos-arm64-v8a")
-          export LDFLAGS="-Wl,-s,-z,max-page-size=16384"
+          # export LDFLAGS="-Wl,-s,-z,max-page-size=16384"
           TARGET_HOST=aarch64-unknown-linux-ohos
           ;;
       "ohos-armeabi-v7a")
           TARGET_HOST=armv7-unknown-linux-ohos
           ;;
       "ohos-x86_64")
-          export LDFLAGS="-Wl,-s,-z,max-page-size=16384"
+          # export LDFLAGS="-Wl,-s,-z,max-page-size=16384"
           TARGET_HOST=x86_64-unknown-linux-ohos
           ;;
       *)
@@ -60,12 +60,7 @@ for arch in "${ARCHS[@]}"; do
           ;;
   esac
   PREFIX="$(pwd)/$OUTPUT_DIR"
-  ./configure --host=$TARGET_HOST --prefix="$PREFIX" \
-    --disable-tcl \
-    --enable-static=yes \
-    --enable-shared=yes \
-    --disable-readline \
-    --disable-dynamic-extensions
+  ./configure --host=$TARGET_HOST --prefix="$PREFIX"
 
   make clean
   make -j8

@@ -4,7 +4,7 @@ ARCHS=("arm64-v8a")
 export ANDROID_NDK_HOME=$ANDROID_HOME/ndk-bundle
 
 for arch in "${ARCHS[@]}"; do
-  OUTPUT_DIR=../libs/$arch
+  OUTPUT_DIR=../libs/sqlite/$arch
   rm -rf "$OUTPUT_DIR"
   mkdir -p "$OUTPUT_DIR"
   export ARCH="${arch}"
