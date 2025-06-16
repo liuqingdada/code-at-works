@@ -1,0 +1,21 @@
+cargo test --test cucumber -- --concurrency=1
+
+TestWorld::cucumber()
+    .with_default_cli()
+    .max_concurrent_scenarios(1)
+    .before(|_feature, _rule, _scenario, _world| {
+        time::sleep(Duration::from_millis(1)).boxed_local()
+    })
+    .after(|_feature, _gherkin, _rule, _scenario, _world| {
+        time::sleep(Duration::from_millis(1)).boxed_local()
+    })
+    .run_and_exit("tests/features")
+    // .filter_run("tests/features", |_, _, sc| {
+    //     sc.tags.iter().any(|t| t == "debug")
+    // })
+    .await;
+
+RustRover Test Config:
+Command:  --color=always test --test cucumber -- --concurrency=1
+Working directory:  $WORK/repo_uplus/logic_engine_rust/rust_logicEngine
+
