@@ -23,10 +23,16 @@ rm -rf build
 mkdir build
 
 OHOS_CMAKE=$OHOS_NDK_HOME/build-tools/cmake
-"$OHOS_CMAKE"/bin/cmake -DCMAKE_TOOLCHAIN_FILE="$OHOS_NDK_HOME"/build/cmake/ohos.toolchain.cmake \
-	-DMDBX_LOCKING=5 \
+
+"$OHOS_CMAKE"/bin/cmake \
+    -DCMAKE_TOOLCHAIN_FILE="$OHOS_NDK_HOME"/build/cmake/ohos.toolchain.cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DMDBX_BUILD_SHARED_LIBRARY=ON \
+    -DOHOS=ON \
 	-S . \
 	-B build
 
 cmake --build build
 cmake --install build --prefix=$OUTPUT_DIR
+
+#-DCMAKE_CXX_FLAGS="-static-libstdc++ -static-libgcc" \

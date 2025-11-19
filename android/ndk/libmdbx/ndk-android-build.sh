@@ -47,8 +47,11 @@ for arch in "${ARCHS[@]}"; do
 
   $AND_CMAKE/bin/cmake \
     -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK_HOME"/build/cmake/android.toolchain.cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DMDBX_BUILD_SHARED_LIBRARY=ON \
     -DANDROID_PLATFORM=android-21 \
     -DANDROID_ABI=$arch \
+    -DANDROID_STL=c++_shared \
     -S . \
     -B build
   $AND_CMAKE/bin/cmake --build build
