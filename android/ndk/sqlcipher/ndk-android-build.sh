@@ -8,11 +8,16 @@ for arch in "${ARCHS[@]}"; do
   rm -rf "$OUTPUT_DIR"
   mkdir -p "$OUTPUT_DIR"
   export ARCH="${arch}"
-  LDFLAGS_T=""
+  if [ -f "Makefile" ]; then
+      make distclean
+      make clean
+  fi
+
+  LDFLAGS=""
   # 根据不同架构设置 NDK 工具链和标志
   case $arch in
       "arm64-v8a")
-          LDFLAGS_T="-Wl,-s,-z,max-page-size=16384"
+          LDFLAGS="-Wl,-s,-z,max-page-size=16384"
           TARGET_HOST=aarch64-linux-android
           ;;
       "armeabi-v7a")
@@ -22,7 +27,7 @@ for arch in "${ARCHS[@]}"; do
           TARGET_HOST=i686-linux-android
           ;;
       "x86_64")
-          LDFLAGS_T="-Wl,-s,-z,max-page-size=16384"
+          LDFLAGS="-Wl,-s,-z,max-page-size=16384"
           TARGET_HOST=x86_64-linux-android
           ;;
       *)
@@ -47,15 +52,19 @@ for arch in "${ARCHS[@]}"; do
   export OPENSSL_LIB_DIR=$OPENSSL_DIR/lib
   export OPENSSL_INCLUDE_DIR=$OPENSSL_DIR/include
 
-  make distclean
-  make clean
+  CFLAGS="-DSQLITE_HAS_CODEC \
+      -DSQLITE_THREADSAFE=1 \
+      -DSQLITE_EXTRA_INIT=sqlcipher_extra_init \
+      -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown \
+      -DSQLITE_NOHAVE_SYSTEM \
+      -I$OPENSSL_INCLUDE_DIR"
   # 配置，编译，安装
   PREFIX="$(pwd)/$OUTPUT_DIR"
-  LDFLAGS_T="$LDFLAGS_T -L$OPENSSL_LIB_DIR -lcrypto -lm -llog"
+  LDFLAGS="$LDFLAGS -L$OPENSSL_LIB_DIR -lcrypto -lm -llog"
   ./configure --host=$TARGET_HOST --prefix="$PREFIX" \
     --with-tempstore=yes \
-    CFLAGS="-DSQLITE_HAS_CODEC -DSQLITE_EXTRA_INIT=sqlcipher_extra_init -DSQLITE_EXTRA_SHUTDOWN=sqlcipher_extra_shutdown -I$OPENSSL_INCLUDE_DIR" \
-    LDFLAGS="$LDFLAGS_T"
+    CFLAGS="$CFLAGS" \
+    LDFLAGS="$LDFLAGS"
 
   make -j8
   make install
